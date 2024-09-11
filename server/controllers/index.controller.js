@@ -1,4 +1,5 @@
 import { connectDB } from "../db.js";
+
 export const getPing = async (req, res) => {
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB

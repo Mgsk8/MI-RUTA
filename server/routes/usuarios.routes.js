@@ -1,15 +1,19 @@
 import { Router } from "express";
 import { connectDB } from "../db.js";
-import {getUsuarios, createUsuarios, updateUsuarios, deletetUsuarios} from '../controllers/usuarios.controller.js'
+import {getUsuarios, getUsuario, getLogin, createUsuario, updateUsuario, deletetUsuario} from '../controllers/usuarios.controller.js'
 
 const router = Router();
 
 router.get('/usuarios', getUsuarios);
 
-router.post('/usuarios', createUsuarios);
+router.get('/usuarios/:id', getUsuario);
 
-router.put('/usuarios', updateUsuarios);
+router.get('/usuarios/:email/:password', getLogin);
 
-router.delete('/usuarios', deletetUsuarios);
+router.post('/usuarios', createUsuario);
+
+router.put('/usuarios', updateUsuario);
+
+router.delete('/usuarios/:id', deletetUsuario);
 
 export default router;
