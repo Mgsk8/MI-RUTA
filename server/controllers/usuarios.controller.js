@@ -20,16 +20,20 @@ export const getUsuarios = async (req, res) =>{
     }
 }
 export const getUsuario = async (req, res) => {
-    //console.log(req.params.id);
+    let id_usuario = req.params.id_usuario;
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {
             // Realiza la consulta
-            const [result] = await connection.query('SELECT * FROM usuario WHERE id_usuario = ?', [req.params.id]);
+            const [result] = await connection.query('SELECT * FROM usuario WHERE id_usuario = ?', [id_usuario]);
 
             console.log(result);
 
-            res.json(result)
+            if(result.length == 0){
+                return res.status(404).json({ message: "Usuario no encontrado"});
+            }
+
+            res.json(result[0])
 
             connection.release(); // Recuerda liberar la conexión después de usarla
         } else {
@@ -42,16 +46,21 @@ export const getUsuario = async (req, res) => {
 }
 
 export const getLogin = async (req, res) => {
-    console.log(req.params.email);
+    let email = req.params.email;
+    let password = req.params.password;
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {
             // Realiza la consulta
-            const [result] = await connection.query('SELECT * FROM usuario WHERE email = ?', [req.params.email]);
+            const [result] = await connection.query('SELECT * FROM usuario WHERE email = ? AND password = ?', [email, password]);
+
+            if(result.length == 0){
+                return res.status(404).json({ message: "Usuario no encontrado"});
+            }
 
             console.log(result);
 
-            res.json(result)
+            res.json(result[0])
 
             connection.release(); // Recuerda liberar la conexión después de usarla
         } else {
@@ -127,4 +136,58 @@ export const updateUsuario = async (req, res) => {
     //res.send('Actualizar usuarios')
 };
 
-export const deletetUsuario = (req, res) => res.send('Eliminar usuarios');
+export const cambiarEstadoUsuario = async (req, res) => {
+    let id_usuario = req.params.id_usuario;
+    let estado = req.params.estado;
+    if (estado == 1){
+        estado = 0;
+    }else{
+        estado = 1;
+    }
+    try {
+        const connection = await connectDB(); // Obtén la conexión desde connectDB
+        if (connection) {
+            // Realiza la consulta
+            const [result] = await connection.query('UPDATE usuario SET estado = ? WHERE id_usuario = ?',
+                [estado, id_usuario]);
+
+            console.log(result);
+
+            res.json(result);
+
+            connection.release(); // Recuerda liberar la conexión después de usarla
+        } else {
+            res.status(500).json({ error: 'No se pudo conectar a la base de datos' });
+        }
+    } catch (error) {
+        console.error('Error al hacer la consulta:', error);
+        res.status(500).json({ error: 'Error en la consulta' });
+    }
+    //res.send('Actualizar usuarios')
+};
+
+export const deletetUsuario = async (req, res) => {
+    let id_usuario = req.params.id_usuario;
+    try {
+        const connection = await connectDB(); // Obtén la conexión desde connectDB
+        if (connection) {
+            // Realiza la consulta
+            const [result] = await connection.query('DELETE FROM usuario WHERE id_usuario = ?',
+                [id_usuario]);
+
+            if(result.affectedRows == 0){}
+
+            console.log(result);
+
+            res.json(result);
+
+            connection.release(); // Recuerda liberar la conexión después de usarla
+        } else {
+            res.status(500).json({ error: 'No se pudo conectar a la base de datos' });
+        }
+    } catch (error) {
+        console.error('Error al hacer la consulta:', error);
+        res.status(500).json({ error: 'Error en la consulta' });
+    }
+    //res.send('Actualizar usuarios')
+}
