@@ -8,7 +8,7 @@ export const getUsuarios = async (req, res) =>{
             const [result] = await connection.query('SELECT * FROM usuario');
 
             console.log(result);
-
+            res.json(result);
 
             connection.release(); // Recuerda liberar la conexión después de usarla
         } else {

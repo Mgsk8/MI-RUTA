@@ -23,8 +23,26 @@ export const getClientes = async (req, res) => {
     }
 }
 
-export const getCliente = (req, res) => {
-    res.send('Obteniendo un cliente');
+export const getCliente = async (req, res) => {
+    let id_cliente = req.params.id_cliente;
+    try {
+        const connection = await connectDB();
+        if (connection){
+            const [result] = await connection.query ('SELECT * FROM cliente WHERE id_cliente = ?', [id_cliente]);
+            
+            console.log(result);
+            res.json(result);
+
+            connection.release();
+
+        } else{
+            res.status(500).json({ error: 'No se pudo conectar a la base de datos' });
+        }
+        
+    } catch (error) {
+        console.error('Error al hacer la consulta:', error);
+        res.status(500).json({ error: 'Error en la consulta' });
+    }
 }
 
 export const createCliente = async  (req, res) => {
@@ -55,10 +73,54 @@ export const createCliente = async  (req, res) => {
     //res.send('Crear cliente');
 }
 
-export const updateCliente = (req, res) => {
-    res.send('Actualizar cliente');
+export const updateCliente = async (req, res) => {
+    let nombre = req.params.nombre
+    let apellido = req.params.apellido
+    let email = req.params.email
+    let id_usuario = req.params.id_usuario
+
+    try {
+        const connection = await connectDB()
+        if (connection){
+            const [result] = await connection.query('UPDATE usuario SET nombre =?, apellido =?, email =? WHERE id_usuario =? AND tipo_usuario ="cliente"',
+                [nombre, apellido, email, id_usuario]);
+            
+        
+
+            console.log(result);
+            res.json(result);
+            
+            connection.release();
+        }else {
+            res.status(500).json({ error: 'No se pudo conectar a la base de datos' });
+        }
+    } catch (error) {
+
+        console.error('Error al hacer la consulta:', error);
+        res.status(500).json({ error: 'Error en la consulta' });
+        
+    }
+
 }
 
-export const deleteCliente = (req, res) => {
-    res.send('Eliminar cliente');
+export const deleteCliente = async (req, res) => {
+    let id_usuario = req.params.id_usuario
+    try {
+        const connection = await connectDB();
+        if (connection){
+            const [result] = await connection.query('DELETE FROM usuario WHERE id_usuario =? AND tipo_usuario = "cliente"', [id_usuario]);
+
+            console.log(result);
+            res.json(result);
+
+        }else {
+            res.status(500).json({ error: 'No se pudo conectar a la base de datos' });
+        }
+    } catch (error) {
+        console.error('Error al hacer la consulta:', error);
+        res.status(500).json({ error: 'Error en la consulta' });
+        
+
+    }
+
 }
