@@ -105,7 +105,7 @@ export const createUsuario = async (req, res) => {
 }
     
 export const updateUsuario = async (req, res) => {
-    const {nombre, apellido, email, id_usuario} = req.body
+    const {nombre, apellido, email, id_usuario} = req.body;
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {
@@ -115,15 +115,7 @@ export const updateUsuario = async (req, res) => {
 
             console.log(result);
 
-            res.json({
-                //id: result.insertId, 
-                nombre, 
-                apellido,
-                email,
-                //password,
-                //tipo_usuario,
-                //result.
-            });
+            res.json(result);
 
             connection.release(); // Recuerda liberar la conexión después de usarla
         } else {

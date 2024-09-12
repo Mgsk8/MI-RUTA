@@ -44,9 +44,10 @@ export const getNegocio = async (req, res) => {
 } 
 
 export const crearNegocio = async (req, res) => {
-    let id_lugar = req.params.id_lugar;
+    /*let id_lugar = req.params.id_lugar;
     let nit = req.params.nit;
-    let id_afiliado = req.params.id_afiliado;
+    let id_afiliado = req.params.id_afiliado;*/
+    const {id_lugar,nit,id_afiliado} = req.body;
 
     
     try {
@@ -70,9 +71,10 @@ export const crearNegocio = async (req, res) => {
     }
 }
 export const actualizarNegocio = async (req, res) => {
-    let nit = req.params.nit;
+    /*let nit = req.params.nit;
     let id_afiliado = req.params.id_afiliado;
-    let id_lugar = req.params.id_lugar;
+    let id_lugar = req.params.id_lugar;*/
+    const {nit, id_afiliado, id_lugar} = req.body;
 
     try {
         const connection = await connectDB();
