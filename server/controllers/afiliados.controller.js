@@ -1,11 +1,11 @@
-import { connectDB } from "../db.js";
+import { connectDB } from "../db";
 
-export const getClientes = async (req, res) => {
+export const getAfiliados = async (req, res) => {
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {
             // Realiza la consulta
-            const [result] = await connection.query('SELECT * FROM cliente');
+            const [result] = await connection.query('SELECT * FROM usuario WHERE tipo_usuario = "afiliado"');
 
             console.log(result);
 
@@ -23,12 +23,12 @@ export const getClientes = async (req, res) => {
     }
 }
 
-export const getCliente = async (req, res) => {
-    let id_cliente = req.params.id_cliente;
+export const getAfiliado = async (req, res) => {
+    let id_afiliado = req.params.id_afiliado;
     try {
         const connection = await connectDB();
         if (connection){
-            const [result] = await connection.query ('SELECT * FROM usuario WHERE id_usuario = ? AND tipo_usuario = "cliente"', [id_cliente]);
+            const [result] = await connection.query ('SELECT * FROM usuario WHERE id_usuario = ? AND tipo_usuario = "afiliado"', [id_afiliado]);
             
             console.log(result);
             res.json(result);
@@ -45,14 +45,14 @@ export const getCliente = async (req, res) => {
     }
 }
 
-export const createCliente = async  (req, res) => {
-    const {id_cliente} = req.body;
+export const createAfiliado = async  (req, res) => {
+    const {id_afiliado, cedula} = req.body;
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {
             // Realiza la consulta
-            const [result] = await connection.query('INSERT INTO cliente(id_cliente) VALUES (?)',
-                [id_cliente]);
+            const [result] = await connection.query('INSERT INTO afiliado(id_afiliado, cedula) VALUES (?,?)',
+                [id_afiliado, cedula]);
 
             console.log(result);
 
@@ -73,23 +73,26 @@ export const createCliente = async  (req, res) => {
     //res.send('Crear cliente');
 }
 
-export const updateCliente = async (req, res) => {
+export const updateAfiliado = async (req, res) => {
     /*let nombre = req.params.nombre
     let apellido = req.params.apellido
     let email = req.params.email*/
     let id_usuario = req.params.id_usuario;
     const {nombre, apellido, email} = req.body;
-
+    let id_afiliado = req.params.id_afiliado;
+    const {cedula} = req.body;
     try {
         const connection = await connectDB()
         if (connection){
-            const [result] = await connection.query('UPDATE usuario SET nombre =?, apellido =?, email =? WHERE id_usuario =? AND tipo_usuario ="cliente"',
+            const [result] = await connection.query('UPDATE usuario SET nombre =?, apellido =?, email =? WHERE id_usuario =? AND tipo_usuario ="afiliado"',
                 [nombre, apellido, email, id_usuario]);
             
+            const [resultC] = await connection.query('UPDATE afiliado set cedula =? WHERE id_afiliado =?', [cedula, id_afiliado])
         
 
             console.log(result);
             res.json(result);
+            res.json(resultC)
             
             connection.release();
         }else {
@@ -104,12 +107,12 @@ export const updateCliente = async (req, res) => {
 
 }
 
-export const deleteCliente = async (req, res) => {
+export const deleteAfiliado = async (req, res) => {
     let id_usuario = req.params.id_usuario
     try {
         const connection = await connectDB();
         if (connection){
-            const [result] = await connection.query('DELETE FROM usuario WHERE id_usuario =? AND tipo_usuario = "cliente"', [id_usuario]);
+            const [result] = await connection.query('DELETE FROM usuario WHERE id_usuario =? AND tipo_usuario = "afiliado"', [id_usuario]);
 
             console.log(result);
             res.json(result);
