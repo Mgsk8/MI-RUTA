@@ -46,7 +46,7 @@ export const getCliente = async (req, res) => {
 }
 
 export const createCliente = async  (req, res) => {
-    const {title, description} = req.body
+    const {title, description} = req.body;
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {
@@ -74,10 +74,11 @@ export const createCliente = async  (req, res) => {
 }
 
 export const updateCliente = async (req, res) => {
-    let nombre = req.params.nombre
+    /*let nombre = req.params.nombre
     let apellido = req.params.apellido
     let email = req.params.email
-    let id_usuario = req.params.id_usuario
+    let id_usuario = req.params.id_usuario*/
+    const {nombre, apellido, email} = req.body;
 
     try {
         const connection = await connectDB()

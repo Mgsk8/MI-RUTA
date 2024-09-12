@@ -42,11 +42,12 @@ export const getLugar = async(req, res) => {
     
 }
 export const crearLugar = async(req, res) => {
-    let id_lugar = req.params.id_lugar;
+    /*let id_lugar = req.params.id_lugar;
     let nombre = req.params.nombre;
     let informacion = req.params.informacion;
     let ubicacion = req.params.ubicacion;
-    let categoria = req.params.categoria;
+    let categoria = req.params.categoria;*/
+    const {id_lugar, nombre, informacion, ubicacion, categoria} = req.body;
     
     try {
         const connection = await connectDB();
@@ -71,11 +72,12 @@ export const crearLugar = async(req, res) => {
     
 }
 export const actualizarLugar = async(req, res) => {
-    let nombre = req.params.nombre;
+    /*let nombre = req.params.nombre;
     let informacion = req.params.informacion;
     let ubicacion = req.params.ubicacion;
     let categoria = req.params.categoria;
-    let id_lugar = req.params.id_lugar;
+    let id_lugar = req.params.id_lugar;*/
+    const {nombre, informacion, ubicacion, categoria, id_lugar} = req.body;
 
     try {
         const connection = await connectDB();
