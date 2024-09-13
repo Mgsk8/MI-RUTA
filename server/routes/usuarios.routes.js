@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { connectDB } from "../db.js";
-import {getUsuarios, getUsuario, getLogin, createUsuario, updateUsuario, cambiarEstadoUsuario, deletetUsuario} from '../controllers/usuarios.controller.js'
+import {getUsuarios, getUsuario, getLogin, createUsuario, updateUsuario, cambiarEstadoUsuario, deleteUsuario} from '../controllers/usuarios.controller.js'
 
 const router = Router();
 
@@ -14,6 +14,6 @@ router.post('/usuarios', createUsuario);
 
 router.patch('/usuarios/:id_usuario', updateUsuario);
 
-router.delete('/usuarios/:id_usuario/:estado', cambiarEstadoUsuario);
+router.delete('/usuarios/:id_usuario', deleteUsuario);
 
 export default router;

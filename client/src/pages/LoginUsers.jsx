@@ -1,6 +1,7 @@
 import { loginRequest } from "../api/auth";
 import Navbar from "../components/Navbar";
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginUsers() {
   const { register, handleSubmit } = useForm();
@@ -9,12 +10,15 @@ export default function LoginUsers() {
     { name: "Iniciar sesión", href: "/login", current: true },
     { name: "Registrarse", href: "/register", current: false },
     { name: "Acerca", href: "#", current: false },
+    { name: "administrador", href: "admin", current: false },
+
   ];
+  const navigate = useNavigate();
 
   
   return (
     <>
-      <div className="bg-[url('../image/fondo.jpg')] bg-cover  w-full">
+      <div className="bg-[url('../image/fondo.jpg')] b g-cover  w-full">
           <Navbar navigation={navigation} logo="/image/logoblanco.png" />
         <div className="min-h-screen flex flex-col items-center justify-center">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -29,10 +33,28 @@ export default function LoginUsers() {
               Inicia Sesión
             </h2>
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleSubmit(async (data) => {
-              const res = await loginRequest(data);
-              console.log(data);
-              console.log(res);
+            <form onSubmit={handleSubmit(async (data) => {
+              try {
+                const res = await loginRequest(data);
+                console.log(data);
+                console.log(res);
+
+                if (res.status === 200) {
+                  // Login exitoso, redirigir al dashboard o página principal
+                  if (res.data.tipo_usuario == "administrador"){
+                    navigate('/menuAdmin');
+                  }else if(res.data.tipo_usuario == "afiliado"){ navigate('/menuAfiliado')
+
+                  }else {navigate('/menuCliente')}
+                   // Redirige al usuario
+                } else {
+                  // Manejo de errores si el login no es exitoso
+                  console.error('Error en login:', res.statusText);
+                }
+              } catch (error) {
+                console.error('Error en la consulta de login:', error);
+                // Manejo del error
+              }
             })}
           action="#" method="POST" className="space-y-6"
           >
