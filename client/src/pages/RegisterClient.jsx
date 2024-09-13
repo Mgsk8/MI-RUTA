@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar";
 import { useForm } from "react-hook-form";
-import { registerRequest } from "../api/auth.js";
+import { registerUserRequest, registerClientRequest } from "../api/auth.js";
 
 export default function RegisterClient() {
   const { register, handleSubmit } = useForm();
@@ -35,8 +35,16 @@ export default function RegisterClient() {
           <form
             onSubmit={handleSubmit(async (values) => {
               console.log(values);
-              const res = await registerRequest(values);
-              console.log(res);
+              const res = await registerUserRequest(values);
+              console.log(res); 
+              const id_usuario = res.data.id; // Extrae el ID de la respuesta
+              // Datos adicionales para la segunda consulta
+              const data_consulta = {
+                "id_usuario": id_usuario, // Incluye el ID obtenido
+              };
+              console.log(data_consulta);
+              const res2 = await registerClientRequest(data_consulta);
+              console.log(res2);
             })}
             action="#"
             method="POST"

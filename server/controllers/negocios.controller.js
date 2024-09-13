@@ -1,4 +1,4 @@
-import { connectDB } from "../db";
+import { connectDB } from "../db.js";
 
 export const getNegocios = async (req, res) => {
 

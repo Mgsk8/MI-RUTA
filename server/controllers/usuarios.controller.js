@@ -46,8 +46,9 @@ export const getUsuario = async (req, res) => {
 }
 
 export const getLogin = async (req, res) => {
-    let email = req.params.email;
-    let password = req.params.password;
+    //let email = req.params.email;
+    //let password = req.params.password;
+    const {email, password} = req.body
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {

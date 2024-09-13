@@ -46,21 +46,15 @@ export const getCliente = async (req, res) => {
 }
 
 export const createCliente = async  (req, res) => {
-    const {title, description} = req.body;
+    const {id_usuario} = req.body;
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {
             // Realiza la consulta
-            const [result] = await connection.query('INSERT INTO tasks(title, description) VALUES (?, ?)',
-                [title, description]);
+            const [result] = await connection.query('INSERT INTO cliente(id_cliente) VALUES (?)',
+                [id_usuario]);
 
             console.log(result);
-
-            res.json({
-                id: result.insertId, 
-                title, 
-                description,
-            });
 
             connection.release(); // Recuerda liberar la conexión después de usarla
         } else {
