@@ -23,7 +23,11 @@ export default function Navbar({navigation, logo}) {
               <div className="flex flex-shrink-0 items-center">
                 <img
                   alt="Logo"
-                  src='/Image/logoblanco.png'
+
+
+
+                  src='/image/logoblanco.png'
+
                   className="h-8 w-auto"
                 />
               </div>

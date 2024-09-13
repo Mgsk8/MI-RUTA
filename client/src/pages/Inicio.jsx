@@ -10,7 +10,11 @@ export default function Inicio() {
 
   return (
     <div>
-      <Navbar navigation={navigation} logo='/Image/logoblanco.png' />
+
+
+
+      <Navbar navigation={navigation} logo='/image/logoblanco.png' />
+
       {/* Contenido de la vista de inicio */}
       {/* Banner de bienvenida con texto e imagen */}
       <div className="mt-0 bg-gray-800 p-8 flex flex-col sm:flex-row items-center justify-between">
@@ -28,7 +32,10 @@ export default function Inicio() {
         {/* Espacio para la imagen */}
         <div className="border-none mt-8 sm:mt-0 sm:ml-8 w-full sm:w-1/3">
           <img
-            src="/Image/mirutaMenuprincipal.png"
+
+
+            src="/image/mirutaMenuprincipal.png"
+
             alt="Descubre nuevos lugares"
             className="h-auto object-cover"
           />

@@ -1,5 +1,4 @@
 import {BrowserRouter,Routes,Route} from "react-router-dom";
-
 import LogIn from "./pages/LoginUsers";
 import Inicio from "./pages/Inicio";
 import RoleSelection from "./pages/RegisterUsers";
