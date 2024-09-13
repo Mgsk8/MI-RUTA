@@ -161,8 +161,8 @@ export const cambiarEstadoUsuario = async (req, res) => {
     //res.send('Actualizar usuarios')
 };
 
-export const deletetUsuario = async (req, res) => {
-    let id_usuario = req.params.id_usuario;
+export const deleteUsuario = async (req, res) => {
+    const id_usuario = req.params.id_usuario;
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {

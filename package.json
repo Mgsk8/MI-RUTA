@@ -18,7 +18,8 @@
     "express": "^4.20.0",
     "mi-ruta": "file:",
     "morgan": "^1.10.0",
-    "mysql2": "^3.11.0"
+    "mysql2": "^3.11.0",
+    "react-hook-form": "^7.53.0"
   },
   "devDependencies": {
     "concurrently": "^9.0.1",

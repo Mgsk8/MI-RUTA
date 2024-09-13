@@ -28,7 +28,7 @@ export const getCliente = async (req, res) => {
     try {
         const connection = await connectDB();
         if (connection){
-            const [result] = await connection.query ('SELECT * FROM cliente WHERE id_cliente = ?', [id_cliente]);
+            const [result] = await connection.query ('SELECT * FROM usuario WHERE id_usuario = ? AND tipo_usuario = "cliente"', [id_cliente]);
             
             console.log(result);
             res.json(result);
@@ -70,8 +70,8 @@ export const createCliente = async  (req, res) => {
 export const updateCliente = async (req, res) => {
     /*let nombre = req.params.nombre
     let apellido = req.params.apellido
-    let email = req.params.email
-    let id_usuario = req.params.id_usuario*/
+    let email = req.params.email*/
+    let id_usuario = req.params.id_usuario;
     const {nombre, apellido, email} = req.body;
 
     try {

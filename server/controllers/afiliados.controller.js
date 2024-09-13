@@ -48,8 +48,6 @@ export const getAfiliado = async (req, res) => {
 export const createAfiliado = async  (req, res) => {
     const {id_usuario} = req.body;
     const {cedula} = req.body;
-    console.log(id_usuario);
-    console.log(cedula);
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {
