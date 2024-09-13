@@ -18,17 +18,12 @@ export default function LoginUsers() {
   
   return (
     <>
-      <div className="bg-[url('../image/fondo.jpg')] b g-cover  w-full">
+      <div className="bg-[url('../image/fondo.jpg')] bg-cover  w-full">
           <Navbar navigation={navigation} logo="/image/logoblanco.png" />
         <div className="min-h-screen flex flex-col items-center justify-center">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-              alt="Your Company"
-              src="/image/logonegro.png"
-              className="mx-auto  w-[130px] h-[130px]"
-            />
           </div>
-          <div className="max-w-md w-full mx-auto bg-white rounded-lg p-8 space-y-8 bg-[rgba(255,255,255,0.5)]" >
+          <div className="max-w-md w-full mx-auto rounded-lg p-8 space-y-8 bg-[rgba(255,255,255,0.5)]" >
             <h2 className="mt-5 text-center text-[30px] font-bold leading-9 tracking-tight text-gray-900 ">
               Inicia Sesión
             </h2>
