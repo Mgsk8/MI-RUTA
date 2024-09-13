@@ -105,12 +105,13 @@ export const createUsuario = async (req, res) => {
 }
     
 export const updateUsuario = async (req, res) => {
-    const {nombre, apellido, email, id_usuario} = req.body;
+    const id_usuario = req.params.id_usuario;
+    const {nombre, apellido, email} = req.body;
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
         if (connection) {
             // Realiza la consulta
-            const [result] = await connection.query('UPDATE usuario SET nombre = ?, apellido = ?, email = ? WHERE id_usuario = ?',
+            const [result] = await connection.query('UPDATE usuario SET nombre = IFNULL(?, nombre) , apellido = IFNULL(?, apellido), email = IFNULL(?, email) WHERE id_usuario = ?',
                 [nombre, apellido, email, id_usuario]);
 
             console.log(result);
@@ -129,8 +130,9 @@ export const updateUsuario = async (req, res) => {
 };
 
 export const cambiarEstadoUsuario = async (req, res) => {
-    let id_usuario = req.params.id_usuario;
-    let estado = req.params.estado;
+    const id_usuario = req.params.id_usuario;
+    const {estado} = req.body;
+    //let estado = req.params.estado;
     if (estado == 1){
         estado = 0;
     }else{

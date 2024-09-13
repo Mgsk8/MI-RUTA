@@ -83,7 +83,7 @@ export const actualizarLugar = async(req, res) => {
         const connection = await connectDB();
         if (connection){
             
-            const [result] = await connection.query('UPDATE lugar SET nombre =?, informacion =?, ubicacion =?, categoria =? WHERE id_lugar =?',
+            const [result] = await connection.query('UPDATE lugar SET nombre = IFNULL(?, nombre), informacion = IFNULL(?, informacion), ubicacion = IFNULL(?, ubicacion), categoria = IFNULL(?, categoria) WHERE id_lugar = ?',
                 [nombre, informacion, ubicacion, categoria, id_lugar]
             )
 
