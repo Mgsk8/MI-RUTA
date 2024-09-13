@@ -10,8 +10,11 @@ export default function RoleSelection() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 flex flex-col">
-      <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
+
+    <div className="min-h-screen  from-gray-900 via-gray-800 to-gray-700 flex flex-col bg-[url('../image/fondoRegister.jpg')] bg-cover  w-full">
+
+
+      <Navbar navigation={navigation} logo="/image/logoblanco.png" />
 
       <div className="flex flex-1 flex-col justify-center items-center px-4 py-12">
         <div className="max-w-md w-full bg-white p-10 rounded-lg shadow-lg text-center">

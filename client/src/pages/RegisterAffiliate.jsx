@@ -4,6 +4,7 @@ import { registerUserRequest, registerAfiRequest } from "../api/auth.js";
 
 export default function RegisterAffiliate() {
   const {register, handleSubmit} = useForm();
+
   const navigation = [
     { name: "Inicio", href: "/", current: false },
     { name: "Iniciar sesión", href: "/login", current: false },
@@ -11,11 +12,16 @@ export default function RegisterAffiliate() {
     { name: "Acerca", href: "#", current: false },
   ];
 
-  return (
-    <div className="bg-[url('../image/fondo.jpg')] bg-cover  w-full">
-      <Navbar navigation={navigation} logo="/image/logoblanco.png" />
 
-      <div className="flex min-h-screen items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
+return (
+  <div className="bg-[url('../image/fondo.jpg')] bg-cover bg-center min-h-screen w-full">
+      <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
+      <br />
+      <br />
+      <br />
+      
+      <div className="flex min-h-full items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
+
         <div className="max-w-md w-full space-y-8">
           <div>
             <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900">
@@ -57,6 +63,7 @@ export default function RegisterAffiliate() {
               value="afiliado"
               {...register("tipo_usuario")}
             />
+
             {/*Cedula*/}
             <div>
               <label
@@ -73,7 +80,9 @@ export default function RegisterAffiliate() {
                   required
                   autoComplete="off"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+
                   {...register("cedula", { required: true })}
+
                 />
               </div>
             </div>
@@ -94,7 +103,9 @@ export default function RegisterAffiliate() {
                   required
                   autoComplete="given-name"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+
                   {...register("nombre", { required: true })}
+
                 />
               </div>
             </div>
@@ -115,6 +126,7 @@ export default function RegisterAffiliate() {
                   required
                   autoComplete="family-name"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+
                   {...register("apellido", { required: true })}
                 />
               </div>
@@ -136,7 +148,9 @@ export default function RegisterAffiliate() {
                   required
                   autoComplete="email"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+
                   {...register("email", { required: true })}
+
                 />
               </div>
             </div>
@@ -157,6 +171,7 @@ export default function RegisterAffiliate() {
                   required
                   autoComplete="current-password"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+
                   {...register("password", { required: true })}
                 />
               </div>
