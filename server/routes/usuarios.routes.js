@@ -12,7 +12,7 @@ router.get('/usuarios/:email/:password', getLogin);
 
 router.post('/usuarios', createUsuario);
 
-router.put('/usuarios', updateUsuario);
+router.patch('/usuarios/:id_usuario', updateUsuario);
 
 router.delete('/usuarios/:id_usuario/:estado', cambiarEstadoUsuario);
 
