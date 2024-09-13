@@ -9,7 +9,7 @@ export default function LoginUsers() {
   ];
   return (
     <>
-      <div className="bg-[url('../image/fondo.jpg')] bg-cover  w-full">
+      <div className="bg-[url('../image/fondo.jpg')] b g-cover  w-full">
           <Navbar navigation={navigation} logo="/image/logoblanco.png" />
         <div className="min-h-screen flex flex-col items-center justify-center">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">

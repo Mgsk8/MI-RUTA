@@ -5,6 +5,7 @@ import Inicio from "./pages/inicio";
 import RoleSelection from "./pages/RegisterUsers";
 import RegisterClient from "./pages/RegisterClient";
 import RegisterAffiliate from "./pages/RegisterAffiliate";
+import Madmin from "./pages/Madim";
 
 function App(){
   return(
@@ -16,6 +17,7 @@ function App(){
         <Route path="/register" element={<RoleSelection />}/>
         <Route path="/registerClient" element={<RegisterClient />}/>
         <Route path="/registerAffiliate" element={<RegisterAffiliate />}/>
+        <Route path="/menuAdmin" element={<Madmin />}/>
       </Routes>
     </BrowserRouter>  
   )
