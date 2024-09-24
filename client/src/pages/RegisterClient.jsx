@@ -25,8 +25,11 @@ export default function RegisterClient() {
               Crea tu cuenta en Mi-Ruta
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-              ¿Ya tienes una cuenta?{' '}
-              <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+              ¿Ya tienes una cuenta?{" "}
+              <a
+                href="/login"
+                className="font-medium text-indigo-600 hover:text-indigo-500"
+              >
                 Inicia sesión aquí
               </a>
             </p>
@@ -37,24 +40,24 @@ export default function RegisterClient() {
               try {
                 console.log(values);
                 const res = await registerUserRequest(values);
-                console.log(res); 
+                console.log(res);
                 const id_usuario = res.data.id; // Extrae el ID de la respuesta
 
                 // Datos adicionales para la segunda consulta
                 const data_consulta = {
-                  "id_usuario": id_usuario, // Incluye el ID obtenido
+                  id_usuario: id_usuario, // Incluye el ID obtenido
                 };
                 console.log(data_consulta);
                 const res2 = await registerClientRequest(data_consulta);
                 console.log(res2);
 
                 // Redirecciona a otra página después del registro exitoso
-                navigate('/registerClient'); // Cambia la ruta según sea necesario
+                navigate("/registerClient"); // Cambia la ruta según sea necesario
 
                 // Limpia los campos del formulario
                 reset(); // Resetea los campos del formulario
               } catch (error) {
-                console.error('Error al registrar:', error);
+                console.error("Error al registrar:", error);
               }
             })}
             action="#"
@@ -81,7 +84,6 @@ export default function RegisterClient() {
                   id="nombre"
                   name="nombre"
                   type="text"
-                  required
                   autoComplete="given-name"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Name"
@@ -153,6 +155,19 @@ export default function RegisterClient() {
                   placeholder="Password"
                   {...register("password", { required: true })}
                 />
+              </div>
+            </div>
+            <div className="1k 1x abn">
+              <div className="lx of zg">
+                <input
+                  id="same-as-shipping"
+                  name="same-as-shipping "
+                  type="checkbox"
+                  className="oc se adw agc ayn bnt"
+                />{" "}
+                <label className=" text-sm font-medium text-gray-700">
+                  {"Acepta los términos y condiciones"}
+                </label>
               </div>
             </div>
 

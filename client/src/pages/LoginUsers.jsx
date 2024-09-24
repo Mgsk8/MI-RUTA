@@ -106,7 +106,7 @@ export default function LoginUsers() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
           ¿Aún no te registras?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <a href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
             Registrarse
             </a>
           </p>
