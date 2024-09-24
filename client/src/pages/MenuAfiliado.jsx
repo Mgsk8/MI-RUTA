@@ -6,18 +6,20 @@ import { useNavigate } from 'react-router-dom';
 export default function MenuAfiliado() {
   const { register, handleSubmit } = useForm();
   const navigation = [
-    { name: "Inicio", href: "/menuAfiliado", current: false },
-    { name: "Registrar Negocio", href: "/registerCompany", current: true },
-    { name: "Editar Negocio", href: "/editCompany", current: false },
+    { name: "Inicio", href: "/", current: false },
+    { name: "Iniciar sesión", href: "/login", current: true },
+    { name: "Registrarse", href: "/register", current: false },
+    { name: "Acerca", href: "#", current: false },
+    { name: "administrador", href: "admin", current: true },
+
   ];
 
-
+  
   return (
     <>
-      <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
       <div><div><h1>MENU AFILIADO</h1></div></div>
-
-
+      
+        
     </>
   )
 }
