@@ -7,6 +7,7 @@ import RegisterAffiliate from "./pages/RegisterAffiliate";
 import Madmin from "./pages/Madim";
 import MenuAfiliado from "./pages/MenuAfiliado";
 import MenuCliente from "./pages/MenuCliente";
+import RegisterCompany from "./pages/RegisterCompany";
 
 function App(){
   return(
@@ -20,6 +21,7 @@ function App(){
         <Route path="/registerAffiliate" element={<RegisterAffiliate />}/>
         <Route path="/menuAdmin" element={<Madmin />}/>        
         <Route path="/menuAfiliado" element={<MenuAfiliado />}/>
+        <Route path="/registerCompany" element={<RegisterCompany />}/>
         <Route path="/menuCliente" element={<MenuCliente />}/>
       </Routes>
     </BrowserRouter>  
