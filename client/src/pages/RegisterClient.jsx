@@ -1,11 +1,12 @@
 import Navbar from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import { registerUserRequest, registerClientRequest } from "../api/auth.js";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate } from "react-router-dom"; 
+import { validateEmail, validatePassword, validateCheckbox } from "./validations"; // Importa las validaciones
 
 export default function RegisterClient() {
-  const { register, handleSubmit, reset } = useForm(); // Incluye reset en useForm
-  const navigate = useNavigate(); // Inicializa useNavigate
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
   const navigation = [
     { name: "Inicio", href: "/", current: false },
@@ -38,45 +39,26 @@ export default function RegisterClient() {
           <form
             onSubmit={handleSubmit(async (values) => {
               try {
-                console.log(values);
                 const res = await registerUserRequest(values);
-                console.log(res);
-                const id_usuario = res.data.id; // Extrae el ID de la respuesta
-
-                // Datos adicionales para la segunda consulta
-                const data_consulta = {
-                  id_usuario: id_usuario, // Incluye el ID obtenido
-                };
-                console.log(data_consulta);
-                const res2 = await registerClientRequest(data_consulta);
-                console.log(res2);
-
-                // Redirecciona a otra página después del registro exitoso
-                navigate("/registerClient"); // Cambia la ruta según sea necesario
-
-                // Limpia los campos del formulario
-                reset(); // Resetea los campos del formulario
+                const id_usuario = res.data.id;
+                const data_consulta = { id_usuario: id_usuario };
+                await registerClientRequest(data_consulta);
+                navigate("/registerClient");
+                reset();
               } catch (error) {
                 console.error("Error al registrar:", error);
               }
             })}
-            action="#"
-            method="POST"
             className="mt-8 space-y-6 bg-[rgba(255,255,255,0.5)] p-8 shadow-md rounded-lg"
           >
-            {/* Campo oculto tipo_usuario */}
             <input
               type="hidden"
               value="cliente"
               {...register("tipo_usuario")}
             />
 
-            {/* Nombre */}
             <div>
-              <label
-                htmlFor="nombre"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
                 Nombre
               </label>
               <div className="mt-1">
@@ -85,19 +67,16 @@ export default function RegisterClient() {
                   name="nombre"
                   type="text"
                   autoComplete="given-name"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className={`appearance-none block w-full px-3 py-2 border ${errors.nombre ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                   placeholder="Name"
-                  {...register("nombre", { required: true })}
+                  {...register("nombre", { required: "Este campo es obligatorio" })}
                 />
+                {errors.nombre && <p className="text-red-500 text-xs italic">{errors.nombre.message}</p>}
               </div>
             </div>
 
-            {/* Apellido */}
             <div>
-              <label
-                htmlFor="apellido"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="apellido" className="block text-sm font-medium text-gray-700">
                 Apellido
               </label>
               <div className="mt-1">
@@ -105,21 +84,17 @@ export default function RegisterClient() {
                   id="apellido"
                   name="apellido"
                   type="text"
-                  required
                   autoComplete="family-name"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className={`appearance-none block w-full px-3 py-2 border ${errors.apellido ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                   placeholder="Last name"
-                  {...register("apellido", { required: true })}
+                  {...register("apellido", { required: "Este campo es obligatorio" })}
                 />
+                {errors.apellido && <p className="text-red-500 text-xs italic">{errors.apellido.message}</p>}
               </div>
             </div>
 
-            {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Correo electrónico
               </label>
               <div className="mt-1">
@@ -127,21 +102,17 @@ export default function RegisterClient() {
                   id="email"
                   name="email"
                   type="email"
-                  required
                   autoComplete="email"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className={`appearance-none block w-full px-3 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                   placeholder="Email"
-                  {...register("email", { required: true })}
+                  {...register("email", { required: "Este campo es obligatorio", validate: validateEmail })}
                 />
+                {errors.email && <p className="text-red-500 text-xs italic">{errors.email.message}</p>}
               </div>
             </div>
 
-            {/* Contraseña */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Contraseña
               </label>
               <div className="mt-1">
@@ -149,29 +120,29 @@ export default function RegisterClient() {
                   id="password"
                   name="password"
                   type="password"
-                  required
                   autoComplete="current-password"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className={`appearance-none block w-full px-3 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                   placeholder="Password"
-                  {...register("password", { required: true })}
+                  {...register("password", { required: "Este campo es obligatorio", validate: validatePassword })}
                 />
-              </div>
-            </div>
-            <div className="1k 1x abn">
-              <div className="lx of zg">
-                <input
-                  id="same-as-shipping"
-                  name="same-as-shipping "
-                  type="checkbox"
-                  className="oc se adw agc ayn bnt"
-                />{" "}
-                <label className=" text-sm font-medium text-gray-700">
-                  {"Acepta los términos y condiciones"}
-                </label>
+                {errors.password && <p className="text-red-500 text-xs italic">{errors.password.message}</p>}
               </div>
             </div>
 
-            {/* Botón de registro */}
+            <div className="flex items-center">
+              <input
+                id="terms"
+                name="terms"
+                type="checkbox"
+                className="mr-2"
+                {...register("terms", { validate: validateCheckbox })}
+              />
+              <label className="text-sm font-medium text-gray-700">
+                Acepta los términos y condiciones
+              </label>
+              {errors.terms && <p className="text-red-500 text-xs italic">{errors.terms.message}</p>}
+            </div>
+
             <div>
               <button
                 type="submit"
