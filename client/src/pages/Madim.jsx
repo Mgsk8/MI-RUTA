@@ -126,6 +126,7 @@ function Madmin() {
             <th className="border px-4 py-2">Nombre</th>
             <th className="border px-4 py-2">Apellido</th>
             <th className="border px-4 py-2">Email</th>
+            <th className="border px-4 py-2">Tipo de usuario</th>
             <th className="border px-4 py-2">Acciones</th>
           </tr>
         </thead>
@@ -136,6 +137,7 @@ function Madmin() {
               <td className="border px-4 py-2">{user.nombre}</td>
               <td className="border px-4 py-2">{user.apellido}</td>
               <td className="border px-4 py-2">{user.email}</td>
+              <td className="border px-4 py-2">{user.tipo_usuario}</td>
               <td className="border px-4 py-2 space-x-2">
                 <button
                   onClick={() => handleEdit(user)}
