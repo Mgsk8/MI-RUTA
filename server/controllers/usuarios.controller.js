@@ -1,5 +1,6 @@
 import { connectDB } from "../db.js";
-
+import {CrearTokenAcceso} from "../libs/jwt.js";
+import bcrypt from "bcryptjs";
 export const getUsuarios = async (req, res) =>{
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
@@ -77,19 +78,26 @@ export const createUsuario = async (req, res) => {
     const {nombre, apellido, email, password, tipo_usuario} = req.body
     try {
         const connection = await connectDB(); // Obtén la conexión desde connectDB
+        const passwordHash = await bcrypt.hash(password,10);
         if (connection) {
             // Realiza la consulta
             const [result] = await connection.query('INSERT INTO usuario(nombre, apellido, email, password, tipo_usuario) VALUES (?, ?, ?, ?, ?)',
                 [nombre, apellido, email, password, tipo_usuario]);
 
             console.log(result);
+            
+            const token = await CrearTokenAcceso({id: result.id_usuario})
+            res.cookie("token", token);
+            res.json({
+              message: "User created successfully",
+            });
 
             res.json({
                 id: result.insertId, 
-                nombre, 
+                nombre,     
                 apellido,
                 email,
-                password,
+                password: passwordHash,
                 tipo_usuario,
                 estado: result.insertEstado
             });

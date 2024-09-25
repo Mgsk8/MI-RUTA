@@ -14,8 +14,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.20.0",
+    "jsonwebtoken": "^9.0.2",
     "mi-ruta": "file:",
     "morgan": "^1.10.0",
     "mysql2": "^3.11.0",
