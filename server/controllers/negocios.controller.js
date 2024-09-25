@@ -47,15 +47,15 @@ export const crearNegocio = async (req, res) => {
     /*let id_lugar = req.params.id_lugar;
     let nit = req.params.nit;
     let id_afiliado = req.params.id_afiliado;*/
-    const {id_lugar,nit,id_afiliado} = req.body;
+    const {id_negocio,nit,id_afiliado} = req.body;
 
     
     try {
         const connection = await connectDB();
         if (connection){
 
-            const [result] = await connection.query('INSERT INTO negocio(id_lugar, nit, id_afiliado) VALUES (?,?,?)'
-                [id_lugar, nit, id_afiliado]);
+            const [result] = await connection.query('INSERT INTO negocio(id_negocio, nit, id_afiliado) VALUES (?,?,?)',
+                [id_negocio, nit, id_afiliado]);
             
             console.log(result);
             res.json(result);

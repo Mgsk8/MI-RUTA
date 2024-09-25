@@ -3,10 +3,13 @@ import Navbar from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import MapView from "../components/MapView";
 import { useState, useEffect } from "react";
+import PropTypes from 'prop-types'; // Importa PropTypes
 
 // Componente Modal
-function Modal({ isOpen, onClose, message }) {
+function Modal({ isOpen, onClose, message, validation }) {
     if (!isOpen) return null;
+
+    const canClose = typeof validation === "function" ? validation() : true;
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -14,15 +17,27 @@ function Modal({ isOpen, onClose, message }) {
                 <h3 className="text-lg font-semibold">Información Importante</h3>
                 <p className="mt-2">{message}</p>
                 <button
-                    className="mt-4 w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500"
-                    onClick={onClose}
+                    className={`mt-4 w-full py-2 rounded-md ${
+                        canClose
+                            ? "bg-indigo-600 text-white hover:bg-indigo-500"
+                            : "bg-gray-400 text-gray-700 cursor-not-allowed"
+                    }`}
+                    onClick={canClose ? onClose : null}
                 >
-                    Cerrar
+                    {canClose ? "Cerrar" : "Completa la información requerida"}
                 </button>
             </div>
         </div>
     );
 }
+
+// Validación de PropTypes para Modal
+Modal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,        // isOpen debe ser booleano y requerido
+    onClose: PropTypes.func.isRequired,       // onClose debe ser una función y requerida
+    message: PropTypes.string.isRequired,     // message debe ser string y requerido
+    validation: PropTypes.func,               // validation, si se pasa, debe ser una función
+};
 
 export default function RegistroNegocio() {
     const { register, handleSubmit, setValue, watch } = useForm();
@@ -74,7 +89,7 @@ export default function RegistroNegocio() {
             {isModalClosed && ( // Renderiza el contenido solo si la modal está cerrada
                 <div className="bg-[url('../image/fondoRegisterCompany.jpg')] bg-cover bg-center min-h-screen w-full relative">
                     <div className="flex flex-col items-center py-6 px-4 sm:px-6 lg:px-8">
-                        <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900 mb-4 bg-[rgba(255,255,255,0.9)] p-4 rounded-md w-full">
+                        <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900 mb-4 bg-[rgba(255,255,255,0.9)] p-4 rounded-md w-1/2">
                             Registrar Negocio
                         </h2>
                         <div className="flex flex-row w-full max-w-6xl">
@@ -89,7 +104,7 @@ export default function RegistroNegocio() {
                                         const data_consulta = {
                                             id_negocio: id_negocio,
                                             nit: values.nit,
-                                            id_afiliado: values.id,
+                                            id_afiliado: values.id_afiliado,
                                         };
                                         console.log(data_consulta);
                                         const res2 = await registerCompanyRequest(data_consulta);
@@ -186,13 +201,24 @@ export default function RegistroNegocio() {
                                         </a>
                                     </div>
 
+                                    {/* id_afiliado */}
+                                    <div>
+                                        <input
+                                            id="id_afiliado"
+                                            name="id_afiliado"
+                                            type="hidden"
+                                            value="2"
+                                            {...register("id_afiliado", { required: true })}
+                                        />
+                                    </div>
+
                                     {/* Categoria */}
                                     <div>
                                         <input
                                             id="categoria"
                                             name="categoria"
                                             type="hidden"
-                                            value="Negocio"
+                                            value="negocio"
                                             {...register("categoria", { required: true })}
                                         />
                                     </div>
