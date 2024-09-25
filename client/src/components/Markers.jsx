@@ -1,15 +1,26 @@
-import React from "react";
 import { Marker } from "react-leaflet";
 import IconLocation from "./IconLocation";
+import PropTypes from 'prop-types';
 
-const Markers = () =>{
-    return(
-        <Marker
-        position={{lat: 4.6973985, lng: -74.1715412}} icon={IconLocation}
-        >
+const Markers = ({ currentLocation }) => {
+    return (
+        // Asegúrate de que currentLocation esté disponible antes de renderizar el Marker
+        currentLocation.lat && currentLocation.lng ? (
+            <Marker
+                position={currentLocation} // Usa la posición actual
+                icon={IconLocation}        // Usa tu icono personalizado
+            >
+            </Marker>
+        ) : null // No renderiza nada si no tiene la ubicación
+    );
+};
 
-        </Marker>
-    )
-}
+// Definición de tipos para las props usando prop-types
+Markers.propTypes = {
+    currentLocation: PropTypes.shape({
+        lat: PropTypes.number.isRequired,
+        lng: PropTypes.number.isRequired
+    }).isRequired
+};
 
 export default Markers;

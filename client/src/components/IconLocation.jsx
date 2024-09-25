@@ -1,4 +1,3 @@
-import React from "react";
 import L from 'leaflet';
 import iconUrl from '../assets/venue_location_icon.svg'; // Asegúrate de que esta ruta sea correcta
 
