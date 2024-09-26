@@ -9,3 +9,4 @@ export const registerAfiRequest = user => axios.post(`${API}/afiliados`, user);
 export const loginRequest = user => axios.post(`${API}/login`, user)
 export const getNegocios = user => axios.get(`${API}/lugares`, user)
 export const deleteNegocios = (id_lugar) => axios.delete(`${API}/lugares/${id_lugar}`);
+export const getNegocio = (id_usuario)=> axios.get(`${API}/lugares`, { params: { id_usuario } })

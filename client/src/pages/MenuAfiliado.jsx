@@ -8,12 +8,17 @@ export default function MenuAfiliado() {
 
   const get_Negocios = async () => {
     try {
-      const res = await getNegocios();
-      console.log("Datos recibidos:", res.data);
-      if (Array.isArray(res.data)) {
-        setNegocios(res.data); 
-      } else {
-        console.error("Los datos no son un array");
+      const id_usuario = localStorage.getItem("id_usuario");
+      if (!id_usuario){
+        console.log("no se encuentra el id del usuario")
+      }else{
+        const res = await getNegocio(id_usuario);
+        console.log("Datos recibidos:", res.data);
+        if (Array.isArray(res.data)) {
+          setNegocios(res.data);
+        } else {
+          console.error("Los datos no son un array");
+        }
       }
     } catch (error) {
       console.error("Error al obtener los negocios:", error);
@@ -26,7 +31,12 @@ export default function MenuAfiliado() {
 
   return (
     <div>
-      <Navbar navigation={[{ name: "Inicio ", href: "/menuAfiliado", current: false }]} logo="/image/logoblanco.png" />
+      <Navbar
+        navigation={[
+          { name: "Inicio ", href: "/menuAfiliado", current: false },
+        ]}
+        logo="/image/logoblanco.png"
+      />
       <div className="max-w-5xl mx-auto p-8">
         <h1 className="text-2xl font-bold mb-4">Gestiona tu negocio</h1>
         <div className="sm:overflow-x-auto">
@@ -47,18 +57,40 @@ export default function MenuAfiliado() {
               {negocios.length > 0 ? (
                 negocios.map((negocio) => (
                   <tr key={negocio.id_lugar}>
-                    <td className="border border-black px-4 py-2">{negocio.id_lugar}</td>
-                    <td className="border border-black px-4 py-2">{negocio.nombre}</td>
-                    <td className="border border-black px-4 py-2">{negocio.nit}</td>
-                    <td className="border border-black px-4 py-2">{negocio.informacion}</td>
-                    <td className="border border-black px-4 py-2">{negocio.ubicacion}</td>
-                    <td className="border border-black px-4 py-2">{negocio.categoria}</td>
-                    <td className="border border-black px-4 py-2">{negocio.calificacion}</td>
                     <td className="border border-black px-4 py-2">
-                      <button onClick={() => console.log("Editar", negocio.id_lugar)} className="text-blue-700 mr-10">
+                      {negocio.id_lugar}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      {negocio.nombre}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      {negocio.nit}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      {negocio.informacion}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      {negocio.ubicacion}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      {negocio.categoria}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      {negocio.calificacion}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      <button
+                        onClick={() => console.log("Editar", negocio.id_lugar)}
+                        className="text-blue-700 mr-10"
+                      >
                         <FaEdit />
                       </button>
-                      <button onClick={() => console.log("Eliminar", negocio.id_lugar)} className="text-red-700">
+                      <button
+                        onClick={() =>
+                          console.log("Eliminar", negocio.id_lugar)
+                        }
+                        className="text-red-700"
+                      >
                         <FaTrashAlt />
                       </button>
                     </td>
@@ -66,7 +98,10 @@ export default function MenuAfiliado() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="8" className="text-center border border-black py-4">
+                  <td
+                    colSpan="8"
+                    className="text-center border border-black py-4"
+                  >
                     No hay negocios disponibles.
                   </td>
                 </tr>
