@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import { registerUserRequest, registerClientRequest } from "../api/auth.js";
 import { useNavigate } from "react-router-dom"; 
-import { validateEmail, validatePassword, validateCheckbox } from "./validations"; // Importa las validaciones
+import { validateEmail, validatePassword, validateCheckbox } from "../../validation/validations.js"; 
 
 export default function RegisterClient() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -10,7 +10,7 @@ export default function RegisterClient() {
 
   const navigation = [
     { name: "Inicio", href: "/", current: false },
-    { name: "Iniciar sesión", href: "/login", current: false },
+    { name: "Iniciar sesión", href: "/login", current: false }, 
     { name: "Registrarse", href: "/register", current: true },
     { name: "Acerca", href: "#", current: false },
   ];
@@ -138,7 +138,8 @@ export default function RegisterClient() {
                 {...register("terms", { validate: validateCheckbox })}
               />
               <label className="text-sm font-medium text-gray-700">
-                Acepta los términos y condiciones
+                <a href="/terms" target="_blank">
+                He leído y acepto los términos y condiciones{''}</a>
               </label>
               {errors.terms && <p className="text-red-500 text-xs italic">{errors.terms.message}</p>}
             </div>

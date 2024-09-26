@@ -1,3 +1,5 @@
+// validaciones.js
+
 export const validateEmail = (value) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(value) || "El correo electrónico no es válido";

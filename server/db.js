@@ -9,17 +9,14 @@ const pool = createPool({
     database: 'mi-ruta'
 });
 
-// Definir la función testConnection para probar la conexión a la base de datos
-async function testConnection() {
+// Definir la función connectDB para conectarse a la base de datos
+export async function connectDB() {
     try {
         const connection = await pool.getConnection();
         console.log("Conexión exitosa a la base de datos");
-        await connection.release(); // Libera la conexión
+        return connection; // Retorna la conexión para su uso
     } catch (error) {
         console.error("Error al conectar con la base de datos:", error.message);
+        return null; // Retorna null en caso de error
     }
 }
-
-// Llamar a la función testConnection
-testConnection();
-
