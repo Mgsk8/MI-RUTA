@@ -101,7 +101,7 @@ export const actualizarLugar = async(req, res) => {
     
 }
 export const deleteLugar = async(req, res) => {
-    let id_lugar = req.params.id_lugar
+    let id_lugar = req.params.id_lugar;
     try {
         const connection = await connectDB();
         if (connection){
