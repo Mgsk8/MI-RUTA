@@ -32,7 +32,9 @@ export default function LoginUsers() {
                     const res = await loginRequest(data);
                     console.log(data);
                     console.log(res);
-
+                    const id_usuario= res.data.id_usuario;
+                    localStorage.setItem("id_usuario", id_usuario);
+                    console.log(id_usuario);
                     if (res.status === 200) {
                       // Login exitoso, redirigir al dashboard o página principal
                       if (res.data.tipo_usuario == "administrador") {
