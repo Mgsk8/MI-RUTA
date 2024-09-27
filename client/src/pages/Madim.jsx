@@ -69,114 +69,123 @@ function Madmin() {
 
   return (
     <div>
-      <Navbar
+      <a href="/">
+        <Navbar
         navigation={[
-          { name: "Inicio ", href: "/menuAdmin", current: false },
+          { name: "Usuarios", href: "/menuAdmin", current: true },
           { name: "Negocios", href: "/menuAdmin_negocios", current: false },
         ]}
         logo="/image/logoblanco.png"
-      />
-      <div className="max-w-4xl mx-auto p-8">
-        <h1 className="text-2xl font-bold mb-4">Gestión de Usuarios</h1>
-        <form onSubmit={handleSubmit} className="mb-6">
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              className="border p-2"
-              type="text"
-              name="nombre"
-              placeholder="Nombre"
-              value={form.nombre}
-              onChange={handleChange}
-              required
-            />
-            <input
-              className="border p-2"
-              type="text"
-              name="apellido"
-              placeholder="Apellido"
-              value={form.apellido}
-              onChange={handleChange}
-              required
-            />
-            <input
-              className="border p-2"
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
-            <input
-              className="border p-2"
-              type="password"
-              name="password"
-              placeholder="Contraseña"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
-            <select
-              className="border p-2"
-              name="tipo_usuario"
-              value={form.tipo_usuario}
-              onChange={handleChange}
-              required
+      /></a>
+      <div className="min-h-screen w-full bg-white dark:bg-gray-700 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')] dark:bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern-dark.svg')]">
+        <div className="max-w-4xl mx-auto p-4 md:p-8">
+          <h1 className="text-2xl md:text-4xl text-gray-50 font-bold mb-4 text-center">
+            Gestión de Usuarios
+          </h1>
+          <br />
+          <form onSubmit={handleSubmit} className="mb-6 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+              <input
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                type="text"
+                name="nombre"
+                placeholder="Nombre"
+                value={form.nombre}
+                onChange={handleChange}
+                required
+              />
+              <input
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                type="text"
+                name="apellido"
+                placeholder="Apellido"
+                value={form.apellido}
+                onChange={handleChange}
+                required
+              />
+              <input
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+              <input
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                type="password"
+                name="password"
+                placeholder="Contraseña"
+                value={form.password}
+                onChange={handleChange}
+                required
+              />
+              <select
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                name="tipo_usuario"
+                value={form.tipo_usuario}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Seleccionar tipo de usuario</option>
+                <option value="administrador">administrador</option>
+                <option value="afiliado">afiliado</option>
+                <option value="cliente">cliente</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              className="bg-blue-600 text-white hover:bg-blue-800 font-medium rounded-lg text-sm focus:ring-4 px-4 py-2.5 mt-4 w-full md:w-auto dark:hover:bg-blue-700"
             >
-              <option value="">Seleccionar tipo de usuario</option>
-              <option value="administrador">administrador</option>
-              <option value="afiliado">afiliado</option>
-              <option value="cliente">cliente</option>
-            </select>
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 mt-4"
-          >
-            {editingId ? "Actualizar Usuario" : "Crear Usuario"}
-          </button>
-        </form>
+              {editingId ? "Actualizar Usuario" : "Crear Usuario"}
+            </button>
+          </form>
 
-        <table className="min-w-full bg-white border">
-          <thead>
-            <tr>
-              <th className="border px-4 py-2">ID</th>
-              <th className="border px-4 py-2">Nombre</th>
-              <th className="border px-4 py-2">Apellido</th>
-              <th className="border px-4 py-2">Email</th>
-              <th className="border px-4 py-2">Tipo de usuario</th>
-              <th className="border px-4 py-2">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id_usuario}>
-                <td className="border px-4 py-2">{user.id_usuario}</td>
-                <td className="border px-4 py-2">{user.nombre}</td>
-                <td className="border px-4 py-2">{user.apellido}</td>
-                <td className="border px-4 py-2">{user.email}</td>
-                <td className="border px-4 py-2">{user.tipo_usuario}</td>
-                <td className="border px-4 py-2 flex space-x-2 md:space-x-8">
-                  <button
-                    onClick={() => handleEdit(user)}
-                    className="bg-yellow-500 text-white px-4 py-1"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => handleDelete(user.id_usuario)}
-                    className="bg-red-500 text-white px-4 py-1"
-                  >
-                    Borrar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-center rtl:text-right text-blue-100 dark:text-blue-100">
+              <thead className="table-auto main-w-full w-12 text-sm text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
+                <tr>
+                  <th scope="col" className="px-6 py-3 bg-blue-500">ID</th>
+                  <th scope="col" className="px-6 py-3">Nombre</th>
+                  <th scope="col" className="px-6 py-3 bg-blue-500">Apellido</th>
+                  <th scope="col" className="px-6 py-3">Email</th>
+                  <th scope="col" className="px-6 py-3 bg-blue-500">Tipo de usuario</th>
+                  <th scope="col" className="px-6 py-3">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr className="bg-blue-600 border-b border-blue-400" key={user.id_usuario}>
+                    <td className="px-6 py-4 text-base font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">{user.id_usuario}</td>
+                    <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">{user.nombre}</td>
+                    <td className="px-6 py-4 font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">{user.apellido}</td>
+                    <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">{user.email}</td>
+                    <td className="px-6 py-4 font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">{user.tipo_usuario}</td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => handleEdit(user)}
+                        type="button" className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => handleDelete(user.id_usuario)}
+                        type="buttom" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                      >
+                        Borrar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  );
+
+      );
 }
 
-export default Madmin;
+      export default Madmin;
