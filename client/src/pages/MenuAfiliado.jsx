@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getNegocios } from "../api/auth";
+import { getNegocio, getNegocio_afiliado, getNegocios } from "../api/auth";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 
@@ -12,10 +12,14 @@ export default function MenuAfiliado() {
       if (!id_usuario){
         console.log("no se encuentra el id del usuario")
       }else{
-        const res = await getNegocio(id_usuario);
-        console.log("Datos recibidos:", res.data);
-        if (Array.isArray(res.data)) {
-          setNegocios(res.data);
+        const res_afiliado = await getNegocio_afiliado(id_usuario);
+        if (Array.isArray(res_afiliado.data) && res_afiliado.data.length > 0) {
+          const id_negocio = res_afiliado.data[0].id_negocio;
+          const res = await getNegocio(id_negocio)
+          if (Array.isArray(res.data)) {
+            setNegocios(res.data);
+        }
+
         } else {
           console.error("Los datos no son un array");
         }

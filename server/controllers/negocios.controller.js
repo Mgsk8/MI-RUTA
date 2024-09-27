@@ -21,12 +21,34 @@ export const getNegocios = async (req, res) => {
     }
     
 }
+
+export const getNegocio_afiliatte = async (req, res) => {
+    let id_usuario = req.params.id_usuario;
+    try {
+        const connection = await connectDB();
+        if (connection){
+            const [result] = await connection.query('SELECT * FROM negocio WHERE id_afiliado = ?', [id_usuario]);
+
+            console.log(result);
+            res.json(result);
+
+            connection.release();
+
+        }else {
+            res.status(500).json({ error: 'No se pudo conectar a la base de datos' });
+        }
+    } catch (error) {
+        console.error('Error al hacer la consulta:', error);
+        res.status(500).json({ error: 'Error en la consulta' });
+    }
+    
+} 
 export const getNegocio = async (req, res) => {
     let id_lugar = req.params.id_lugar;
     try {
         const connection = await connectDB();
         if (connection){
-            const [result] = await connection.query('SELECT * FROM negocio WHERE id_lugar', [id_lugar]);
+            const [result] = await connection.query('SELECT * FROM negocio WHERE id_negocio= ?', [id_lugar]);
 
             console.log(result);
             res.json(result);
@@ -47,15 +69,15 @@ export const crearNegocio = async (req, res) => {
     /*let id_lugar = req.params.id_lugar;
     let nit = req.params.nit;
     let id_afiliado = req.params.id_afiliado;*/
-    const {id_lugar,nit,id_afiliado} = req.body;
+    const {id_negocio,nit,id_afiliado} = req.body;
 
     
     try {
         const connection = await connectDB();
         if (connection){
 
-            const [result] = await connection.query('INSERT INTO negocio(id_lugar, nit, id_afiliado) VALUES (?,?,?)'
-                [id_lugar, nit, id_afiliado]);
+            const [result] = await connection.query('INSERT INTO negocio(id_negocio, nit, id_afiliado) VALUES (?,?,?)',
+                [id_negocio, nit, id_afiliado]);
             
             console.log(result);
             res.json(result);
@@ -112,7 +134,6 @@ export const deleteNegocio = async(req, res) => {
     } catch (error) {
         console.error('Error al hacer la consulta:', error);
         res.status(500).json({ error: 'Error en la consulta' });
-        
 
     }
 }
