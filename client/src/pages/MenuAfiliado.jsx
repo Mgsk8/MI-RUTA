@@ -12,17 +12,11 @@ export default function MenuAfiliado() {
       if (!id_usuario){
         console.log("no se encuentra el id del usuario")
       }else{
-        const res_afiliado = await getNegocio_afiliado(id_usuario);
-        if (Array.isArray(res_afiliado.data) && res_afiliado.data.length > 0) {
-          const id_negocio = res_afiliado.data[0].id_negocio;
-          const res = await getNegocio(id_negocio)
-          if (Array.isArray(res.data)) {
+        const res = await getNegocio_afiliado(id_usuario);
+        if (Array.isArray(res.data)) {
             setNegocios(res.data);
         }
 
-        } else {
-          console.error("Los datos no son un array");
-        }
       }
     } catch (error) {
       console.error("Error al obtener los negocios:", error);
@@ -49,12 +43,13 @@ export default function MenuAfiliado() {
               <tr>
                 <th className="border border-black px-4 py-2">Id</th>
                 <th className="border border-black px-4 py-2">Nombre</th>
-                <th className="border border-black px-4 py-2">Nit</th>
                 <th className="border border-black px-4 py-2">Informacion</th>
                 <th className="border border-black px-4 py-2">Ubicacion</th>
                 <th className="border border-black px-4 py-2">Categoria</th>
                 <th className="border border-black px-4 py-2">Calificacion</th>
+                <th className="border border-black px-4 py-2">Nit</th>
                 <th className="border border-black px-4 py-2">Acciones</th>
+
               </tr>
             </thead>
             <tbody>
@@ -68,9 +63,6 @@ export default function MenuAfiliado() {
                       {negocio.nombre}
                     </td>
                     <td className="border border-black px-4 py-2">
-                      {negocio.nit}
-                    </td>
-                    <td className="border border-black px-4 py-2">
                       {negocio.informacion}
                     </td>
                     <td className="border border-black px-4 py-2">
@@ -81,6 +73,9 @@ export default function MenuAfiliado() {
                     </td>
                     <td className="border border-black px-4 py-2">
                       {negocio.calificacion}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      {negocio.negocio_nit}
                     </td>
                     <td className="border border-black px-4 py-2">
                       <button
