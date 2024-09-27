@@ -1,13 +1,15 @@
 import {BrowserRouter,Routes,Route} from "react-router-dom";
+import MenuAfiliado from "./pages/MenuAfiliado";
 import LogIn from "./pages/LoginUsers";
 import Inicio from "./pages/Inicio";
 import RoleSelection from "./pages/RegisterUsers";
 import RegisterClient from "./pages/RegisterClient";
 import RegisterAffiliate from "./pages/RegisterAffiliate";
 import Madmin from "./pages/Madim";
-import MenuAfiliado from "./pages/MenuAfiliado";
 import MenuCliente from "./pages/MenuCliente";
 import RegisterCompany from "./pages/RegisterCompany";
+import Madmin_negocios from "./pages/Madmin_negocios";
+import Terms from "./pages/Terms";
 
 function App(){
   return(
@@ -23,6 +25,8 @@ function App(){
         <Route path="/menuAfiliado" element={<MenuAfiliado />}/>
         <Route path="/registerCompany" element={<RegisterCompany />}/>
         <Route path="/menuCliente" element={<MenuCliente />}/>
+        <Route path="/menuAdmin_negocios" element={<Madmin_negocios />}/>
+        <Route path="/terms" element={<Terms />}/>
       </Routes>
     </BrowserRouter>  
   )

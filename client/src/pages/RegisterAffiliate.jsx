@@ -1,9 +1,14 @@
 import Navbar from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import { registerUserRequest, registerAfiRequest } from "../api/auth.js";
+import { validateEmail,validatePassword, validateCheckbox} from "../../validation/validations.js";
 
 export default function RegisterAffiliate() {
-  const {register, handleSubmit} = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const navigation = [
     { name: "Inicio", href: "/", current: false },
@@ -12,16 +17,14 @@ export default function RegisterAffiliate() {
     { name: "Acerca", href: "#", current: false },
   ];
 
-
-return (
-  <div className="bg-[url('../image/fondo.jpg')] bg-cover bg-center min-h-screen w-full">
+  return (
+    <div className="bg-[url('../image/fondo.jpg')] bg-cover bg-center min-h-screen w-full">
       <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
       <br />
       <br />
       <br />
-      
-      <div className="flex min-h-full items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
 
+      <div className="flex min-h-full items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
             <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900">
@@ -42,48 +45,51 @@ return (
             onSubmit={handleSubmit(async (values) => {
               console.log(values);
               const res = await registerUserRequest(values);
-              console.log(res); 
+              console.log(res);
               const id_usuario = res.data.id; // Extrae el ID de la respuesta
-              // Datos adicionales para la segunda consulta
               const data_consulta = {
-                "id_usuario": id_usuario, // Incluye el ID obtenido
-                "cedula": values.cedula
+                id_usuario: id_usuario,
+                cedula: values.cedula,
               };
               console.log(data_consulta);
               const res2 = await registerAfiRequest(data_consulta);
               console.log(res2);
             })}
-            //action="#"
             method="POST"
             className="mt-8 space-y-6 bg-[rgba(255,255,255,0.5)] p-8 shadow-md rounded-lg"
           >
-              {/* Campo oculto tipo_usuario */}
-              <input
+            {/* Campo oculto tipo_usuario */}
+            <input
               type="hidden"
               value="afiliado"
               {...register("tipo_usuario")}
             />
 
-            {/*Cedula*/}
+            {/* Cedula */}
             <div>
               <label
-                htmlFor="Cedula"
+                htmlFor="cedula"
                 className="block text-sm font-medium text-gray-700"
               >
-                Cedula
+                Cédula
               </label>
               <div className="mt-1">
                 <input
                   id="cedula"
                   name="cedula"
                   type="number"
-                  required
                   autoComplete="off"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-
-                  {...register("cedula", { required: true })}
-
+                  placeholder="Document"
+                  {...register("cedula", {
+                    required: "Este campo es obligatorio",
+                  })}
                 />
+                {errors.cedula && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.cedula.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -100,13 +106,18 @@ return (
                   id="nombre"
                   name="nombre"
                   type="text"
-                  required
                   autoComplete="given-name"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-
-                  {...register("nombre", { required: true })}
-
+                  placeholder="Name"
+                  {...register("nombre", {
+                    required: "Este campo es obligatorio",
+                  })}
                 />
+                {errors.nombre && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.nombre.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -123,12 +134,18 @@ return (
                   id="apellido"
                   name="apellido"
                   type="text"
-                  required
                   autoComplete="family-name"
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-
-                  {...register("apellido", { required: true })}
+                  placeholder="Last Name"
+                  {...register("apellido", {
+                    required: "Este campo es obligatorio",
+                  })}
                 />
+                {errors.apellido && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.apellido.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -145,13 +162,21 @@ return (
                   id="email"
                   name="email"
                   type="email"
-                  required
                   autoComplete="email"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-
-                  {...register("email", { required: true })}
-
+                  className={`appearance-none block w-full px-3 py-2 border ${
+                    errors.email ? "border-red-500" : "border-gray-300"
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                  placeholder="Email"
+                  {...register("email", {
+                    required: "Este campo es obligatorio",
+                    validate: validateEmail,
+                  })}
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -168,13 +193,41 @@ return (
                   id="password"
                   name="password"
                   type="password"
-                  required
                   autoComplete="current-password"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-
-                  {...register("password", { required: true })}
+                  className={`appearance-none block w-full px-3 py-2 border ${
+                    errors.password ? "border-red-500" : "border-gray-300"
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                  placeholder="Password"
+                  {...register("password", {
+                    required: "Este campo es obligatorio",
+                    validate: validatePassword,
+                  })}
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
+            </div>
+
+            <div className="flex items-center">
+              <input
+                id="terms"
+                name="terms"
+                type="checkbox"
+                className="mr-2"
+                {...register("terms", { validate: validateCheckbox })}
+              />
+              <label className="text-sm font-medium text-gray-700">
+                <a href="/terms" target="_blank">
+                He leído y acepto los términos y condiciones{''}</a>
+              </label>
+              {errors.terms && (
+                <p className="text-red-500 text-xs italic">
+                  {errors.terms.message}
+                </p>
+              )}
             </div>
 
             {/* Botón de registro */}

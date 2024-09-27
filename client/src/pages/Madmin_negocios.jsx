@@ -1,43 +1,44 @@
 import React, { useState, useEffect } from "react";
-import { getNegocio, getNegocio_afiliado, getNegocios } from "../api/auth";
+import { getNegocios, deleteNegocios } from "../api/auth";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 
-export default function MenuAfiliado() {
+export default function Madmin_negocios() {
   const [negocios, setNegocios] = useState([]);
 
   const get_Negocios = async () => {
     try {
-      const id_usuario = localStorage.getItem("id_usuario");
-      if (!id_usuario){
-        console.log("no se encuentra el id del usuario")
-      }else{
-        const res_afiliado = await getNegocio_afiliado(id_usuario);
-        if (Array.isArray(res_afiliado.data) && res_afiliado.data.length > 0) {
-          const id_negocio = res_afiliado.data[0].id_negocio;
-          const res = await getNegocio(id_negocio)
-          if (Array.isArray(res.data)) {
-            setNegocios(res.data);
-        }
-
-        } else {
-          console.error("Los datos no son un array");
-        }
+      const res = await getNegocios();
+      console.log("Datos recibidos:", res.data);
+      if (Array.isArray(res.data)) {
+        setNegocios(res.data);
+      } else {
+        console.error("Los datos no son un array");
       }
     } catch (error) {
       console.error("Error al obtener los negocios:", error);
     }
   };
+  const delete_negocios = async (id_lugar) => {
+    try {
+        const res = await deleteNegocios(id_lugar);
+        get_Negocios();
+    } catch (error) {
+        console.log("no se pudo eliminar el negocio")
+    }
 
+  }
   useEffect(() => {
     get_Negocios();
   }, []);
+
 
   return (
     <div>
       <Navbar
         navigation={[
-          { name: "Inicio ", href: "/menuAfiliado", current: false },
+          { name: "Inicio ", href: "/menuAdmin", current: false },
+          { name: "Negocios", href: "/menuAdmin_negocios", current: false },
         ]}
         logo="/image/logoblanco.png"
       />
@@ -91,7 +92,8 @@ export default function MenuAfiliado() {
                       </button>
                       <button
                         onClick={() =>
-                          console.log("Eliminar", negocio.id_lugar)
+                          delete_negocios(negocio.id_lugar)
+
                         }
                         className="text-red-700"
                       >
