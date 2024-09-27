@@ -40,6 +40,7 @@ Modal.propTypes = {
 };
 
 export default function RegistroNegocio() {
+    const id_usuario_actual = localStorage.getItem("id_usuario_actual");
     const { register, handleSubmit, setValue, watch } = useForm();
     const navigation = [
         { name: "Inicio", href: "/menuAfiliado", current: false },
@@ -77,6 +78,7 @@ export default function RegistroNegocio() {
         setResultModalOpen(false);
         setMapPaused(false); // Reanuda el mapa al cerrar la modal de resultado
         setContentVisible(true); // Muestra el contenido nuevamente
+        window.location.reload();
     };
 
     const latitud = watch("latitud");
@@ -214,7 +216,7 @@ export default function RegistroNegocio() {
                                             id="id_afiliado"
                                             name="id_afiliado"
                                             type="hidden"
-                                            value="2"
+                                            value= {id_usuario_actual}
                                             {...register("id_afiliado", { required: true })}
                                         />
                                     </div>

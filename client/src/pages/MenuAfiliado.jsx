@@ -8,11 +8,11 @@ export default function MenuAfiliado() {
 
   const get_Negocios = async () => {
     try {
-      const id_usuario = localStorage.getItem("id_usuario");
-      if (!id_usuario){
+      const id_usuario_actual = localStorage.getItem("id_usuario_actual");
+      if (!id_usuario_actual){
         console.log("no se encuentra el id del usuario")
       }else{
-        const res_afiliado = await getNegocio_afiliado(id_usuario);
+        const res_afiliado = await getNegocio_afiliado(id_usuario_actual);
         if (Array.isArray(res_afiliado.data) && res_afiliado.data.length > 0) {
           const id_negocio = res_afiliado.data[0].id_negocio;
           const res = await getNegocio(id_negocio)
@@ -37,7 +37,9 @@ export default function MenuAfiliado() {
     <div>
       <Navbar
         navigation={[
-          { name: "Inicio ", href: "/menuAfiliado", current: false },
+          { name: "Inicio ", href: "/menuAfiliado", current: true },
+          { name: "Registrar Negocio", href: "/registerCompany", current: false },
+          { name: "Editar Negocio", href: "/editCompany", current: false },
         ]}
         logo="/image/logoblanco.png"
       />
