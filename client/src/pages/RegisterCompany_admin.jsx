@@ -40,7 +40,6 @@ Modal.propTypes = {
 };
 
 export default function RegistroNegocio() {
-    const id_usuario_actual = localStorage.getItem("id_usuario_actual");
     const { register, handleSubmit, setValue, watch } = useForm();
     const navigation = [
         { name: "Usuarios", href: "/menuAdmin", current: false },
@@ -212,13 +211,16 @@ export default function RegistroNegocio() {
                                     </div>
                                     {/* id_afiliado */}
                                     <div>
-                                        <input
-                                            id="id_afiliado"
-                                            name="id_afiliado"
-                                            type="hidden"
-                                            value= {id_usuario_actual}
-                                            {...register("id_afiliado", { required: true })}
-                                        />
+                                        <label htmlFor="Id_Afiliado" className="block text-sm font-medium text-gray-700">Id Afiliado</label>
+                                        <div className="mt-1">
+                                            <input
+                                                id="id_afiliado"
+                                                name="id_afiliado"
+                                                type="text"
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                {...register("id_afiliado", { required: true })}
+                                            />
+                                        </div>
                                     </div>
                                     {/* Categoria */}
                                     <div>
