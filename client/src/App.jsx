@@ -8,6 +8,8 @@ import Madmin from "./pages/Madim";
 import MenuAfiliado from "./pages/MenuAfiliado";
 import MenuCliente from "./pages/MenuCliente";
 import Madmin_negocios from "./pages/Madmin_negocios";
+import Terms from "./pages/Terms";
+
 
 function App(){
   return(
@@ -23,6 +25,7 @@ function App(){
         <Route path="/menuAfiliado" element={<MenuAfiliado />}/>
         <Route path="/menuCliente" element={<MenuCliente />}/>
         <Route path="/menuAdmin_negocios" element={<Madmin_negocios />}/>
+        <Route path="/terms" element={<Terms />}/>
       </Routes>
     </BrowserRouter>  
   )
