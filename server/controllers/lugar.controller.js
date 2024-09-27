@@ -125,8 +125,8 @@ export const deleteLugar = async(req, res) => {
         }
     } catch (error) {
         console.error('Error al hacer la consulta:', error);
-        res.status(500).json({ error: 'Error en la consulta' });
+        res.status(500).json({ error: 'Error en la consulta' });
 
 
-    }
+    }
 }

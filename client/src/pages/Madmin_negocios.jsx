@@ -37,8 +37,9 @@ export default function Madmin_negocios() {
     <div>
       <Navbar
         navigation={[
-          { name: "Inicio ", href: "/menuAdmin", current: false },
-          { name: "Negocios", href: "/menuAdmin_negocios", current: false },
+          { name: "Usuarios", href: "/menuAdmin", current: false },
+          { name: "Visualizar negocios", href: "/menuAdmin_negocios", current: true },
+          { name: "Registrar negocios", href: "/registerCompany_admin", current: false },
         ]}
         logo="/image/logoblanco.png"
       />
@@ -50,9 +51,9 @@ export default function Madmin_negocios() {
               <tr>
                 <th className="border border-black px-4 py-2">Id</th>
                 <th className="border border-black px-4 py-2">Nombre</th>
-                <th className="border border-black px-4 py-2">Nit</th>
                 <th className="border border-black px-4 py-2">Informacion</th>
-                <th className="border border-black px-4 py-2">Ubicacion</th>
+                <th className="border border-black px-4 py-2">latitud</th>
+                <th className="border border-black px-4 py-2">longitud</th>
                 <th className="border border-black px-4 py-2">Categoria</th>
                 <th className="border border-black px-4 py-2">Calificacion</th>
                 <th className="border border-black px-4 py-2">Acciones</th>
@@ -69,13 +70,13 @@ export default function Madmin_negocios() {
                       {negocio.nombre}
                     </td>
                     <td className="border border-black px-4 py-2">
-                      {negocio.nit}
-                    </td>
-                    <td className="border border-black px-4 py-2">
                       {negocio.informacion}
                     </td>
                     <td className="border border-black px-4 py-2">
-                      {negocio.ubicacion}
+                      {negocio.latitud}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      {negocio.longitud}
                     </td>
                     <td className="border border-black px-4 py-2">
                       {negocio.categoria}
@@ -86,7 +87,7 @@ export default function Madmin_negocios() {
                     <td className="border border-black px-4 py-2">
                       <button
                         onClick={() => console.log("Editar", negocio.id_lugar)}
-                        className="text-blue-700 mr-10"
+                        className="text-blue-700 mr-5"
                       >
                         <FaEdit />
                       </button>

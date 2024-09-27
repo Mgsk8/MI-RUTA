@@ -71,8 +71,9 @@ function Madmin() {
     <div>
       <Navbar
         navigation={[
-          { name: "Inicio ", href: "/menuAdmin", current: false },
-          { name: "Negocios", href: "/menuAdmin_negocios", current: false },
+          { name: "Usuarios", href: "/menuAdmin", current: true },
+          { name: "Visualizar negocios", href: "/menuAdmin_negocios", current: false },
+          { name: "Registrar negocios", href: "/registerCompany_admin", current: false },
         ]}
         logo="/image/logoblanco.png"
       />

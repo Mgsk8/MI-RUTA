@@ -27,7 +27,7 @@ export const getNegocio_afiliatte = async (req, res) => {
     try {
         const connection = await connectDB();
         if (connection){
-            await connection.query('CREATE TABLE negocios_afiliado AS SELECT lugar.*, negocio.nit AS negocio_nit FROM lugar JOIN negocio ON lugar.id_lugar = negocio.id_negocio WHERE negocio.id_afiliado = ?', [id_usuario]);
+            await connection.query('CREATE TEMPORARY TABLE negocios_afiliado AS SELECT lugar.*, negocio.nit AS negocio_nit FROM lugar JOIN negocio ON lugar.id_lugar = negocio.id_negocio WHERE negocio.id_afiliado = ?', [id_usuario]);
             const [result] = await connection.query('SELECT * FROM negocios_afiliado');
             console.log(result);
             res.json(result);

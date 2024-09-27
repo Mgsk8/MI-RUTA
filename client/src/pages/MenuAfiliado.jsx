@@ -8,13 +8,13 @@ export default function MenuAfiliado() {
 
   const get_Negocios = async () => {
     try {
-      const id_usuario = localStorage.getItem("id_usuario");
-      if (!id_usuario){
+      const id_usuario_actual = localStorage.getItem("id_usuario_actual");
+      if (!id_usuario_actual){
         console.log("no se encuentra el id del usuario")
       }else{
-        const res = await getNegocio_afiliado(id_usuario);
+        const res = await getNegocio_afiliado(id_usuario_actual);
         if (Array.isArray(res.data)) {
-            setNegocios(res.data);
+          setNegocios(res.data);
         }
 
       }
@@ -31,7 +31,9 @@ export default function MenuAfiliado() {
     <div>
       <Navbar
         navigation={[
-          { name: "Inicio ", href: "/menuAfiliado", current: false },
+          { name: "Inicio ", href: "/menuAfiliado", current: true },
+          { name: "Registrar Negocio", href: "/registerCompany", current: false },
+          { name: "Editar Negocio", href: "/editCompany", current: false },
         ]}
         logo="/image/logoblanco.png"
       />
@@ -44,7 +46,8 @@ export default function MenuAfiliado() {
                 <th className="border border-black px-4 py-2">Id</th>
                 <th className="border border-black px-4 py-2">Nombre</th>
                 <th className="border border-black px-4 py-2">Informacion</th>
-                <th className="border border-black px-4 py-2">Ubicacion</th>
+                <th className="border border-black px-4 py-2">latitud</th>
+                <th className="border border-black px-4 py-2">longitud</th>
                 <th className="border border-black px-4 py-2">Categoria</th>
                 <th className="border border-black px-4 py-2">Calificacion</th>
                 <th className="border border-black px-4 py-2">Nit</th>
@@ -66,7 +69,10 @@ export default function MenuAfiliado() {
                       {negocio.informacion}
                     </td>
                     <td className="border border-black px-4 py-2">
-                      {negocio.ubicacion}
+                      {negocio.latitud}
+                    </td>
+                    <td className="border border-black px-4 py-2">
+                      {negocio.longitud}
                     </td>
                     <td className="border border-black px-4 py-2">
                       {negocio.categoria}
