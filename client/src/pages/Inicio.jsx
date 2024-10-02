@@ -13,7 +13,7 @@ export default function Inicio() {
 
 
 
-      <Navbar navigation={navigation} logo='/image/logoblanco.png' />
+      <a href="/"><Navbar navigation={navigation} logo="/image/logoblanco.png" /></a>
 
       {/* Contenido de la vista de inicio */}
       {/* Banner de bienvenida con texto e imagen */}
