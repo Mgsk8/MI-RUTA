@@ -61,28 +61,9 @@ export default function RegistroNegocio() {
     const [selectedCategories, setSelectedCategories] = useState([]);
 
   // Actualiza el valor del formulario cada vez que se seleccionan categorías
-  useEffect(() => {
-    setValue("categories", selectedCategories); // Registra las categorías en el formulario
-  }, [selectedCategories, setValue]);
+  
 
-    const categoriesList = [
-        "Restaurante",
-        "Café",
-        "Tienda de ropa",
-        "Supermercado",
-        "Hotel",
-        "Bar",
-        "Gimnasio",
-        "Peluquería",
-        "Farmacia",
-        "Centro Comercial",
-        "Ferretería",
-        "Librería",
-        "Panadería",
-        "Veterinaria",
-        "Sala de cine",
-        // Añade más categorías si es necesario
-      ];
+  const categoriesList = ["Restaurantes", "Tiendas", "Servicios"];
 
     const handleLocationChange = async (location) => {
         console.log("Ubicación actualizada:", location);
@@ -365,16 +346,14 @@ export default function RegistroNegocio() {
                                             </div>
                                         </div>
                                         {/* Componente de selección de categorías */}
-                                        <div>
-  <label className="block text-gray-700">Categorías del negocio:</label>
-  <div className="relative">
-    <CategorySelect
-      categories={categoriesList}
-      selectedCategories={selectedCategories}
-      setSelectedCategories={setSelectedCategories}
-    />
-  </div>
-</div>
+            <div>
+                <label className="block text-gray-700">Categorías del negocio:</label>
+                <CategorySelect
+                    categories={categoriesList}
+                    selectedCategories={selectedCategories}
+                    setSelectedCategories={setSelectedCategories}
+                />
+            </div>
                                         {/* NIT */}
                                         <div>
                                             <label

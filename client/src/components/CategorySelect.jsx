@@ -1,48 +1,77 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 
-const CategorySelect = ({ categories, selectedCategories, setSelectedCategories }) => {
+const categoriesList = [
+    "Restaurantes",
+    "Balnearios",
+    "Bares",
+    "Tiendas",
+    "Hoteles",
+    "Salones de Belleza",
+    "Gimnasios",
+    "Cafeterías",
+    "Servicios de Transporte",
+    "Centros Comerciales",
+];
+
+const CategorySelect = ({ selectedCategories, setSelectedCategories }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [dropdownPosition, setDropdownPosition] = useState("down");
-    const selectRef = useRef(null); // Reference to the select box
+    const [subCategoryOpen, setSubCategoryOpen] = useState(null); // Estado para controlar subcategorías
 
     const handleCategoryToggle = (category) => {
-        setSelectedCategories((prevSelected) =>
-            prevSelected.includes(category)
-                ? prevSelected.filter((item) => item !== category)
-                : [...prevSelected, category]
-        );
+        setSelectedCategories((prevSelected) => {
+            // Si se deselecciona una categoría, también eliminar subcategorías
+            if (prevSelected.includes(category)) {
+                // Al quitar la categoría, eliminamos las subcategorías asociadas
+                let newSelected = prevSelected.filter((item) => item !== category);
+
+                // Cierre de subcategorías al desmarcar la categoría padre
+                if (category === "Restaurantes") {
+                    newSelected = newSelected.filter((item) => !["Comida Mexicana", "Comida Colombiana", "Pizzería"].includes(item));
+                }
+                if (category === "Balnearios") {
+                    newSelected = newSelected.filter((item) => !["Agua Natural", "Agua con Cloro"].includes(item));
+                }
+                if (category === "Bares") {
+                    newSelected = newSelected.filter((item) => !["Bar de Vinos", "Bar de Cervezas Artesanales"].includes(item));
+                }
+                // Añadir filtros para otras categorías aquí...
+
+                setSubCategoryOpen(null); // Cierra el submenú al desmarcar la categoría padre
+                return newSelected;
+            } else {
+                // Si se selecciona una categoría, aseguramos que el submenú esté abierto
+                if (category === "Restaurantes" || category === "Balnearios" || category === "Bares") {
+                    setSubCategoryOpen(category);
+                }
+                return [...prevSelected, category];
+            }
+        });
     };
 
-    useEffect(() => {
-        const updateDropdownPosition = () => {
-            if (selectRef.current) {
-                const rect = selectRef.current.getBoundingClientRect();
-                const spaceBelow = window.innerHeight - rect.bottom;
-                const spaceAbove = rect.top;
-
-                // Set dropdown position based on available space
-                setDropdownPosition(spaceBelow >= spaceAbove ? "down" : "up");
-            }
-        };
-
-        // Attach event listener to update position on window resize
-        window.addEventListener("resize", updateDropdownPosition);
-        updateDropdownPosition(); // Initial check on mount
-
-        return () => {
-            window.removeEventListener("resize", updateDropdownPosition);
-        };
-    }, [isOpen]);
+    const handleSubCategorySelect = (subCategory) => {
+        // Verifica si la categoría padre está seleccionada antes de agregar la subcategoría
+        if (
+            selectedCategories.includes("Restaurantes") ||
+            selectedCategories.includes("Balnearios") ||
+            selectedCategories.includes("Bares")
+        ) {
+            setSelectedCategories((prevSelected) => {
+                return prevSelected.includes(subCategory)
+                    ? prevSelected.filter((item) => item !== subCategory)
+                    : [...prevSelected, subCategory];
+            });
+        }
+    };
 
     return (
-        <div className="relative w-full max-w-lg mx-auto mt-6" ref={selectRef}>
+        <div className="relative w-full max-w-lg mx-auto mt-6">
             {/* Main Select Box */}
             <div
                 className="border border-gray-300 bg-white rounded-lg px-4 py-3 flex justify-between items-center cursor-pointer shadow-sm hover:shadow-md transition-shadow duration-300"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <span className={`text-gray-700 ${selectedCategories.length > 0 ? "font-medium" : "font-light"}`}>
+                <span className="text-gray-700">
                     {selectedCategories.length > 0
                         ? selectedCategories.join(", ")
                         : "Selecciona categorías"}
@@ -63,26 +92,72 @@ const CategorySelect = ({ categories, selectedCategories, setSelectedCategories 
 
             {/* Dropdown */}
             {isOpen && (
-                <div
-                    className={`absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto transition-all duration-300 ease-in-out ${
-                        dropdownPosition === "up" ? "bottom-full mb-2" : "top-full mt-2"
-                    }`}
-                >
-                    <ul className="p-2 space-y-2">
-                        {categories.map((category) => (
+                <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                    <ul className="p-2 space-y-1">
+                        {categoriesList.map((category) => (
                             <li key={category}>
-                                <label
-                                    className={`flex items-center space-x-3 cursor-pointer p-2 rounded-md transition-colors duration-200 ease-in-out 
-                                    ${selectedCategories.includes(category) ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100"}`}
-                                >
+                                <label className="flex items-center space-x-3 cursor-pointer">
                                     <input
                                         type="checkbox"
-                                        className="form-checkbox h-5 w-5 text-blue-500 rounded-md focus:ring-2 focus:ring-blue-500 transition-all"
+                                        className="form-checkbox h-5 w-5 text-blue-500"
                                         checked={selectedCategories.includes(category)}
                                         onChange={() => handleCategoryToggle(category)}
                                     />
                                     <span className="text-gray-700">{category}</span>
                                 </label>
+                                {/* Verifica si la categoría es para desplegar subcategorías */}
+                                {category === "Restaurantes" && subCategoryOpen === category && (
+                                    <div className="ml-4 mt-2 border-l-2 border-gray-300 pl-2">
+                                        <h4 className="text-gray-600">Subcategorías:</h4>
+                                        {["Comida Mexicana", "Comida Colombiana", "Pizzería"].map((subCategory) => (
+                                            <label key={subCategory} className="flex items-center space-x-3 cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-checkbox h-5 w-5 text-blue-500"
+                                                    checked={selectedCategories.includes(subCategory)}
+                                                    onChange={() => handleSubCategorySelect(subCategory)}
+                                                    disabled={!selectedCategories.includes("Restaurantes")} // Desactiva si la categoría padre no está seleccionada
+                                                />
+                                                <span className="text-gray-700">{subCategory}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                )}
+                                {category === "Balnearios" && subCategoryOpen === category && (
+                                    <div className="ml-4 mt-2 border-l-2 border-gray-300 pl-2">
+                                        <h4 className="text-gray-600">Subcategorías:</h4>
+                                        {["Agua Natural", "Agua con Cloro"].map((subCategory) => (
+                                            <label key={subCategory} className="flex items-center space-x-3 cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-checkbox h-5 w-5 text-blue-500"
+                                                    checked={selectedCategories.includes(subCategory)}
+                                                    onChange={() => handleSubCategorySelect(subCategory)}
+                                                    disabled={!selectedCategories.includes("Balnearios")}
+                                                />
+                                                <span className="text-gray-700">{subCategory}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                )}
+                                {category === "Bares" && subCategoryOpen === category && (
+                                    <div className="ml-4 mt-2 border-l-2 border-gray-300 pl-2">
+                                        <h4 className="text-gray-600">Subcategorías:</h4>
+                                        {["Bar de Vinos", "Bar de Cervezas Artesanales"].map((subCategory) => (
+                                            <label key={subCategory} className="flex items-center space-x-3 cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-checkbox h-5 w-5 text-blue-500"
+                                                    checked={selectedCategories.includes(subCategory)}
+                                                    onChange={() => handleSubCategorySelect(subCategory)}
+                                                    disabled={!selectedCategories.includes("Bares")}
+                                                />
+                                                <span className="text-gray-700">{subCategory}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                )}
+                                {/* Agrega bloques similares para otras categorías aquí... */}
                             </li>
                         ))}
                     </ul>
@@ -94,7 +169,6 @@ const CategorySelect = ({ categories, selectedCategories, setSelectedCategories 
 
 // Validación de props usando PropTypes
 CategorySelect.propTypes = {
-    categories: PropTypes.arrayOf(PropTypes.string).isRequired, // Array de categorías debe ser obligatorio
     selectedCategories: PropTypes.arrayOf(PropTypes.string).isRequired, // Array de categorías seleccionadas
     setSelectedCategories: PropTypes.func.isRequired, // Función para manejar el cambio en las categorías seleccionadas
 };
