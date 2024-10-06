@@ -5,6 +5,7 @@ import MapView from "../components/MapView";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // Importa PropTypes
 import axios from "axios"; // Importa axios para hacer solicitudes HTTP
+import CategorySelect from "../components/CategorySelect.jsx";
 
 // Componente Modal
 function Modal({ isOpen, onClose, message, validation }) {
@@ -39,6 +40,7 @@ Modal.propTypes = {
     validation: PropTypes.func,
 };
 
+
 export default function RegistroNegocio() {
     const id_usuario_actual = localStorage.getItem("id_usuario_actual");
     const { register, handleSubmit, setValue, watch } = useForm();
@@ -53,14 +55,40 @@ export default function RegistroNegocio() {
     const [isModalClosed, setModalClosed] = useState(false);
     const [isResultModalOpen, setResultModalOpen] = useState(false);
     const [resultMessage, setResultMessage] = useState("");
-    const [isMapPaused, setMapPaused] = useState(false);
+    //const [isMapPaused, setMapPaused] = useState(false);
     const [isContentVisible, setContentVisible] = useState(true); // Nuevo estado para controlar la visibilidad del contenido
+
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
+  // Actualiza el valor del formulario cada vez que se seleccionan categorías
+  useEffect(() => {
+    setValue("categories", selectedCategories); // Registra las categorías en el formulario
+  }, [selectedCategories, setValue]);
+
+    const categoriesList = [
+        "Restaurante",
+        "Café",
+        "Tienda de ropa",
+        "Supermercado",
+        "Hotel",
+        "Bar",
+        "Gimnasio",
+        "Peluquería",
+        "Farmacia",
+        "Centro Comercial",
+        "Ferretería",
+        "Librería",
+        "Panadería",
+        "Veterinaria",
+        "Sala de cine",
+        // Añade más categorías si es necesario
+      ];
 
     const handleLocationChange = async (location) => {
         console.log("Ubicación actualizada:", location);
         setValue("latitud", location.lat);
         setValue("longitud", location.lng);
-    
+
         // Obtener la dirección usando OpenCage
         const address = await reverseGeocode(location.lat, location.lng);
         if (address) {
@@ -75,12 +103,12 @@ export default function RegistroNegocio() {
                 address.intersection ? `Entre ${address.intersection}` : '', // Agregar intersección si existe
                 address.country
             ]
-            .filter(Boolean) // Eliminar valores vacíos
-            .join(', '); // Unir todos los componentes con coma
-    
+                .filter(Boolean) // Eliminar valores vacíos
+                .join(', '); // Unir todos los componentes con coma
+
             // Asigna la dirección formateada al campo
             setValue("direccion", formattedAddress);
-            
+
             // También puedes guardar otros componentes si es necesario
             setValue("neighborhood", address.neighborhood);
             setValue("county", address.county);
@@ -89,7 +117,7 @@ export default function RegistroNegocio() {
             setValue("geometry", address.geometry); // Para acceder a las coordenadas si es necesario
         }
     };
-    
+
     const reverseGeocode = async (lat, lon) => {
         try {
             const response = await axios.get("https://api.opencagedata.com/geocode/v1/json", {
@@ -100,13 +128,13 @@ export default function RegistroNegocio() {
                     pretty: 1
                 },
             });
-    
+
             const result = response.data.results[0];
             if (result) {
                 const components = result.components;
-    
+
                 return {
-                    houseNumber: components.house_number || '', 
+                    houseNumber: components.house_number || '',
                     streetNumber: components.house_number || '', // Número de la calle
                     road: components.road || '', // Calle principal
                     neighborhood: components.neighborhood || '', // Barrio
@@ -128,8 +156,10 @@ export default function RegistroNegocio() {
         }
         return null; // Devuelve null si no se obtiene una dirección
     };
-    
-    
+
+
+
+
     useEffect(() => {
         if (!alertShown) {
             setModalOpen(true);
@@ -144,7 +174,7 @@ export default function RegistroNegocio() {
 
     const handleResultModalClose = () => {
         setResultModalOpen(false);
-        setMapPaused(false); // Reanuda el mapa al cerrar la modal de resultado
+        //setMapPaused(false); // Reanuda el mapa al cerrar la modal de resultado
         setContentVisible(true); // Muestra el contenido nuevamente
         window.location.reload();
     };
@@ -183,7 +213,7 @@ export default function RegistroNegocio() {
             console.error(error);
             setResultMessage("Error en el proceso de registro.");
         } finally {
-            setMapPaused(true); // Pausa el mapa al abrir la modal de resultado
+            //setMapPaused(true); // Pausa el mapa al abrir la modal de resultado
             setResultModalOpen(true); // Abre la modal de resultado
             setContentVisible(false); // Oculta el contenido
         }
@@ -334,7 +364,18 @@ export default function RegistroNegocio() {
                                                 />
                                             </div>
                                         </div>
-                                        {/* NIT y ID Afiliado */}
+                                        {/* Componente de selección de categorías */}
+                                        <div>
+  <label className="block text-gray-700">Categorías del negocio:</label>
+  <div className="relative">
+    <CategorySelect
+      categories={categoriesList}
+      selectedCategories={selectedCategories}
+      setSelectedCategories={setSelectedCategories}
+    />
+  </div>
+</div>
+                                        {/* NIT */}
                                         <div>
                                             <label
                                                 htmlFor="nit"
