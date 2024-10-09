@@ -43,6 +43,7 @@ Modal.propTypes = {
 
 export default function RegistroNegocio() {
     const id_usuario_actual = localStorage.getItem("id_usuario_actual");
+    console.log("ID del usuario actual: ", id_usuario_actual);
     const { register, handleSubmit, setValue, watch } = useForm();
     const navigation = [
         { name: "Inicio", href: "/menuAfiliado", current: false },
@@ -88,7 +89,7 @@ export default function RegistroNegocio() {
                 .join(', '); // Unir todos los componentes con coma
 
             // Asigna la dirección formateada al campo
-            setValue("direccion", formattedAddress);
+            setValue("direccion_automatica", formattedAddress);
 
             // También puedes guardar otros componentes si es necesario
             setValue("neighborhood", address.neighborhood);
@@ -162,7 +163,7 @@ export default function RegistroNegocio() {
 
     const latitud = watch("latitud");
     const longitud = watch("longitud");
-    const direccion = watch("direccion");
+    const direccion = watch("direccion_automatica");
     console.log("dirección = ", direccion);
 
     const googleMapsUrl =
@@ -171,34 +172,33 @@ export default function RegistroNegocio() {
             : "#";
 
     const onSubmit = async (values) => {
-        try {
-            console.log(values);
-            const res = await registerPlaceRequest(values);
-            console.log(res);
-            const id_negocio = res.data.id;
-            const data_consulta = {
-                id_negocio: id_negocio,
-                nit: values.nit,
-                id_afiliado: values.id_afiliado,
-            };
-            console.log(data_consulta);
-            const res2 = await registerCompanyRequest(data_consulta);
-            console.log(res2);
+        values.categorias = selectedCategories.join(", "); // Agregar las categorías seleccionadas al formulario
+    
+    try {
+        console.log(values); // Asegúrate de que todas las categorías y valores sean correctos
+        const res = await registerPlaceRequest(values);
+        const id_negocio = res.data.id;
+        const data_consulta = {
+            id_negocio: id_negocio,
+            nit: values.nit,
+            id_afiliado: values.id_afiliado,
+        };
+        const res2 = await registerCompanyRequest(data_consulta);
 
-            if (res2.status === 200) {
-                setResultMessage("¡Negocio registrado exitosamente!");
-            } else {
-                setResultMessage("Error al registrar el negocio.");
-            }
-        } catch (error) {
-            console.error(error);
-            setResultMessage("Error en el proceso de registro.");
-        } finally {
-            //setMapPaused(true); // Pausa el mapa al abrir la modal de resultado
-            setResultModalOpen(true); // Abre la modal de resultado
-            setContentVisible(false); // Oculta el contenido
+        if (res2.status === 200) {
+            setResultMessage("¡Negocio registrado exitosamente!");
+        } else {
+            setResultMessage("Error al registrar el negocio.");
         }
-    };
+    } catch (error) {
+        console.error(error);
+        setResultMessage("Error en el proceso de registro.");
+    } finally {
+        setResultModalOpen(true); // Abrir modal con resultado
+        setContentVisible(false); // Ocultar contenido
+    }
+};
+
 
     return (
         <>
@@ -227,7 +227,7 @@ export default function RegistroNegocio() {
                                         method="POST"
                                         className="mt-8 space-y-6 bg-[rgba(255,255,255,0.9)] p-8 shadow-md rounded-lg flex-grow"
                                     >
-                                        {/* Campos del formulario (sin cambios) */}
+                                        {/* Campos del formulario*/}
                                         <div>
                                             <label
                                                 htmlFor="nombre"
@@ -311,28 +311,36 @@ export default function RegistroNegocio() {
                                                     htmlFor="direccion"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Dirección
+                                                    Dirección Automatica
                                                 </label>
                                                 <div className="mt-1">
                                                     <textarea
-                                                        id="direccion"
-                                                        name="direccion"
+                                                        id="direccion_automatica"
+                                                        name="direccion_automatica"
                                                         type="text"
                                                         readOnly
                                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400"
-                                                        {...register("direccion")}
+                                                        {...register("direccion_automatica")}
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="mt-4">
-                                                <a
-                                                    href={googleMapsUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-indigo-600 hover:underline"
+                                            <div>
+                                                <label
+                                                    htmlFor="direccion"
+                                                    className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Ver en Google Maps
-                                                </a>
+                                                    Dirección Manual
+                                                </label>
+                                                <div className="mt-1">
+                                                    <textarea
+                                                        id="direccion_manual"
+                                                        name="direccion_manual"
+                                                        type="text"
+                                                        
+                                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400"
+                                                        {...register("direccion_manual")}
+                                                    />
+                                                </div>
                                             </div>
                                             {/* id_afiliado */}
                                             <div>
@@ -340,20 +348,43 @@ export default function RegistroNegocio() {
                                                     id="id_afiliado"
                                                     name="id_afiliado"
                                                     type="hidden"
+                                                    //value="2"
                                                     value={id_usuario_actual}
                                                     {...register("id_afiliado", { required: true })}
                                                 />
                                             </div>
+                                            {/* calificacion */}
+                                            <div>
+                                                <input
+                                                    id="calificacion"
+                                                    name="calificacion"
+                                                    type="hidden"
+                                                    value="0"
+                                                    {...register("calificacion", { required: true })}
+                                                />
+                                            </div>
+                                            {/* tipo_lugar */}
+                                            <div>
+                                                <input
+                                                    id="tipo_lugar"
+                                                    name="tipo_lugar"
+                                                    type="hidden"
+                                                    value="negocio"
+                                                    {...register("tipo_lugar", { required: true })}
+                                                />
+                                            </div>
                                         </div>
-                                        {/* Componente de selección de categorías */}
-            <div>
-                <label className="block text-gray-700">Categorías del negocio:</label>
-                <CategorySelect
-                    categories={categoriesList}
-                    selectedCategories={selectedCategories}
-                    setSelectedCategories={setSelectedCategories}
-                />
-            </div>
+                                         {/* Componente de selección de categorías */}
+                                         <div>
+                                            <label className="block text-gray-700">Categorías del negocio:</label>
+                                            <CategorySelect
+                                                id="categorias"
+                                                name="categorias"
+                                                categories={categoriesList}
+                                                selectedCategories={selectedCategories}
+                                                setSelectedCategories={setSelectedCategories}
+                                            />
+                                        </div>
                                         {/* NIT */}
                                         <div>
                                             <label
@@ -385,9 +416,24 @@ export default function RegistroNegocio() {
                                         </div>
                                     </form>
                                 </div>
-                                <div className="w-1/2 pl-4">
-                                    <MapView onLocationChange={handleLocationChange} />
+                                <div className="w-1/2">
+                                <MapView
+                                    onLocationChange={handleLocationChange}
+                                    initialPosition={{ lat: 0, lng: 0 }}
+                                    zoom={15}
+                                />
+                                <div className="bg-[rgba(255,255,255,0.8)] p-4 rounded-md shadow-md mt-4">
+                                    <h3 className="text-lg font-semibold mb-2">Vista previa en Google Maps</h3>
+                                    <a
+                                        href={googleMapsUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-indigo-600 hover:underline"
+                                    >
+                                        Ver en Google Maps
+                                    </a>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
