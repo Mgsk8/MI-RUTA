@@ -47,15 +47,15 @@ export const crearLugar = async(req, res) => {
     let informacion = req.params.informacion;
     let ubicacion = req.params.ubicacion;
     let categoria = req.params.categoria;*/
-    const {nombre, informacion, latitud, longitud, direccion_automatica, direccion_manual, tipo_lugar, categorias, calificacion} = req.body;
+    const {nombre, informacion, latitud, longitud, direccion_automatica, direccion_manual, tipo_lugar, categorias, calificacion, images} = req.body;
     console.log("nombre: ", nombre, "\ninformacion: ", informacion, "\nlatitud: ", latitud, "\nlongitud: ", longitud, "\ncategoria: ", categorias, "\ncalificacion: ", calificacion);
     
     try {
         const connection = await connectDB();
         if (connection){
 
-            const [result] = await connection.query('INSERT INTO lugar(nombre, informacion, latitud, longitud, direccion_automatica, direccion_manual, tipo_lugar, categorias, calificacion) VALUES (?,?,?,?,?,?,?,?,?)',
-                [nombre, informacion, latitud.toString(), longitud.toString(), direccion_automatica, direccion_manual, tipo_lugar, categorias, calificacion]);
+            const [result] = await connection.query('INSERT INTO lugar(nombre, informacion, latitud, longitud, direccion_automatica, direccion_manual, tipo_lugar, categorias, calificacion, images) VALUES (?,?,?,?,?,?,?,?,?,?)',
+                [nombre, informacion, latitud.toString(), longitud.toString(), direccion_automatica, direccion_manual, tipo_lugar, categorias, calificacion, images]);
             
             console.log(result);
 

@@ -62,7 +62,6 @@ export default function RegistroNegocio() {
     const [selectedCategories, setSelectedCategories] = useState([]);
 
   // Actualiza el valor del formulario cada vez que se seleccionan categorías
-  
 
   const categoriesList = ["Restaurantes", "Tiendas", "Servicios"];
 
@@ -139,8 +138,43 @@ export default function RegistroNegocio() {
         return null; // Devuelve null si no se obtiene una dirección
     };
 
+    const [selectedImages, setSelectedImages] = useState([]);
 
+    // Función para manejar la carga de múltiples imágenes
+    const handleImageUpload = (event) => {
+        const files = Array.from(event.target.files); // Convertir los archivos en un array
+        setSelectedImages((prevImages) => [...prevImages, ...files]); // Añadir nuevas imágenes al estado
+    };
 
+    // Función para eliminar una imagen seleccionada
+    const handleRemoveImage = (indexToRemove) => {
+        setSelectedImages((prevImages) =>
+            prevImages.filter((_, index) => index !== indexToRemove) // Filtrar la imagen que se desea eliminar
+        );
+    };
+
+    const uploadImagesToCloudinary = async (images) => {
+        const uploadPreset = 'ml_default'; // Asegúrate de usar tu upload preset
+        const cloudName = "dwionpfqj"; // Corrige el nombre del cloud si es necesario
+    
+        const uploadPromises = images.map(async (image) => {
+            const formData = new FormData();
+            formData.append('file', image);
+            formData.append('upload_preset', uploadPreset);
+    
+            try {
+                const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
+                return response.data.secure_url;
+            } catch (error) {
+                console.error("Error al subir la imagen:", error.response?.data || error.message);
+                throw error; // Lanza el error para manejarlo más tarde
+            }
+        });
+    
+        // Espera a que todas las promesas se resuelvan y convierte las URLs a una cadena separada por comas
+        const urls = await Promise.all(uploadPromises);
+        return urls.join(', '); // Devuelve las URLs como una cadena separada por comas
+    };   
 
     useEffect(() => {
         if (!alertShown) {
@@ -173,9 +207,10 @@ export default function RegistroNegocio() {
 
     const onSubmit = async (values) => {
         values.categorias = selectedCategories.join(", "); // Agregar las categorías seleccionadas al formulario
+        values.images = await uploadImagesToCloudinary(selectedImages);
     
     try {
-        console.log(values); // Asegúrate de que todas las categorías y valores sean correctos
+        console.log(values); 
         const res = await registerPlaceRequest(values);
         const id_negocio = res.data.id;
         const data_consulta = {
@@ -404,7 +439,38 @@ export default function RegistroNegocio() {
                                                 />
                                             </div>
                                         </div>
-
+                                        <div className="mb-4">
+                <label htmlFor="imageUpload" className="block text-sm font-medium text-gray-700">
+                    Subir imágenes del negocio (opcional)
+                </label>
+                <input
+                    type="file"
+                    id="images"
+                    accept="image/*"
+                    multiple  // Permitir la selección de múltiples archivos
+                    onChange={handleImageUpload}  // Manejador para la carga de imágenes
+                    className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                />
+                {selectedImages.length > 0 && (
+                    <div className="mt-2">
+                        <p>Imágenes seleccionadas:</p>
+                        <ul>
+                            {selectedImages.map((image, index) => (
+                                <li key={index} className="flex items-center justify-between">
+                                    {image.name}
+                                    <button
+                                        type="button"
+                                        onClick={() => handleRemoveImage(index)}  // Manejador para eliminar una imagen
+                                        className="text-red-500 ml-2"
+                                    >
+                                        Quitar
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
                                         {/* Botón de registro */}
                                         <div>
                                             <button
