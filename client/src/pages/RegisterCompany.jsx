@@ -250,259 +250,199 @@ export default function RegistroNegocio() {
             />
             {isContentVisible &&
                 isModalClosed && ( // Solo muestra el contenido si isContentVisible es verdadero
-                    <div className="bg-[url('../image/fondoRegisterCompany.jpg')] bg-cover bg-center min-h-screen w-full relative">
-                        <div className="flex flex-col items-center py-6 px-4 sm:px-6 lg:px-8">
-                            <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900 mb-4 bg-[rgba(255,255,255,0.9)] p-4 rounded-md w-1/2">
-                                Registrar Negocio
-                            </h2>
-                            <div className="flex flex-row w-full max-w-6xl">
-                                <div className="w-1/2 pr-4 flex flex-col">
-                                    <form
-                                        onSubmit={handleSubmit(onSubmit)}
-                                        method="POST"
-                                        className="mt-8 space-y-6 bg-[rgba(255,255,255,0.9)] p-8 shadow-md rounded-lg flex-grow"
-                                    >
-                                        {/* Campos del formulario*/}
-                                        <div>
-                                            <label
-                                                htmlFor="nombre"
-                                                className="block text-sm font-medium text-gray-700"
-                                            >
-                                                Nombre
-                                            </label>
-                                            <div className="mt-1">
-                                                <input
-                                                    id="nombre"
-                                                    name="nombre"
-                                                    type="text"
-                                                    required
-                                                    autoComplete="given-name"
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    {...register("nombre", { required: true })}
-                                                />
-                                            </div>
-                                        </div>
-                                        {/* Información */}
-                                        <div>
-                                            <label
-                                                htmlFor="informacion"
-                                                className="block text-sm font-medium text-gray-700"
-                                            >
-                                                Información
-                                            </label>
-                                            <div className="mt-1">
-                                                <textarea
-                                                    id="informacion"
-                                                    name="informacion"
-                                                    required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    {...register("informacion", { required: true })}
-                                                />
-                                            </div>
-                                        </div>
-                                        {/* Ubicación */}
-                                        <div>
-                                            <h3 className="block text-sm font-medium text-gray-700">
-                                                Ubicación GPS
-                                            </h3>
-                                            <div>
-                                                <label
-                                                    htmlFor="latitud"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Latitud
-                                                </label>
-                                                <div className="mt-1">
-                                                    <input
-                                                        id="latitud"
-                                                        name="latitud"
-                                                        type="text"
-                                                        readOnly
-                                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400"
-                                                        {...register("latitud")}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label
-                                                    htmlFor="longitud"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Longitud
-                                                </label>
-                                                <div className="mt-1">
-                                                    <input
-                                                        id="longitud"
-                                                        name="longitud"
-                                                        type="text"
-                                                        readOnly
-                                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400"
-                                                        {...register("longitud")}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label
-                                                    htmlFor="direccion"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Dirección Automatica
-                                                </label>
-                                                <div className="mt-1">
-                                                    <textarea
-                                                        id="direccion_automatica"
-                                                        name="direccion_automatica"
-                                                        type="text"
-                                                        readOnly
-                                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400"
-                                                        {...register("direccion_automatica")}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label
-                                                    htmlFor="direccion"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    Dirección Manual
-                                                </label>
-                                                <div className="mt-1">
-                                                    <textarea
-                                                        id="direccion_manual"
-                                                        name="direccion_manual"
-                                                        type="text"
-                                                        
-                                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400"
-                                                        {...register("direccion_manual")}
-                                                    />
-                                                </div>
-                                            </div>
-                                            {/* id_afiliado */}
-                                            <div>
-                                                <input
-                                                    id="id_afiliado"
-                                                    name="id_afiliado"
-                                                    type="hidden"
-                                                    //value="2"
-                                                    value={id_usuario_actual}
-                                                    {...register("id_afiliado", { required: true })}
-                                                />
-                                            </div>
-                                            {/* calificacion */}
-                                            <div>
-                                                <input
-                                                    id="calificacion"
-                                                    name="calificacion"
-                                                    type="hidden"
-                                                    value="0"
-                                                    {...register("calificacion", { required: true })}
-                                                />
-                                            </div>
-                                            {/* tipo_lugar */}
-                                            <div>
-                                                <input
-                                                    id="tipo_lugar"
-                                                    name="tipo_lugar"
-                                                    type="hidden"
-                                                    value="negocio"
-                                                    {...register("tipo_lugar", { required: true })}
-                                                />
-                                            </div>
-                                        </div>
-                                         {/* Componente de selección de categorías */}
-                                         <div>
-                                            <label className="block text-gray-700">Categorías del negocio:</label>
-                                            <CategorySelect
-                                                id="categorias"
-                                                name="categorias"
-                                                categories={categoriesList}
-                                                selectedCategories={selectedCategories}
-                                                setSelectedCategories={setSelectedCategories}
-                                            />
-                                        </div>
-                                        {/* NIT */}
-                                        <div>
-                                            <label
-                                                htmlFor="nit"
-                                                className="block text-sm font-medium text-gray-700"
-                                            >
-                                                NIT
-                                            </label>
-                                            <div className="mt-1">
-                                                <input
-                                                    id="nit"
-                                                    name="nit"
-                                                    type="text"
-                                                    required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    {...register("nit", { required: true })}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="mb-4">
-                <label htmlFor="imageUpload" className="block text-sm font-medium text-gray-700">
-                    Subir imágenes del negocio (opcional)
-                </label>
-                <input
-                    type="file"
-                    id="images"
-                    accept="image/*"
-                    multiple  // Permitir la selección de múltiples archivos
-                    onChange={handleImageUpload}  // Manejador para la carga de imágenes
-                    className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                />
-                {selectedImages.length > 0 && (
-                    <div className="mt-2">
-                        <p>Imágenes seleccionadas:</p>
-                        <ul>
-                            {selectedImages.map((image, index) => (
-                                <li key={index} className="flex items-center justify-between">
-                                    {image.name}
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveImage(index)}  // Manejador para eliminar una imagen
-                                        className="text-red-500 ml-2"
-                                    >
-                                        Quitar
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="bg-gray-200 bg-cover bg-center min-h-screen w-full relative">
+    <div className="flex flex-col items-center py-6 px-4 sm:px-6 lg:px-8">
+        <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900 mb-4 bg-[rgba(255,255,255,0.9)] p-4 rounded-md w-full max-w-md">
+            Registrar Negocio
+        </h2>
+        <div className="flex flex-col lg:flex-row w-full max-w-6xl space-y-6 lg:space-y-0 lg:space-x-8">
+            <div className="w-full lg:w-3/5">
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    method="POST"
+                    className="space-y-6 bg-[rgba(255,255,255,0.9)] p-8 shadow-md rounded-lg"
+                >
+                    {/* Nombre */}
+                    <div>
+                        <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
+                            Nombre
+                        </label>
+                        <input
+                            id="nombre"
+                            name="nombre"
+                            type="text"
+                            required
+                            autoComplete="given-name"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            {...register("nombre", { required: true })}
+                        />
                     </div>
-                )}
-            </div>
-                                        {/* Botón de registro */}
-                                        <div>
-                                            <button
-                                                type="submit"
-                                                className="group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            >
-                                                Registrar
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="w-1/2">
-                                <MapView
-                                    onLocationChange={handleLocationChange}
-                                    initialPosition={{ lat: 0, lng: 0 }}
-                                    zoom={15}
+
+                    {/* Información */}
+                    <div>
+                        <label htmlFor="informacion" className="block text-sm font-medium text-gray-700">
+                            Información
+                        </label>
+                        <textarea
+                            id="informacion"
+                            name="informacion"
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            {...register("informacion", { required: true })}
+                        />
+                    </div>
+
+                    {/* Categorías */}
+                    <div>
+                        <label className="block text-gray-700">Categorías del negocio:</label>
+                        <CategorySelect
+                            id="categorias"
+                            name="categorias"
+                            categories={categoriesList}
+                            selectedCategories={selectedCategories}
+                            setSelectedCategories={setSelectedCategories}
+                        />
+                    </div>
+
+                    {/* NIT */}
+                    <div>
+                        <label htmlFor="nit" className="block text-sm font-medium text-gray-700">
+                            NIT
+                        </label>
+                        <input
+                            id="nit"
+                            name="nit"
+                            type="text"
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            {...register("nit", { required: true })}
+                        />
+                    </div>
+
+                    {/* Ubicación GPS */}
+                    <div>
+                        <h3 className="block text-sm font-medium text-gray-700">Ubicación GPS</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="latitud" className="block text-sm font-medium text-gray-700">
+                                    Latitud
+                                </label>
+                                <input
+                                    id="latitud"
+                                    name="latitud"
+                                    type="text"
+                                    readOnly
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                    {...register("latitud")}
                                 />
-                                <div className="bg-[rgba(255,255,255,0.8)] p-4 rounded-md shadow-md mt-4">
-                                    <h3 className="text-lg font-semibold mb-2">Vista previa en Google Maps</h3>
-                                    <a
-                                        href={googleMapsUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-indigo-600 hover:underline"
-                                    >
-                                        Ver en Google Maps
-                                    </a>
-                                </div>
                             </div>
+                            <div>
+                                <label htmlFor="longitud" className="block text-sm font-medium text-gray-700">
+                                    Longitud
+                                </label>
+                                <input
+                                    id="longitud"
+                                    name="longitud"
+                                    type="text"
+                                    readOnly
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                    {...register("longitud")}
+                                />
                             </div>
                         </div>
                     </div>
+
+                    {/* Dirección */}
+                    <div>
+                        <label htmlFor="direccion_automatica" className="block text-sm font-medium text-gray-700">
+                            Dirección Automatica
+                        </label>
+                        <textarea
+                            id="direccion_automatica"
+                            name="direccion_automatica"
+                            readOnly
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                            {...register("direccion_automatica")}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="direccion_manual" className="block text-sm font-medium text-gray-700">
+                            Dirección Manual (opcional)
+                        </label>
+                        <textarea
+                            id="direccion_manual"
+                            name="direccion_manual"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                            {...register("direccion_manual")}
+                        />
+                    </div>
+
+                    {/* Imágenes */}
+                    <div className="mb-4">
+                        <label htmlFor="imageUpload" className="block text-sm font-medium text-gray-700">
+                            Subir imágenes del negocio (opcional)
+                        </label>
+                        <input
+                            type="file"
+                            id="images"
+                            accept="image/*"
+                            multiple
+                            onChange={handleImageUpload}
+                            className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                        />
+                        {selectedImages.length > 0 && (
+                            <ul className="mt-2 space-y-1">
+                                {selectedImages.map((image, index) => (
+                                    <li key={index} className="flex justify-between items-center">
+                                        {image.name}
+                                        <button
+                                            type="button"
+                                            onClick={() => handleRemoveImage(index)}
+                                            className="text-red-500 ml-2"
+                                        >
+                                            Quitar
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
+                    {/* Botón de registro */}
+                    <div>
+                        <button
+                            type="submit"
+                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Registrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            {/* Vista previa del mapa */}
+            <div className="w-full lg:w-2/5">
+                <MapView
+                    onLocationChange={handleLocationChange}
+                    initialPosition={{ lat: 0, lng: 0 }}
+                    zoom={15}
+                />
+                <div className="bg-[rgba(255,255,255,0.8)] p-4 rounded-md shadow-md mt-4">
+                    <h3 className="text-lg font-semibold mb-2">Vista previa en Google Maps</h3>
+                    <a
+                        href={googleMapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-indigo-600 hover:underline"
+                    >
+                        Ver en Google Maps
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
                 )}
         </>
     );
