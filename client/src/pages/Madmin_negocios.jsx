@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { getNegocios, deleteNegocios } from "../api/auth";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 
 export default function Madmin_negocios() {
   const [negocios, setNegocios] = useState([]);
+  const navigate = useNavigate(); // Inicializar useNavigate
 
   const get_Negocios = async () => {
     try {
@@ -19,34 +21,39 @@ export default function Madmin_negocios() {
       console.error("Error al obtener los negocios:", error);
     }
   };
+
   const delete_negocios = async (id_lugar) => {
     try {
       const res = await deleteNegocios(id_lugar);
       get_Negocios();
     } catch (error) {
-      console.log("no se pudo eliminar el negocio")
+      console.log("No se pudo eliminar el negocio");
     }
+  };
 
-  }
+  const handleEdit = (id_lugar) => {
+    navigate(`/editarNegocio/${id_lugar}`); // Redirigir a la página de edición
+  };
+
   useEffect(() => {
     get_Negocios();
   }, []);
 
-
   return (
     <div>
-      <a href="/">
-        <Navbar
+      <Navbar
         navigation={[
           { name: "Usuarios", href: "/menuAdmin", current: false },
           { name: "Visualizar negocios", href: "/menuAdmin_negocios", current: true },
           { name: "Registrar negocios", href: "/registerCompany_admin", current: false },
         ]}
         logo="/image/logoblanco.png"
-      /></a>
+      />
       <div className="min-h-screen w-full bg-white dark:bg-gray-900 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')] dark:bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern-dark.svg')]">
         <div className="max-w-5xl mx-auto p-8">
-          <h1 className="text-2xl md:text-4xl text-gray-50 font-bold mb-4 text-center">Gestiona tu negocio</h1>
+          <h1 className="text-2xl md:text-4xl text-gray-50 font-bold mb-4 text-center">
+            Gestiona tu negocio
+          </h1>
           <br />
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="table-auto text-sm text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white min-w-full w-12">
@@ -54,11 +61,11 @@ export default function Madmin_negocios() {
                 <tr>
                   <th className="px-6 py-3 bg-blue-500">Id</th>
                   <th className="px-6 py-3">Nombre</th>
-                  <th className="px-6 py-3 bg-blue-500">Informacion</th>
+                  <th className="px-6 py-3 bg-blue-500">Información</th>
                   <th className="px-6 py-3">Latitud</th>
                   <th className="px-6 py-3 bg-blue-500">Longitud</th>
-                  <th className="px-6 py-3">Categoria</th>
-                  <th className="px-6 py-3 bg-blue-500">Calificacion</th>
+                  <th className="px-6 py-3">Categoría</th>
+                  <th className="px-6 py-3 bg-blue-500">Calificación</th>
                   <th className="px-6 py-3">Acciones</th>
                 </tr>
               </thead>
@@ -75,10 +82,10 @@ export default function Madmin_negocios() {
                       <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
                         {negocio.informacion}
                       </td>
-                      <td className="bpx-6 py-4 text-base font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">
+                      <td className="px-6 py-4 text-base font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">
                         {negocio.latitud}
                       </td>
-                      <td className="bpx-6 py-4 text-base font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">
+                      <td className="px-6 py-4 text-base font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">
                         {negocio.longitud}
                       </td>
                       <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
@@ -89,16 +96,13 @@ export default function Madmin_negocios() {
                       </td>
                       <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
                         <button
-                          onClick={() => console.log("Editar", negocio.id_lugar)}
+                          onClick={() => handleEdit(negocio.id_lugar)} // Llamar a handleEdit
                           className="text-blue-700 mr-10"
                         >
                           <FaEdit />
                         </button>
                         <button
-                          onClick={() =>
-                            delete_negocios(negocio.id_lugar)
-
-                          }
+                          onClick={() => delete_negocios(negocio.id_lugar)}
                           className="text-red-700"
                         >
                           <FaTrashAlt />
@@ -108,10 +112,7 @@ export default function Madmin_negocios() {
                   ))
                 ) : (
                   <tr>
-                    <td
-                      colSpan="8"
-                      className="text-center border border-black py-4"
-                    >
+                    <td colSpan="8" className="text-center border border-black py-4">
                       No hay negocios disponibles.
                     </td>
                   </tr>
@@ -121,6 +122,6 @@ export default function Madmin_negocios() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>
+  );
 }
