@@ -12,6 +12,11 @@ function Madmin() {
     tipo_usuario: "",
   });
   const [editingId, setEditingId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal de creación/edición
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Estado para controlar el modal de eliminación
+  const [userToDelete, setUserToDelete] = useState(null); // Almacena el usuario a eliminar
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para el término de búsqueda
 
   const fetchUsers = () => {
     axios
@@ -28,6 +33,10 @@ function Madmin() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value); // Actualizar el término de búsqueda cuando el usuario escribe
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (editingId !== null) {
@@ -35,7 +44,7 @@ function Madmin() {
         .patch(`http://localhost:3000/usuarios/${editingId}`, form)
         .then(() => {
           fetchUsers(); // Actualiza la lista de usuarios después de editar
-          setEditingId(null); // Resetear el estado de edición
+          closeModal();
         })
         .catch((error) => console.error("Error al actualizar usuario:", error));
     } else {
@@ -43,138 +52,163 @@ function Madmin() {
         .post("http://localhost:3000/usuarios", form)
         .then(() => {
           fetchUsers(); // Actualiza la lista de usuarios después de crear
+          closeModal();
         })
         .catch((error) => console.error("Error al crear usuario:", error));
     }
+  };
+
+  const handleEdit = (user) => {
+    setForm(user);
+    setEditingId(user.id_usuario);
+    setIsEditing(true);
+    openModal();
+  };
+
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:3000/usuarios/${id}`)
+      .then(() => {
+        fetchUsers(); // Actualiza la lista de usuarios después de eliminar
+        closeDeleteModal();
+      })
+      .catch((error) => console.error("Error al borrar usuario:", error));
+  };
+
+  // Abre el modal de creación/edición
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Cierra el modal de creación/edición y resetea el formulario
+  const closeModal = () => {
     setForm({
       nombre: "",
       apellido: "",
       email: "",
       password: "",
       tipo_usuario: "",
-    }); // Limpiar el formulario
+    });
+    setIsModalOpen(false);
+    setEditingId(null);
+    setIsEditing(false);
   };
 
-  const handleEdit = (user) => {
-    setForm(user);
-    setEditingId(user.id_usuario);
+  // Abre el modal de confirmación de eliminación
+  const openDeleteModal = (user) => {
+    setUserToDelete(user);
+    setIsDeleteModalOpen(true);
   };
 
-  const handleDelete = (id) => {
-    axios
-      .delete(`http://localhost:3000/usuarios/${id}`)
-      .then(() => fetchUsers()) // Actualiza la lista de usuarios después de eliminar
-      .catch((error) => console.error("Error al borrar usuario:", error));
+  // Cierra el modal de confirmación de eliminación
+  const closeDeleteModal = () => {
+    setUserToDelete(null);
+    setIsDeleteModalOpen(false);
   };
+
+  // Filtrar usuarios por el término de búsqueda
+  const filteredUsers = users.filter((user) =>
+    `${user.nombre} ${user.apellido}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
-      <a href="/">
-        <Navbar
+      <Navbar
         navigation={[
           { name: "Usuarios", href: "/menuAdmin", current: true },
           { name: "Visualizar negocios", href: "/menuAdmin_negocios", current: false },
           { name: "Registrar negocios", href: "/registerCompany_admin", current: false },
         ]}
         logo="/image/logoblanco.png"
-      /></a>
-      <div className="min-h-screen w-full bg-white dark:bg-gray-700 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')] dark:bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern-dark.svg')]">
-        <div className="max-w-4xl mx-auto p-4 md:p-8">
-          <h1 className="text-2xl md:text-4xl text-gray-50 font-bold mb-4 text-center">
+      />
+      <div className="bg-gray-300 bg-cover bg-center min-h-screen w-full">
+        <div className="max-w-4xl mx-auto p-0 md:p-0">
+          <h1 className="text-2xl md:text-4xl text-black-50 font-bold mb-4 text-center">
+            <br />
             Gestión de Usuarios
           </h1>
           <br />
-          <form onSubmit={handleSubmit} className="mb-6 w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-              <input
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                type="text"
-                name="nombre"
-                placeholder="Nombre"
-                value={form.nombre}
-                onChange={handleChange}
-                required
-              />
-              <input
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                type="text"
-                name="apellido"
-                placeholder="Apellido"
-                value={form.apellido}
-                onChange={handleChange}
-                required
-              />
-              <input
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={form.email}
-                onChange={handleChange}
-                required
-              />
-              <input
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                type="password"
-                name="password"
-                placeholder="Contraseña"
-                value={form.password}
-                onChange={handleChange}
-                required
-              />
-              <select
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                name="tipo_usuario"
-                value={form.tipo_usuario}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Seleccionar tipo de usuario</option>
-                <option value="administrador">administrador</option>
-                <option value="afiliado">afiliado</option>
-                <option value="cliente">cliente</option>
-              </select>
-            </div>
-            <button
-              type="submit"
-              className="bg-blue-600 text-white hover:bg-blue-800 font-medium rounded-lg text-sm focus:ring-4 px-4 py-2.5 mt-4 w-full md:w-auto dark:hover:bg-blue-700"
+          <form className="max-w-md mx-auto">
+            <label
+              htmlFor="default-search"
+              className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
             >
-              {editingId ? "Actualizar Usuario" : "Crear Usuario"}
-            </button>
+              Buscar
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="search"
+                id="default-search"
+                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Buscar..."
+                value={searchTerm}
+                onChange={handleSearchChange} // Controlar el input de búsqueda
+                required
+              />
+            </div>
           </form>
-
+          <br />
+          <button
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={openModal}
+          >
+            Crear Usuario
+          </button>
+          <br /><br />
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-center rtl:text-right text-blue-100 dark:text-blue-100">
-              <thead className="table-auto main-w-full w-12 text-sm text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="px-6 py-3 bg-blue-500">ID</th>
+                  <th scope="col" className="px-6 py-3">ID</th>
                   <th scope="col" className="px-6 py-3">Nombre</th>
-                  <th scope="col" className="px-6 py-3 bg-blue-500">Apellido</th>
+                  <th scope="col" className="px-6 py-3">Apellido</th>
                   <th scope="col" className="px-6 py-3">Email</th>
-                  <th scope="col" className="px-6 py-3 bg-blue-500">Tipo de usuario</th>
+                  <th scope="col" className="px-6 py-3">Tipo de usuario</th>
                   <th scope="col" className="px-6 py-3">Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
-                  <tr className="bg-blue-600 border-b border-blue-400" key={user.id_usuario}>
-                    <td className="px-6 py-4 text-base font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">{user.id_usuario}</td>
-                    <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">{user.nombre}</td>
-                    <td className="px-6 py-4 font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">{user.apellido}</td>
-                    <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">{user.email}</td>
-                    <td className="px-6 py-4 font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">{user.tipo_usuario}</td>
-                    <td className="px-6 py-4">
+                {filteredUsers.map((user) => (
+                  <tr
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    key={user.id_usuario}
+                  >
+                    <td className="px-6 py-4">{user.id_usuario}</td>
+                    <td className="px-6 py-4">{user.nombre}</td>
+                    <td className="px-6 py-4">{user.apellido}</td>
+                    <td className="px-6 py-4">{user.email}</td>
+                    <td className="px-6 py-4">{user.tipo_usuario}</td>
+                    <td className="px-6 py-4 flex gap-2">
                       <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
                         onClick={() => handleEdit(user)}
-                        type="button" className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
                       >
                         Editar
                       </button>
                       <button
-                        onClick={() => handleDelete(user.id_usuario)}
-                        type="buttom" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                        onClick={() => openDeleteModal(user)}
                       >
-                        Borrar
+                        Eliminar
                       </button>
                     </td>
                   </tr>
@@ -184,9 +218,142 @@ function Madmin() {
           </div>
         </div>
       </div>
-    </div>
 
-      );
+      {/* Modal de creación/edición */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 overflow-auto bg-smoke-light flex">
+          <div className="relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg shadow-lg">
+            <h2 className="text-2xl mb-4">
+              {isEditing ? "Editar Usuario" : "Crear Usuario"}
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Nombre
+                </label>
+                <input
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  type="text"
+                  name="nombre"
+                  id="nombre"
+                  value={form.nombre}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Apellido
+                </label>
+                <input
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  type="text"
+                  name="apellido"
+                  id="apellido"
+                  value={form.apellido}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Email
+                </label>
+                <input
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Contraseña
+                </label>
+                <input
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Tipo de Usuario
+                </label>
+                <select
+                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  name="tipo_usuario"
+                  value={form.tipo_usuario}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="" disabled>
+                    Selecciona el tipo de usuario
+                  </option>
+                  <option value="administrador">Admin</option>
+                  <option value="cliente">Cliente</option>
+                  <option value="afiliado">Afiliado</option>
+                </select>
+              </div>
+              <input
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  type="hidden"
+                  name="estado"
+                  value="1"
+                  onChange={handleChange}
+                  required
+                />
+              <div className="flex justify-end space-x-4">
+                <button
+                  className="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded"
+                  type="button"
+                  onClick={closeModal}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                  type="submit"
+                >
+                  {isEditing ? "Actualizar" : "Crear"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación de eliminación */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 z-50 overflow-auto bg-smoke-light flex">
+          <div className="relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg shadow-lg">
+            <h2 className="text-2xl mb-4">Confirmar Eliminación</h2>
+            <p>¿Estás seguro de que deseas eliminar a {userToDelete.nombre} {userToDelete.apellido}?</p>
+            <div className="flex justify-end space-x-4 mt-4">
+              <button
+                className="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded"
+                onClick={closeDeleteModal}
+              >
+                Cancelar
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded"
+                onClick={() => handleDelete(userToDelete.id_usuario)}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-      export default Madmin;
+export default Madmin;
