@@ -32,7 +32,7 @@ export default function LoginUsers() {
                     const res = await loginRequest(data);
                     console.log(data);
                     console.log(res);
-                    const id_usuario= res.data.id_usuario;
+                    const id_usuario= res.data.id;
                     localStorage.setItem("id_usuario_actual", id_usuario);
                     console.log(id_usuario);
                     if (res.status === 200) {
