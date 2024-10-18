@@ -9,14 +9,13 @@ function Madmin() {
     apellido: "",
     email: "",
     password: "",
-    tipo_usuario: "",
+    tipo_usuario: "administrador", // Valor predeterminado
   });
-  const [editingId, setEditingId] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal de creación/edición
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Estado para controlar el modal de eliminación
-  const [userToDelete, setUserToDelete] = useState(null); // Almacena el usuario a eliminar
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para el término de búsqueda
+  const [editingUser, setEditingUser] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchUsers = () => {
     axios
@@ -26,7 +25,7 @@ function Madmin() {
   };
 
   useEffect(() => {
-    fetchUsers(); // Cargar los usuarios al montar el componente
+    fetchUsers();
   }, []);
 
   const handleChange = (e) => {
@@ -34,84 +33,73 @@ function Madmin() {
   };
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value); // Actualizar el término de búsqueda cuando el usuario escribe
+    setSearchTerm(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmitCreate = (e) => {
     e.preventDefault();
-    if (editingId !== null) {
-      axios
-        .patch(`http://localhost:3000/usuarios/${editingId}`, form)
-        .then(() => {
-          fetchUsers(); // Actualiza la lista de usuarios después de editar
-          closeModal();
-        })
-        .catch((error) => console.error("Error al actualizar usuario:", error));
-    } else {
-      axios
-        .post("http://localhost:3000/usuarios", form)
-        .then(() => {
-          fetchUsers(); // Actualiza la lista de usuarios después de crear
-          closeModal();
-        })
-        .catch((error) => console.error("Error al crear usuario:", error));
-    }
+    // Creación de nuevo usuario
+    axios
+      .post("http://localhost:3000/usuarios", { ...form, estado: 1 }) // Estado fijo en 1 al crear
+      .then((response) => {
+        fetchUsers(); // Actualiza la lista de usuarios
+        resetForm();
+        setIsCreating(false); // Cierra la modal después de crear
+      })
+      .catch((error) => console.error("Error al crear usuario:", error));
   };
 
   const handleEdit = (user) => {
     setForm(user);
-    setEditingId(user.id_usuario);
-    setIsEditing(true);
-    openModal();
+    setEditingUser(user); // Almacena el usuario que se va a editar
+    setIsCreating(false); // Cierra la modal de creación si está abierta
+  };
+
+  const handleSubmitEdit = (e) => {
+    e.preventDefault();
+    // Edición de usuario existente
+    axios
+      .patch(`http://localhost:3000/usuarios/${editingUser.id_usuario}`, form)
+      .then(() => {
+        fetchUsers();
+        resetForm();
+        setEditingUser(null); // Resetea el usuario que se está editando
+      })
+      .catch((error) => console.error("Error al actualizar usuario:", error));
   };
 
   const handleDelete = (id) => {
-    axios
-      .delete(`http://localhost:3000/usuarios/${id}`)
-      .then(() => {
-        fetchUsers(); // Actualiza la lista de usuarios después de eliminar
-        closeDeleteModal();
-      })
-      .catch((error) => console.error("Error al borrar usuario:", error));
+    setUserToDelete(id);
+    setIsConfirmingDelete(true);
   };
 
-  // Abre el modal de creación/edición
-  const openModal = () => {
-    setIsModalOpen(true);
+  const confirmDelete = () => {
+    if (userToDelete) {
+      axios
+        .delete(`http://localhost:3000/usuarios/${userToDelete}`)
+        .then(() => {
+          fetchUsers();
+          setUserToDelete(null);
+          setIsConfirmingDelete(false);
+        })
+        .catch((error) => console.error("Error al borrar usuario:", error));
+    }
   };
 
-  // Cierra el modal de creación/edición y resetea el formulario
-  const closeModal = () => {
+  const filteredUsers = users.filter((user) =>
+    `${user.nombre} ${user.apellido}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const resetForm = () => {
     setForm({
       nombre: "",
       apellido: "",
       email: "",
       password: "",
-      tipo_usuario: "",
+      tipo_usuario: "administrador", // Resetea a valor predeterminado
     });
-    setIsModalOpen(false);
-    setEditingId(null);
-    setIsEditing(false);
+    setEditingUser(null); // Resetea el usuario que se está editando
   };
-
-  // Abre el modal de confirmación de eliminación
-  const openDeleteModal = (user) => {
-    setUserToDelete(user);
-    setIsDeleteModalOpen(true);
-  };
-
-  // Cierra el modal de confirmación de eliminación
-  const closeDeleteModal = () => {
-    setUserToDelete(null);
-    setIsDeleteModalOpen(false);
-  };
-
-  // Filtrar usuarios por el término de búsqueda
-  const filteredUsers = users.filter((user) =>
-    `${user.nombre} ${user.apellido}`
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div>
@@ -123,58 +111,43 @@ function Madmin() {
         ]}
         logo="/image/logoblanco.png"
       />
-      <div className="bg-gray-300 bg-cover bg-center min-h-screen w-full">
-        <div className="max-w-4xl mx-auto p-0 md:p-0">
-          <h1 className="text-2xl md:text-4xl text-black-50 font-bold mb-4 text-center">
-            <br />
+      <div className="bg-slate-500">
+        <div className="max-w-4xl mx-auto p-4 md:p-8">
+          <h1 className="text-2xl md:text-4xl text-gray-50 font-bold mb-4 text-center">
             Gestión de Usuarios
           </h1>
           <br />
           <form className="max-w-md mx-auto">
-            <label
-              htmlFor="default-search"
-              className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-            >
+            <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
               Buscar
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-              </div>
               <input
                 type="search"
                 id="default-search"
-                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Buscar..."
                 value={searchTerm}
-                onChange={handleSearchChange} // Controlar el input de búsqueda
+                onChange={handleSearchChange}
                 required
               />
             </div>
           </form>
           <br />
-          <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            onClick={openModal}
-          >
-            Crear Usuario
-          </button>
-          <br /><br />
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="text-center mt-4">
+            <button
+              type="button"
+              onClick={() => {
+                setIsCreating(true); // Abre la modal para crear usuario
+                resetForm(); // Resetea el formulario antes de crear
+              }}
+              className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2"
+            >
+              Crear Usuario
+            </button>
+          </div>
+          <br />
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg" style={{ minHeight: "400px" }}>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -183,175 +156,253 @@ function Madmin() {
                   <th scope="col" className="px-6 py-3">Apellido</th>
                   <th scope="col" className="px-6 py-3">Email</th>
                   <th scope="col" className="px-6 py-3">Tipo de usuario</th>
+                  <th scope="col" className="px-6 py-3">Estado</th>
                   <th scope="col" className="px-6 py-3">Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredUsers.map((user) => (
-                  <tr
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                    key={user.id_usuario}
-                  >
-                    <td className="px-6 py-4">{user.id_usuario}</td>
-                    <td className="px-6 py-4">{user.nombre}</td>
-                    <td className="px-6 py-4">{user.apellido}</td>
-                    <td className="px-6 py-4">{user.email}</td>
-                    <td className="px-6 py-4">{user.tipo_usuario}</td>
-                    <td className="px-6 py-4 flex gap-2">
-                      <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                        onClick={() => handleEdit(user)}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                        onClick={() => openDeleteModal(user)}
-                      >
-                        Eliminar
-                      </button>
+                {filteredUsers.length > 0 ? (
+                  filteredUsers.map((user) => (
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={user.id_usuario}>
+                      <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {user.id_usuario}
+                      </td>
+                      <td className="px-6 py-4">{user.nombre}</td>
+                      <td className="px-6 py-4">{user.apellido}</td>
+                      <td className="px-6 py-4">{user.email}</td>
+                      <td className="px-6 py-4">{user.tipo_usuario}</td>
+                      <td className="px-6 py-4">{user.estado}</td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleEdit(user)}
+                          type="button"
+                          className="text-white bg-yellow-400 hover:bg-yellow-500 font-medium rounded-lg text-sm px-4 py-2 me-2 mb-2"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => handleDelete(user.id_usuario)}
+                          type="button"
+                          className="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 py-2 mb-2"
+                        >
+                          Borrar
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="text-center py-4">
+                      No hay usuarios que mostrar.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
+
+          {/* Modal para crear usuario */}
+          {isCreating && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+              <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+                <h2 className="text-xl font-semibold mb-4">Crear Usuario</h2>
+                <form onSubmit={handleSubmitCreate}>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
+                      Nombre
+                    </label>
+                    <input
+                      type="text"
+                      id="nombre"
+                      name="nombre"
+                      value={form.nombre}
+                      onChange={handleChange}
+                      required
+                      className="border border-gray-300 rounded p-2 w-full"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="apellido">
+                      Apellido
+                    </label>
+                    <input
+                      type="text"
+                      id="apellido"
+                      name="apellido"
+                      value={form.apellido}
+                      onChange={handleChange}
+                      required
+                      className="border border-gray-300 rounded p-2 w-full"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      required
+                      className="border border-gray-300 rounded p-2 w-full"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      value={form.password}
+                      onChange={handleChange}
+                      required
+                      className="border border-gray-300 rounded p-2 w-full"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tipo_usuario">
+                      Tipo de usuario
+                    </label>
+                    <select
+                      id="tipo_usuario"
+                      name="tipo_usuario"
+                      value={form.tipo_usuario}
+                      onChange={handleChange}
+                      className="border border-gray-300 rounded p-2 w-full"
+                    >
+                      <option value="administrador">Administrador</option>
+                      <option value="usuario">Usuario</option>
+                    </select>
+                  </div>
+                  <div className="flex justify-between">
+                    <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">
+                      Crear
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsCreating(false)} // Cierra la modal de creación
+                      className="bg-red-500 text-white rounded px-4 py-2"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Modal para editar usuario */}
+          {editingUser && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+              <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+                <h2 className="text-xl font-semibold mb-4">Editar Usuario</h2>
+                <form onSubmit={handleSubmitEdit}>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
+                      Nombre
+                    </label>
+                    <input
+                      type="text"
+                      id="nombre"
+                      name="nombre"
+                      value={form.nombre}
+                      onChange={handleChange}
+                      required
+                      className="border border-gray-300 rounded p-2 w-full"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="apellido">
+                      Apellido
+                    </label>
+                    <input
+                      type="text"
+                      id="apellido"
+                      name="apellido"
+                      value={form.apellido}
+                      onChange={handleChange}
+                      required
+                      className="border border-gray-300 rounded p-2 w-full"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      required
+                      className="border border-gray-300 rounded p-2 w-full"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tipo_usuario">
+                      Tipo de usuario
+                    </label>
+                    <select
+                      id="tipo_usuario"
+                      name="tipo_usuario"
+                      value={form.tipo_usuario}
+                      onChange={handleChange}
+                      className="border border-gray-300 rounded p-2 w-full"
+                    >
+                      <option value="administrador">Administrador</option>
+                      <option value="usuario">Usuario</option>
+                    </select>
+                  </div>
+                  <div className="flex justify-between">
+                    <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">
+                      Guardar Cambios
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        resetForm(); // Resetea el formulario al cerrar
+                        setEditingUser(null); // Cierra la modal de edición
+                      }}
+                      className="bg-red-500 text-white rounded px-4 py-2"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Modal de confirmación de borrado */}
+          {isConfirmingDelete && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+              <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+                <h2 className="text-xl font-semibold mb-4">Confirmación de Borrado</h2>
+                <p>¿Estás seguro de que deseas borrar este usuario?</p>
+                <div className="flex justify-between mt-4">
+                  <button onClick={confirmDelete} className="bg-red-600 text-white rounded px-4 py-2">
+                    Borrar
+                  </button>
+                  <button
+                    onClick={() => {
+                      setUserToDelete(null); // Resetea el usuario a borrar
+                      setIsConfirmingDelete(false); // Cierra la modal de confirmación
+                    }}
+                    className="bg-gray-300 text-black rounded px-4 py-2"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Modal de creación/edición */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-auto bg-smoke-light flex">
-          <div className="relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg shadow-lg">
-            <h2 className="text-2xl mb-4">
-              {isEditing ? "Editar Usuario" : "Crear Usuario"}
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Nombre
-                </label>
-                <input
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  type="text"
-                  name="nombre"
-                  id="nombre"
-                  value={form.nombre}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Apellido
-                </label>
-                <input
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  type="text"
-                  name="apellido"
-                  id="apellido"
-                  value={form.apellido}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Email
-                </label>
-                <input
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Contraseña
-                </label>
-                <input
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  type="password"
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Tipo de Usuario
-                </label>
-                <select
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  name="tipo_usuario"
-                  value={form.tipo_usuario}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="" disabled>
-                    Selecciona el tipo de usuario
-                  </option>
-                  <option value="administrador">Admin</option>
-                  <option value="cliente">Cliente</option>
-                  <option value="afiliado">Afiliado</option>
-                </select>
-              </div>
-              <input
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  type="hidden"
-                  name="estado"
-                  value="1"
-                  onChange={handleChange}
-                  required
-                />
-              <div className="flex justify-end space-x-4">
-                <button
-                  className="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded"
-                  type="button"
-                  onClick={closeModal}
-                >
-                  Cancelar
-                </button>
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-                  type="submit"
-                >
-                  {isEditing ? "Actualizar" : "Crear"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Modal de confirmación de eliminación */}
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-auto bg-smoke-light flex">
-          <div className="relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg shadow-lg">
-            <h2 className="text-2xl mb-4">Confirmar Eliminación</h2>
-            <p>¿Estás seguro de que deseas eliminar a {userToDelete.nombre} {userToDelete.apellido}?</p>
-            <div className="flex justify-end space-x-4 mt-4">
-              <button
-                className="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded"
-                onClick={closeDeleteModal}
-              >
-                Cancelar
-              </button>
-              <button
-                className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded"
-                onClick={() => handleDelete(userToDelete.id_usuario)}
-              >
-                Eliminar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
