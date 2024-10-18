@@ -85,7 +85,7 @@ export const crearLugar = async(req, res) => {
 }
 export const actualizarLugar = async (req, res) => {
     const id_lugar = req.params.id_lugar;
-    const { nombre, informacion, latitud, longitud, categoria, calificacion } = req.body;
+    const { nombre, informacion, latitud, longitud, direccion_manual, categorias, calificacion } = req.body;
 
     console.log('Datos recibidos:', req.body);
     console.log('ID del lugar a actualizar:', id_lugar);
@@ -94,8 +94,8 @@ export const actualizarLugar = async (req, res) => {
         const connection = await connectDB();
         if (connection) {
             const [result] = await connection.query(
-                'UPDATE lugar SET nombre = IFNULL(?, nombre), informacion = IFNULL(?, informacion), latitud = IFNULL(?, latitud), longitud = IFNULL(?, longitud), categoria = IFNULL(?, categoria), calificacion = IFNULL(?, calificacion) WHERE id_lugar = ?',
-                [nombre, informacion, latitud, longitud, categoria, calificacion, id_lugar]
+                'UPDATE lugar SET nombre = IFNULL(?, nombre), informacion = IFNULL(?, informacion), latitud = IFNULL(?, latitud), longitud = IFNULL(?, longitud), direccion_manual = IFNULL(?, direccion_manual), categorias = IFNULL(?, categorias), calificacion = IFNULL(?, calificacion) WHERE id_lugar = ?',
+                [nombre, informacion, latitud, longitud, direccion_manual, categorias, calificacion, id_lugar]
             );
 
             console.log('Resultado de la consulta:', result);
