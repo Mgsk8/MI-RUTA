@@ -2,8 +2,10 @@ import Navbar from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import { registerUserRequest, registerAfiRequest } from "../api/auth.js";
 import { validateEmail,validatePassword, validateCheckbox} from "../../validation/validations.js";
+import { AUTH_TYPES } from "../Constants.jsx";
 
 export default function RegisterAffiliate() {
+  localStorage.setItem("auth", AUTH_TYPES.FALSE);
   const {
     register,
     handleSubmit,

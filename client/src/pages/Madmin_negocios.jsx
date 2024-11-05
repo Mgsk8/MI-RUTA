@@ -35,7 +35,6 @@ export default function Madmin_negocios() {
 
   return (
     <div>
-      <a href="/">
         <Navbar
         navigation={[
           { name: "Usuarios", href: "/menuAdmin", current: false },
@@ -43,7 +42,7 @@ export default function Madmin_negocios() {
           { name: "Registrar negocios", href: "/registerCompany_admin", current: false },
         ]}
         logo="/image/logoblanco.png"
-      /></a>
+      />
       <div className="min-h-screen w-full bg-white dark:bg-gray-900 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')] dark:bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern-dark.svg')]">
         <div className="max-w-5xl mx-auto p-8">
           <h1 className="text-2xl md:text-4xl text-gray-50 font-bold mb-4 text-center">Gestiona tu negocio</h1>

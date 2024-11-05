@@ -1,6 +1,8 @@
 import Navbar from "../components/Navbar"
+import { AUTH_TYPES } from "../Constants";
 
 export default function Inicio() {
+  localStorage.setItem("auth", AUTH_TYPES.FALSE);
   const navigation = [
     { name: 'Inicio', href: '/', current: true },
     { name: 'Iniciar sesion', href: '/login', current: false },
