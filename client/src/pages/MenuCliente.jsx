@@ -3,14 +3,18 @@ import { getNegocios } from "../api/auth";
 import { ButtonList } from "../components/ButtonList";
 import { Category } from "../components/Category";
 import Navbar from "../components/Navbar";
-import { useNavigate } from "react-router-dom"; // Importamos useNavigate
+import { useNavigate } from "react-router-dom";
+import { FaStar } from "react-icons/fa"; // Icono para el filtro
 
 export default function MenuCliente() {
   const [categories, setCategories] = useState(["All"]);
   const [lugares, setLugares] = useState([]);
   const [filteredLugares, setFilteredLugares] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para la búsqueda por nombre
+  const [ratingFilter, setRatingFilter] = useState(0); // Estado para el filtro de calificación mínima
+  const [showRatingFilter, setShowRatingFilter] = useState(false); // Controla la visibilidad del filtro de calificación
   const navigation = [{ name: "Inicio", href: "/menuCliente", current: true }];
-  const navigate = useNavigate(); // Para redirigir al usuario
+  const navigate = useNavigate();
 
   const fetchLugares = async () => {
     try {
@@ -43,8 +47,32 @@ export default function MenuCliente() {
   };
 
   const goToInfoNegocio = (id) => {
-    navigate(`/infoNegocio/${id}`); // Redirige a la página de InfoNegocio
+    navigate(`/infoNegocio/${id}`);
   };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleRatingFilter = (e) => {
+    setRatingFilter(Number(e.target.value));
+  };
+
+  useEffect(() => {
+    let filtered = lugares;
+
+    if (searchTerm) {
+      filtered = filtered.filter((lugar) =>
+        lugar.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (ratingFilter > 0) {
+      filtered = filtered.filter((lugar) => lugar.calificacion >= ratingFilter);
+    }
+
+    setFilteredLugares(filtered);
+  }, [searchTerm, ratingFilter, lugares]);
 
   return (
     <>
@@ -61,6 +89,44 @@ export default function MenuCliente() {
               a tu disposición
             </p>
           </div>
+
+          {/* Campo de búsqueda con icono de filtro */}
+          <div className="relative w-full mb-4">
+            <input
+              type="text"
+              placeholder="Buscar por nombre..."
+              value={searchTerm}
+              onChange={handleSearch}
+              className="w-full p-2 pr-10 rounded text-gray-800"
+            />
+            <FaStar
+              onClick={() => setShowRatingFilter(!showRatingFilter)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+            />
+          </div>
+
+          {/* Filtro de calificación (visible solo si se selecciona el icono de filtro) */}
+          {showRatingFilter && (
+            <div className="mb-4">
+              <label htmlFor="ratingFilter" className="mr-2">
+                Filtrar por calificación mínima:
+              </label>
+              <select
+                id="ratingFilter"
+                value={ratingFilter}
+                onChange={handleRatingFilter}
+                className="p-2 rounded text-gray-800"
+              >
+                <option value={0}>Todas</option>
+                <option value={1}>1 estrella</option>
+                <option value={2}>2 estrellas</option>
+                <option value={3}>3 estrellas</option>
+                <option value={4}>4 estrellas</option>
+                <option value={5}>5 estrellas</option>
+              </select>
+            </div>
+          )}
+
           <ButtonList categories={categories} filterCategory={filterCategory} />
           <hr className="my-6 border-gray-600" />
           <Category lugares={filteredLugares} onLugarClick={goToInfoNegocio} />
