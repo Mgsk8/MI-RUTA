@@ -1,90 +1,81 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import Markers from "./Markers";
 import PropTypes from 'prop-types'; // Importa PropTypes
 
-// Componente para mover el mapa cuando cambie la ubicación
-const ChangeMapView = ({ center }) => {
-    const map = useMap();
-    useEffect(() => {
-        if (center) {
-            map.flyTo(center, 13); // Mueve el mapa a la nueva ubicación con zoom 13
-        }
-    }, [center, map]);
-    return null;
-};
-
-// Define la validación de props para ChangeMapView
-ChangeMapView.propTypes = {
-    center: PropTypes.shape({
-        lat: PropTypes.number.isRequired,
-        lng: PropTypes.number.isRequired,
-    }).isRequired, // Asegura que center sea obligatorio
-};
-
 const MapView = ({ onLocationChange }) => {
-    const [state, setState] = useState({
-        zoom: 20,
-        currentLocation: null // Deja la ubicación vacía inicialmente
-    });
+    // Estado para almacenar la ubicación actual
+    const [currentLocation, setCurrentLocation] = useState(null);
 
+    // Obtener la ubicación actual solo una vez
     useEffect(() => {
-        // Solicitar la ubicación cada vez que se renderice la vista
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const newLocation = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
+        // Solo solicitar la ubicación si currentLocation es null
+        if (!currentLocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const initialLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
 
-                console.log("Posición obtenida:", newLocation);
+                    setCurrentLocation(initialLocation);
 
-                // Actualiza el estado con la nueva ubicación cada vez
-                setState((prevState) => ({
-                    ...prevState,
-                    currentLocation: newLocation
-                }));
+                    // Llama a la función onLocationChange para actualizar la ubicación en el componente padre
+                    if (onLocationChange) {
+                        onLocationChange(initialLocation);
+                    }
+                },
+                (error) => {
+                    console.error("Error al obtener la ubicación:", error);
+                    // En caso de error, establecer una ubicación predeterminada
+                    const defaultLocation = { lat: 51.505, lng: -0.09 }; // Londres como ubicación predeterminada
+                    setCurrentLocation(defaultLocation);
+                    if (onLocationChange) {
+                        onLocationChange(defaultLocation);
+                    }
+                },
+                { enableHighAccuracy: true }
+            );
+        }
+    }, [currentLocation, onLocationChange]); // Agrega currentLocation como dependencia
 
-                // Llama a la función onLocationChange para actualizar el formulario
+    // Manejador para capturar eventos de clic en el mapa
+    const ClickHandler = () => {
+        useMapEvents({
+            click(e) {
+                const { lat, lng } = e.latlng;
+                setCurrentLocation({ lat, lng }); // Actualiza la ubicación del marcador
+
+                // Actualizar la ubicación al hacer clic en el mapa
                 if (onLocationChange) {
-                    onLocationChange(newLocation);
+                    onLocationChange({ lat, lng });
                 }
-
-                console.log("Estado actualizado:", newLocation);
             },
-            (error) => {
-                console.error("Error al obtener la ubicación:", error);
-            },
-            {
-                enableHighAccuracy: true,
-            }
-        );
-    }, []); // Ejecuta al montar el componente
+        });
 
-    // Imprime el estado para verificar antes de renderizar el mapa
-    console.log("Estado actual antes de renderizar:", state);
+        return null;
+    };
+
+    // Si la ubicación aún no está disponible, muestra un mensaje de carga
+    if (!currentLocation) {
+        return <div>Cargando mapa...</div>;
+    }
 
     return (
-        state.currentLocation ? (
-            <MapContainer center={state.currentLocation} zoom={state.zoom} style={{ height: "100%", width: "100%" }}>
-                <TileLayer
-                    url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <ChangeMapView center={state.currentLocation} />
-                {/* Pasa la ubicación actual al componente Markers */}
-                <Markers currentLocation={state.currentLocation} />
-            </MapContainer>
-        ) : (
-            <div>Cargando mapa...</div>
-        )
+        <MapContainer center={currentLocation} zoom={20} style={{ height: "100vh", width: "100%" }}>
+            <TileLayer
+                url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker position={currentLocation} />
+            <ClickHandler /> {/* Este componente detecta los clics en el mapa */}
+        </MapContainer>
     );
 };
 
-// Define la validación de props para MapView
+// Agregar validación de PropTypes
 MapView.propTypes = {
-    onLocationChange: PropTypes.func, // onLocationChange es opcional
+    onLocationChange: PropTypes.func.isRequired, // onLocationChange debe ser una función requerida
 };
 
 export default MapView;
