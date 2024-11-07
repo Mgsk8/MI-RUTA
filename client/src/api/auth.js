@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios from 'axios' // Importa la biblioteca Axios para realizar solicitudes HTTP
 
-const API = 'http://localhost:3000';
+const API = 'http://localhost:3000';// Define la URL base de la API local
 
 
 export const registerUserRequest = user => axios.post(`${API}/usuarios`, user);

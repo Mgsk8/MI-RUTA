@@ -71,13 +71,23 @@ function Madmin() {
     <div>
       <a href="/">
         <Navbar
-        navigation={[
-          { name: "Usuarios", href: "/menuAdmin", current: true },
-          { name: "Visualizar negocios", href: "/menuAdmin_negocios", current: false },
-          { name: "Registrar negocios", href: "/registerCompany_admin", current: false },
-        ]}
-        logo="/image/logoblanco.png"
-      /></a>
+          navigation={[
+            { name: "Inicio", href: "/", current: false },
+            { name: "Usuarios", href: "/menuAdmin", current: true },
+            {
+              name: "Visualizar negocios",
+              href: "/menuAdmin_negocios",
+              current: false,
+            },
+            {
+              name: "Registrar negocios",
+              href: "/registerCompany_admin",
+              current: false,
+            },
+          ]}
+          logo="/image/logoblanco.png"
+        />
+      </a>
       <div className="min-h-screen w-full bg-white dark:bg-gray-700 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')] dark:bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern-dark.svg')]">
         <div className="max-w-4xl mx-auto p-4 md:p-8">
           <h1 className="text-2xl md:text-4xl text-gray-50 font-bold mb-4 text-center">
@@ -147,32 +157,59 @@ function Madmin() {
             <table className="w-full text-sm text-center rtl:text-right text-blue-100 dark:text-blue-100">
               <thead className="table-auto main-w-full w-12 text-sm text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
                 <tr>
-                  <th scope="col" className="px-6 py-3 bg-blue-500">ID</th>
-                  <th scope="col" className="px-6 py-3">Nombre</th>
-                  <th scope="col" className="px-6 py-3 bg-blue-500">Apellido</th>
-                  <th scope="col" className="px-6 py-3">Email</th>
-                  <th scope="col" className="px-6 py-3 bg-blue-500">Tipo de usuario</th>
-                  <th scope="col" className="px-6 py-3">Acciones</th>
+                  <th scope="col" className="px-6 py-3 bg-blue-500">
+                    ID
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Nombre
+                  </th>
+                  <th scope="col" className="px-6 py-3 bg-blue-500">
+                    Apellido
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Email
+                  </th>
+                  <th scope="col" className="px-6 py-3 bg-blue-500">
+                    Tipo de usuario
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Acciones
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr className="bg-blue-600 border-b border-blue-400" key={user.id_usuario}>
-                    <td className="px-6 py-4 text-base font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">{user.id_usuario}</td>
-                    <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">{user.nombre}</td>
-                    <td className="px-6 py-4 font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">{user.apellido}</td>
-                    <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">{user.email}</td>
-                    <td className="px-6 py-4 font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">{user.tipo_usuario}</td>
+                  <tr
+                    className="bg-blue-600 border-b border-blue-400"
+                    key={user.id_usuario}
+                  >
+                    <td className="px-6 py-4 text-base font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">
+                      {user.id_usuario}
+                    </td>
+                    <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                      {user.nombre}
+                    </td>
+                    <td className="px-6 py-4 font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">
+                      {user.apellido}
+                    </td>
+                    <td className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                      {user.email}
+                    </td>
+                    <td className="px-6 py-4 font-medium bg-blue-500 text-blue-50 whitespace-nowrap dark:text-blue-100">
+                      {user.tipo_usuario}
+                    </td>
                     <td className="px-6 py-4">
                       <button
                         onClick={() => handleEdit(user)}
-                        type="button" className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
+                        type="button"
+                        className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
                       >
                         Editar
                       </button>
                       <button
                         onClick={() => handleDelete(user.id_usuario)}
-                        type="buttom" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        type="buttom"
+                        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
                       >
                         Borrar
                       </button>
@@ -185,8 +222,7 @@ function Madmin() {
         </div>
       </div>
     </div>
-
-      );
+  );
 }
 
-      export default Madmin;
+export default Madmin;

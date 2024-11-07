@@ -51,9 +51,6 @@ export default function MenuCliente() {
             tu disposición
           </p>
         </div>
-        <ButtonList categories={categories} filterCategory={filterCategory} />
-        <hr className="my-6 border-gray-600" />
-        <Category lugares={filteredLugares} />
       </div>
     </div>
   );
