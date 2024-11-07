@@ -12,6 +12,7 @@ import RegisterCompany_admin from "./pages/RegisterCompany_admin";
 import Madmin_negocios from "./pages/Madmin_negocios";
 import Terms from "./pages/Terms";
 import EditarNegocio from "./pages/Editar_negocio";
+import InfoNegocio from "./pages/Info_negocio";
 
 function App(){
   return(
@@ -31,6 +32,7 @@ function App(){
         <Route path="/menuAdmin_negocios" element={<Madmin_negocios />}/>
         <Route path="/terms" element={<Terms />}/>
         <Route path="/editarNegocio/:id_lugar" element={<EditarNegocio />}/>
+        <Route path="/infoNegocio/:id" element={<InfoNegocio />}/>
       </Routes>
     </BrowserRouter>  
   )

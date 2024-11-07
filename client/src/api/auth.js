@@ -15,3 +15,4 @@ export const getNegocio = (id_negocio)=> axios.get(`${API}/lugares/${id_negocio}
 export const getNegocio_ = (id_lugar)=> axios.get(`${API}/lugares/${id_lugar}`)
 export const getNegocio_afiliado = (id_usuario)=> axios.get(`${API}/negocios/${id_usuario}`)
 export const actualizarNegocio = (id_negocio, values) => axios.patch(`${API}/lugares/${id_negocio}`, values);
+export const infoLugar = (id) => axios.get(`${API}/lugares/${id}`);
