@@ -29,6 +29,9 @@ export const getNegocio_afiliado = (id_usuario)=> axios.get(`${API}/negocios/${i
 
 //-------- CONSULTAS REVIEWS ---------
 export const getPlaceReviews = (id_lugar) => axios.get(`${API}/reviews/${id_lugar}`)
+export const getPlaceUserReview = (id_lugar, id_usuario) => axios.get(`${API}/reviews/${id_lugar}/${id_usuario}`)
 export const postReview = (review, id_lugar) => axios.post(`${API}/reviews/${id_lugar}`, review)
 export const updateReview = (review, id_lugar) => axios.patch(`${API}/reviews/${id_lugar}`, review)
-export const deleteReview = (review, id_lugar) => axios.delete(`${API}/reviews/${id_lugar}`, review)
+export const deleteReview = (reviewData, id_lugar) => axios.delete(`${API}/reviews/${id_lugar}`, {
+    data: reviewData // Esto asegura que `id_usuario` esté en el body
+});

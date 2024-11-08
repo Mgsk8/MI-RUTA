@@ -1,14 +1,13 @@
-// InfoNegocio.js
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { infoLugar } from "../api/auth";
+import { infoLugar, getPlaceUserReview, postReview, updateReview, deleteReview } from "../api/auth";
 import Navbar from "../components/Navbar";
 import MapViewNegocio from "../components/MapViewNegocio";
+import { LOCAL_STORAGE_TERMS } from "../Constants";
 
-// Componente para las estrellas
-const StarRating = ({ rating, setRating }) => {
+const StarRating = ({ calificacion, setCalificacion }) => {
     const handleClick = (index) => {
-        setRating(index + 1); // Ajusta la calificación al hacer clic en las estrellas
+        setCalificacion(index + 1); // Convierte el índice en un valor de 1 a 5
     };
 
     return (
@@ -18,7 +17,7 @@ const StarRating = ({ rating, setRating }) => {
                     key={index}
                     onClick={() => handleClick(index)}
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`w-6 h-6 cursor-pointer ${index < rating ? "text-yellow-500" : "text-gray-300"}`}
+                    className={`w-6 h-6 cursor-pointer ${index < calificacion ? "text-yellow-500" : "text-gray-300"}`}
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
@@ -35,30 +34,75 @@ const StarRating = ({ rating, setRating }) => {
 };
 
 export default function InfoNegocio() {
-    const { id } = useParams();
+    const { id: id_lugar } = useParams();
     const [businessData, setBusinessData] = useState(null);
-    const [review, setReview] = useState("");       // Estado para la reseña
-    const [rating, setRating] = useState(0);        // Estado para la calificación
-    const [message, setMessage] = useState("");     // Mensaje de éxito o error al guardar
+    const [review, setReview] = useState("");
+    const [calificacion, setCalificacion] = useState(0);
+    const [userReview, setUserReview] = useState(null); // Estado para la reseña existente del usuario
+    const [message, setMessage] = useState("");
     const navigation = [{ name: "Inicio", href: "/menuCliente", current: true }];
-
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await infoLugar(id);
+                const res = await infoLugar(id_lugar);
                 setBusinessData(res.data[0]);
+                
+                // Obtener reseña del usuario
+                const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER); // Suponiendo que el ID de usuario está en localStorage
+                const userReviewData = await getPlaceUserReview(id_lugar, id_usuario);
+                
+                // Verificar si existe una reseña del usuario para este lugar
+                if (userReviewData.data && userReviewData.data.length > 0) {
+                    setUserReview(userReviewData.data[0]);
+                    setReview(userReviewData.data[0].review);
+                    setCalificacion(userReviewData.data[0].calificacion);
+                } else {
+                    setUserReview(null); // Si no hay reseña, asegurarse de que sea null
+                }
             } catch (error) {
-                console.error("Error fetching business data:", error);
+                console.error("Error fetching data:", error);
             }
         };
 
         fetchData();
-    }, [id]);
+    }, [id_lugar]);
 
-    const handleSubmitReview = () => {
-        // Aquí podrías hacer una llamada a la API para enviar la reseña y calificación.
-        console.log("Reseña:", review, "Calificación:", rating);
-        setMessage("¡Reseña enviada con éxito!"); // Mensaje temporal de éxito
+    const handleSubmitReview = async () => {
+        const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER);
+        const reviewData = { review, calificacion, id_usuario };
+
+        try {
+            if (userReview) {
+                // Actualizar reseña existente
+                await updateReview(reviewData, id_lugar);
+                setMessage("¡Reseña actualizada con éxito!");
+            } else {
+                // Crear nueva reseña
+                await postReview(reviewData, id_lugar);
+                setUserReview(reviewData); // Marcar la reseña como creada
+                setMessage("¡Reseña enviada con éxito!");
+            }
+        } catch (error) {
+            console.error("Error submitting review:", error);
+            setMessage("Error al enviar la reseña.");
+        }
+    };
+
+    const handleDeleteReview = async () => {
+        try {
+            const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER);
+            const reviewData = { id_usuario };
+            console.log("id_usuario:", id_usuario, "id_lugar:", id_lugar);
+            await deleteReview( reviewData, id_lugar);
+            setUserReview(null);
+            setReview("");
+            setCalificacion(0);
+            setMessage("¡Reseña eliminada con éxito!");
+        } catch (error) {
+            console.error("Error deleting review:", error);
+            setMessage("Error al eliminar la reseña.");
+        }
     };
 
     if (!businessData || businessData.latitud === undefined || businessData.longitud === undefined) {
@@ -98,10 +142,8 @@ export default function InfoNegocio() {
                         <div className="space-y-4 mt-6 md:mt-8">
                             <h3 className="text-lg md:text-xl font-semibold">Añadir Reseña y Calificación</h3>
 
-                            {/* Calificación con estrellas */}
-                            <StarRating rating={rating} setRating={setRating} />
+                            <StarRating calificacion={calificacion} setCalificacion={setCalificacion} />
 
-                            {/* Reseña en texto */}
                             <textarea
                                 value={review}
                                 onChange={(e) => setReview(e.target.value)}
@@ -113,9 +155,18 @@ export default function InfoNegocio() {
                                 onClick={handleSubmitReview}
                                 className="mt-4 bg-blue-600 text-white py-2 px-4 rounded w-full md:w-auto"
                             >
-                                Enviar Reseña
+                                {userReview ? "Actualizar Reseña" : "Enviar Reseña"}
                             </button>
-                            
+
+                            {userReview && (
+                                <button
+                                    onClick={handleDeleteReview}
+                                    className="mt-2 bg-red-600 text-white py-2 px-4 rounded w-full md:w-auto"
+                                >
+                                    Eliminar Reseña
+                                </button>
+                            )}
+
                             {message && <p className="text-green-600 mt-2">{message}</p>}
                         </div>
                     </div>
