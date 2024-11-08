@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { infoLugar, getPlaceUserReview, postReview, updateReview, deleteReview } from "../api/auth";
+import { infoLugar, getPlaceUserReview, postReview, updateReview, deleteReview, getPlaceReviews, getUsuariosRequest } from "../api/auth";
 import Navbar from "../components/Navbar";
 import MapViewNegocio from "../components/MapViewNegocio";
 import { LOCAL_STORAGE_TERMS } from "../Constants";
 
 const StarRating = ({ calificacion, setCalificacion }) => {
     const handleClick = (index) => {
-        setCalificacion(index + 1); // Convierte el índice en un valor de 1 a 5
+        setCalificacion(index + 1);
     };
 
     return (
@@ -38,8 +38,9 @@ export default function InfoNegocio() {
     const [businessData, setBusinessData] = useState(null);
     const [review, setReview] = useState("");
     const [calificacion, setCalificacion] = useState(0);
-    const [userReview, setUserReview] = useState(null); // Estado para la reseña existente del usuario
+    const [userReview, setUserReview] = useState(null);
     const [message, setMessage] = useState("");
+    const [reviews, setReviews] = useState([]);
     const navigation = [{ name: "Inicio", href: "/menuCliente", current: true }];
     
     useEffect(() => {
@@ -47,19 +48,31 @@ export default function InfoNegocio() {
             try {
                 const res = await infoLugar(id_lugar);
                 setBusinessData(res.data[0]);
-                
-                // Obtener reseña del usuario
-                const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER); // Suponiendo que el ID de usuario está en localStorage
+
+                const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER);
                 const userReviewData = await getPlaceUserReview(id_lugar, id_usuario);
-                
-                // Verificar si existe una reseña del usuario para este lugar
+
                 if (userReviewData.data && userReviewData.data.length > 0) {
                     setUserReview(userReviewData.data[0]);
                     setReview(userReviewData.data[0].review);
                     setCalificacion(userReviewData.data[0].calificacion);
                 } else {
-                    setUserReview(null); // Si no hay reseña, asegurarse de que sea null
+                    setUserReview(null);
                 }
+
+                const allReviewsData = await getPlaceReviews(id_lugar);
+                
+                // Agregar nombres de usuarios a cada reseña
+                const reviewsWithUserNames = await Promise.all(
+                    allReviewsData.data.map(async (review) => {
+                        const userResponse = await getUsuariosRequest(review.id_usuario);
+                        return {
+                            ...review,
+                            nombre_usuario: `${userResponse.data.nombre} ${userResponse.data.apellido}`
+                        };
+                    })
+                );
+                setReviews(reviewsWithUserNames);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -74,13 +87,11 @@ export default function InfoNegocio() {
 
         try {
             if (userReview) {
-                // Actualizar reseña existente
                 await updateReview(reviewData, id_lugar);
                 setMessage("¡Reseña actualizada con éxito!");
             } else {
-                // Crear nueva reseña
                 await postReview(reviewData, id_lugar);
-                setUserReview(reviewData); // Marcar la reseña como creada
+                setUserReview(reviewData);
                 setMessage("¡Reseña enviada con éxito!");
             }
         } catch (error) {
@@ -93,8 +104,7 @@ export default function InfoNegocio() {
         try {
             const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER);
             const reviewData = { id_usuario };
-            console.log("id_usuario:", id_usuario, "id_lugar:", id_lugar);
-            await deleteReview( reviewData, id_lugar);
+            await deleteReview(reviewData, id_lugar);
             setUserReview(null);
             setReview("");
             setCalificacion(0);
@@ -113,7 +123,7 @@ export default function InfoNegocio() {
         <>
             <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
 
-            <div className="min-h-screen flex flex-col items-center bg-gray-50 p-4 md:p-8">
+            <div className="min-h-screen flex flex-col items-center bg-gray-300 p-4 md:p-8">
                 <div className="max-w-6xl w-full bg-white shadow-xl rounded-xl overflow-hidden flex flex-col md:flex-row">
                     
                     {/* Columna Izquierda - Información del lugar */}
@@ -138,7 +148,6 @@ export default function InfoNegocio() {
                             </p>
                         </div>
 
-                        {/* Sección para la calificación y reseña */}
                         <div className="space-y-4 mt-6 md:mt-8">
                             <h3 className="text-lg md:text-xl font-semibold">Añadir Reseña y Calificación</h3>
 
@@ -169,9 +178,27 @@ export default function InfoNegocio() {
 
                             {message && <p className="text-green-600 mt-2">{message}</p>}
                         </div>
+
+                        <div className="mt-8">
+                            <h3 className="text-lg md:text-xl font-semibold">Comentarios/Calificaciones del lugar</h3>
+                            <div className="space-y-4 mt-4">
+                                {reviews.length > 0 ? (
+                                    reviews.map((review, index) => (
+                                        <div key={index} className="p-4 bg-gray-100 rounded-xl">
+                                            <p className="text-sm text-gray-600">{review.review}</p>
+                                            <div className="flex items-center mt-2">
+                                                <StarRating calificacion={review.calificacion} setCalificacion={() => {}} />
+                                                <span className="ml-2 text-gray-500">Por {review.nombre_usuario}</span>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No hay reseñas aún.</p>
+                                )}
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Columna Derecha - Mapa */}
                     <div className="w-full md:w-1/2 h-64 md:h-auto">
                         <MapViewNegocio 
                             latitude={businessData.latitud} 

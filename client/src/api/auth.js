@@ -3,6 +3,8 @@ import axios from 'axios' // Importa la biblioteca Axios para realizar solicitud
 const API = 'http://localhost:3000';// Define la URL base de la API local
 
 //-------- CONSULTAS USERS ---------
+export const getUsuariosRequest = id_usuario => axios.get(`${API}/usuarios/${id_usuario}`)
+export const getUsuarioRequest = axios.get(`${API}/usuarios`)
 export const registerUserRequest = user => axios.post(`${API}/usuarios`, user);
 
 //-------- CONSULTAS CLIENTS ---------
