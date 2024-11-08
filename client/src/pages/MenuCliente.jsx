@@ -13,7 +13,7 @@ export default function MenuCliente() {
   const [searchTerm, setSearchTerm] = useState(""); // Estado para la búsqueda por nombre
   const [ratingFilter, setRatingFilter] = useState(0); // Estado para el filtro de calificación mínima
   const [showRatingFilter, setShowRatingFilter] = useState(false); // Controla la visibilidad del filtro de calificación
-  const navigation = [{ name: "Inicio", href: "/menuCliente", current: true }];
+  const navigation = [{ name: "Menú", href: "/menuCliente", current: true}];
   const navigate = useNavigate();
 
   const fetchLugares = async () => {

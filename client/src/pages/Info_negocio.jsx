@@ -1,14 +1,12 @@
-// InfoNegocio.js
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { infoLugar } from "../api/auth";
 import Navbar from "../components/Navbar";
 import MapViewNegocio from "../components/MapViewNegocio";
 
-// Componente para las estrellas
 const StarRating = ({ rating, setRating }) => {
     const handleClick = (index) => {
-        setRating(index + 1); // Ajusta la calificación al hacer clic en las estrellas
+        setRating(index + 1);
     };
 
     return (
@@ -37,10 +35,13 @@ const StarRating = ({ rating, setRating }) => {
 export default function InfoNegocio() {
     const { id } = useParams();
     const [businessData, setBusinessData] = useState(null);
-    const [review, setReview] = useState("");       // Estado para la reseña
-    const [rating, setRating] = useState(0);        // Estado para la calificación
-    const [message, setMessage] = useState("");     // Mensaje de éxito o error al guardar
-    const navigation = [{ name: "Inicio", href: "/menuCliente", current: true }];
+    const [review, setReview] = useState("");
+    const [rating, setRating] = useState(0);
+    const [showAlert, setShowAlert] = useState(false);
+    const navigation = [
+        { name: "Menú", href: "/menuCliente", current: false },
+        { name: "Información de Negocio", href: "/infoNegocio", current: true }
+    ];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,9 +57,25 @@ export default function InfoNegocio() {
     }, [id]);
 
     const handleSubmitReview = () => {
-        // Aquí podrías hacer una llamada a la API para enviar la reseña y calificación.
         console.log("Reseña:", review, "Calificación:", rating);
-        setMessage("¡Reseña enviada con éxito!"); // Mensaje temporal de éxito
+        setShowAlert(true); // Muestra el aviso flotante
+
+        // Oculta el aviso después de 3 segundos
+        setTimeout(() => setShowAlert(false), 3000);
+    };
+
+    const handleShare = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: businessData.nombre,
+                text: `¡Mira este lugar! ${businessData.nombre}`,
+                url: window.location.href,
+            })
+            .then(() => console.log("Compartido exitosamente"))
+            .catch((error) => console.error("Error al compartir:", error));
+        } else {
+            alert("La función de compartir no es compatible con este navegador.");
+        }
     };
 
     if (!businessData || businessData.latitud === undefined || businessData.longitud === undefined) {
@@ -98,10 +115,8 @@ export default function InfoNegocio() {
                         <div className="space-y-4 mt-6 md:mt-8">
                             <h3 className="text-lg md:text-xl font-semibold">Añadir Reseña y Calificación</h3>
 
-                            {/* Calificación con estrellas */}
                             <StarRating rating={rating} setRating={setRating} />
 
-                            {/* Reseña en texto */}
                             <textarea
                                 value={review}
                                 onChange={(e) => setReview(e.target.value)}
@@ -109,14 +124,21 @@ export default function InfoNegocio() {
                                 className="border p-2 mt-2 rounded w-full"
                             />
 
-                            <button
-                                onClick={handleSubmitReview}
-                                className="mt-4 bg-blue-600 text-white py-2 px-4 rounded w-full md:w-auto"
-                            >
-                                Enviar Reseña
-                            </button>
-                            
-                            {message && <p className="text-green-600 mt-2">{message}</p>}
+                            <div className="flex space-x-4 mt-4">
+                                <button
+                                    onClick={handleSubmitReview}
+                                    className="mt-4 bg-blue-600 text-white py-2 px-4 rounded w-full md:w-auto"
+                                >
+                                    Enviar Reseña
+                                </button>
+
+                                <button
+                                    onClick={handleShare}
+                                    className="mt-4 bg-green-600 text-white py-2 px-4 rounded w-full md:w-auto"
+                                >
+                                    Compartir Negocio
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -129,6 +151,17 @@ export default function InfoNegocio() {
                         />
                     </div>
                 </div>
+
+                {/* Aviso flotante */}
+                {showAlert && (
+                    <div id="alert-3" className="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                        ¡Gracias por tu reseña!
+                        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <span class="sr-only">Info</span>
+                    </div>
+                )}
             </div>
         </>
     );
