@@ -9,6 +9,7 @@ import afiliadosRoutes from "./routes/afiliados.routes.js";
 import lugaresRoutes from "./routes/lugar.routes.js";
 import negociosRoutes from "./routes/negocios.routes.js";
 import loginRoutes from "./routes/login.routes.js";
+import reviewsRoutes from "./routes/reviews.routes.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -30,5 +31,6 @@ app.use(afiliadosRoutes);
 app.use(lugaresRoutes);
 app.use(negociosRoutes);
 app.use(loginRoutes);
+app.use(reviewsRoutes)
 
 export default app;

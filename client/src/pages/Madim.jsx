@@ -105,6 +105,7 @@ function Madmin() {
     <div>
       <Navbar
         navigation={[
+          { name: "Inicio", href: "/", current: false },
           { name: "Usuarios", href: "/menuAdmin", current: true },
           { name: "Visualizar negocios", href: "/menuAdmin_negocios", current: false },
           { name: "Registrar negocios", href: "/registerCompany_admin", current: false },
