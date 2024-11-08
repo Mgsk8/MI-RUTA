@@ -43,48 +43,49 @@ export default function InfoNegocio() {
     const [reviews, setReviews] = useState([]);
     const navigation = [{ name: "Inicio", href: "/menuCliente", current: true }];
     
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await infoLugar(id_lugar);
-                setBusinessData(res.data[0]);
+    // Definir fetchData fuera de useEffect para que sea accesible en todo el componente
+    const fetchData = async () => {
+        try {
+            const res = await infoLugar(id_lugar);
+            setBusinessData(res.data[0]);
 
-                const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER);
-                const userReviewData = await getPlaceUserReview(id_lugar, id_usuario);
+            const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER);
+            const userReviewData = await getPlaceUserReview(id_lugar, id_usuario);
 
-                if (userReviewData.data && userReviewData.data.length > 0) {
-                    setUserReview(userReviewData.data[0]);
-                    setReview(userReviewData.data[0].review);
-                    setCalificacion(userReviewData.data[0].calificacion);
-                } else {
-                    setUserReview(null);
-                }
-
-                const allReviewsData = await getPlaceReviews(id_lugar);
-                
-                // Agregar nombres de usuarios a cada reseña
-                const reviewsWithUserNames = await Promise.all(
-                    allReviewsData.data.map(async (review) => {
-                        const userResponse = await getUsuariosRequest(review.id_usuario);
-                        return {
-                            ...review,
-                            nombre_usuario: `${userResponse.data.nombre} ${userResponse.data.apellido}`
-                        };
-                    })
-                );
-                setReviews(reviewsWithUserNames);
-            } catch (error) {
-                console.error("Error fetching data:", error);
+            if (userReviewData.data && userReviewData.data.length > 0) {
+                setUserReview(userReviewData.data[0]);
+                setReview(userReviewData.data[0].review);
+                setCalificacion(userReviewData.data[0].calificacion);
+            } else {
+                setUserReview(null);
             }
-        };
 
+            const allReviewsData = await getPlaceReviews(id_lugar);
+            
+            // Agregar nombres de usuarios a cada reseña
+            const reviewsWithUserNames = await Promise.all(
+                allReviewsData.data.map(async (review) => {
+                    const userResponse = await getUsuariosRequest(review.id_usuario);
+                    return {
+                        ...review,
+                        nombre_usuario: `${userResponse.data.nombre} ${userResponse.data.apellido}`
+                    };
+                })
+            );
+            setReviews(reviewsWithUserNames);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
         fetchData();
     }, [id_lugar]);
 
     const handleSubmitReview = async () => {
         const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER);
         const reviewData = { review, calificacion, id_usuario };
-
+    
         try {
             if (userReview) {
                 await updateReview(reviewData, id_lugar);
@@ -94,12 +95,13 @@ export default function InfoNegocio() {
                 setUserReview(reviewData);
                 setMessage("¡Reseña enviada con éxito!");
             }
+            await fetchData(); // Volver a cargar los datos
         } catch (error) {
             console.error("Error submitting review:", error);
             setMessage("Error al enviar la reseña.");
         }
     };
-
+    
     const handleDeleteReview = async () => {
         try {
             const id_usuario = localStorage.getItem(LOCAL_STORAGE_TERMS.ID_LOGGED_USER);
@@ -109,11 +111,13 @@ export default function InfoNegocio() {
             setReview("");
             setCalificacion(0);
             setMessage("¡Reseña eliminada con éxito!");
+            await fetchData(); // Volver a cargar los datos
         } catch (error) {
             console.error("Error deleting review:", error);
             setMessage("Error al eliminar la reseña.");
         }
     };
+    
 
     if (!businessData || businessData.latitud === undefined || businessData.longitud === undefined) {
         return <p>Cargando...</p>;
