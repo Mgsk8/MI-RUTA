@@ -250,7 +250,7 @@ export default function RegistroNegocio() {
             />
             {isContentVisible &&
                 isModalClosed && ( // Solo muestra el contenido si isContentVisible es verdadero
-                    <div className="bg-gray-300 bg-cover bg-center min-h-screen w-full relative">
+                    <div className="bg-gray-400 bg-cover bg-center min-h-screen w-full relative">
                         <div className="flex flex-col items-center py-6 px-4 sm:px-6 lg:px-8">
                             <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900 mb-4 bg-[rgba(255,255,255,0.9)] p-4 rounded-md w-full max-w-md">
                                 Registrar Negocio
