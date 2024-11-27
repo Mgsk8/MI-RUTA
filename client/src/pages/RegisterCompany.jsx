@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // Importa PropTypes
 import axios from "axios"; // Importa axios para hacer solicitudes HTTP
 import CategorySelect from "../components/CategorySelect.jsx";
+//import "../../styles/styles.css"
 
 // Componente Modal
 function Modal({ isOpen, onClose, message, validation }) {
@@ -48,7 +49,6 @@ export default function RegistroNegocio() {
     const navigation = [
         { name: "Inicio", href: "/menuAfiliado", current: false },
         { name: "Registrar Negocio", href: "/registerCompany", current: true },
-        { name: "Editar Negocio", href: "/editCompany", current: false },
     ];
 
     const [alertShown, setAlertShown] = useState(false);
@@ -250,9 +250,9 @@ export default function RegistroNegocio() {
             />
             {isContentVisible &&
                 isModalClosed && ( // Solo muestra el contenido si isContentVisible es verdadero
-                    <div className="bg-gray-400 bg-cover bg-center min-h-screen w-full relative">
+                    <div className="bg-cover bg-center min-h-screen w-full relative" style={{ backgroundColor: 'rgb(24, 33, 45)' }}>
                         <div className="flex flex-col items-center py-6 px-4 sm:px-6 lg:px-8">
-                            <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900 mb-4 bg-[rgba(255,255,255,0.9)] p-4 rounded-md w-full max-w-md">
+                            <h2 className="mt-0 text-center text-3xl font-extrabold  mb-4 bg-[rgba(255,255,255,0.9)] p-4 rounded-md w-full max-w-md">
                                 Registrar Negocio
                             </h2>
                             <div className="flex flex-col lg:flex-row w-full max-w-6xl space-y-6 lg:space-y-0 lg:space-x-8">
@@ -354,7 +354,7 @@ export default function RegistroNegocio() {
 
                                         {/* Dirección */}
                                         <div>
-                                            <label htmlFor="direccion_automatica" className="block text-sm font-medium text-gray-700">
+                                            <label htmlFor="text" className="block text-sm font-medium text-gray-700">
                                                 Dirección Automatica
                                             </label>
                                             <textarea
