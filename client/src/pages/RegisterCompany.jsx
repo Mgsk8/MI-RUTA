@@ -6,7 +6,8 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // Importa PropTypes
 import axios from "axios"; // Importa axios para hacer solicitudes HTTP
 import CategorySelect from "../components/CategorySelect.jsx";
-//import "../../styles/styles.css"
+import ImageUpload from "../components/ImageUpload.jsx";
+import "../../styles/styles.css"
 
 // Componente Modal
 function Modal({ isOpen, onClose, message, validation }) {
@@ -15,14 +16,14 @@ function Modal({ isOpen, onClose, message, validation }) {
     const canClose = typeof validation === "function" ? validation() : true;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded-md shadow-md max-w-sm mx-auto z-60">
+        <div className="fixed inset-0 flex items-center justify-center ">
+            <div className="p-6  shadow-md max-w-sm ">
                 <h3 className="text-lg font-semibold">Información Importante</h3>
                 <p className="mt-2">{message}</p>
                 <button
                     className={`mt-4 w-full py-2 rounded-md ${canClose
-                        ? "bg-indigo-600 text-white hover:bg-indigo-500"
-                        : "bg-gray-400 text-gray-700 cursor-not-allowed"
+                        ? " "
+                        : " cursor-not-allowed"
                         }`}
                     onClick={canClose ? onClose : null}
                 >
@@ -59,7 +60,32 @@ export default function RegistroNegocio() {
     //const [isMapPaused, setMapPaused] = useState(false);
     const [isContentVisible, setContentVisible] = useState(true); // Nuevo estado para controlar la visibilidad del contenido
 
+    const [selectedImages, setSelectedImages] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
+
+     // Función para subir las imágenes a Cloudinary
+     const uploadImagesToCloudinary = async (images) => {
+        const uploadPreset = 'ml_default'; // Asegúrate de usar tu upload preset
+        const cloudName = "dwionpfqj"; // Corrige el nombre del cloud si es necesario
+
+        const uploadPromises = images.map(async (image) => {
+            const formData = new FormData();
+            formData.append('file', image);
+            formData.append('upload_preset', uploadPreset);
+
+            try {
+                const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
+                return response.data.secure_url;
+            } catch (error) {
+                console.error('Error al subir la imagen:', error.response?.data || error.message);
+                throw error; // Lanza el error para manejarlo más tarde
+            }
+        });
+
+        // Espera a que todas las promesas se resuelvan y convierte las URLs a una cadena separada por comas
+        const urls = await Promise.all(uploadPromises);
+        return urls.join(', '); // Devuelve las URLs como una cadena separada por comas
+    };
 
     // Actualiza el valor del formulario cada vez que se seleccionan categorías
 
@@ -138,43 +164,7 @@ export default function RegistroNegocio() {
         return null; // Devuelve null si no se obtiene una dirección
     };
 
-    const [selectedImages, setSelectedImages] = useState([]);
 
-    // Función para manejar la carga de múltiples imágenes
-    const handleImageUpload = (event) => {
-        const files = Array.from(event.target.files); // Convertir los archivos en un array
-        setSelectedImages((prevImages) => [...prevImages, ...files]); // Añadir nuevas imágenes al estado
-    };
-
-    // Función para eliminar una imagen seleccionada
-    const handleRemoveImage = (indexToRemove) => {
-        setSelectedImages((prevImages) =>
-            prevImages.filter((_, index) => index !== indexToRemove) // Filtrar la imagen que se desea eliminar
-        );
-    };
-
-    const uploadImagesToCloudinary = async (images) => {
-        const uploadPreset = 'ml_default'; // Asegúrate de usar tu upload preset
-        const cloudName = "dwionpfqj"; // Corrige el nombre del cloud si es necesario
-
-        const uploadPromises = images.map(async (image) => {
-            const formData = new FormData();
-            formData.append('file', image);
-            formData.append('upload_preset', uploadPreset);
-
-            try {
-                const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
-                return response.data.secure_url;
-            } catch (error) {
-                console.error("Error al subir la imagen:", error.response?.data || error.message);
-                throw error; // Lanza el error para manejarlo más tarde
-            }
-        });
-
-        // Espera a que todas las promesas se resuelvan y convierte las URLs a una cadena separada por comas
-        const urls = await Promise.all(uploadPromises);
-        return urls.join(', '); // Devuelve las URLs como una cadena separada por comas
-    };
 
     useEffect(() => {
         if (!alertShown) {
@@ -250,51 +240,53 @@ export default function RegistroNegocio() {
             />
             {isContentVisible &&
                 isModalClosed && ( // Solo muestra el contenido si isContentVisible es verdadero
-                    <div className="bg-cover bg-center min-h-screen w-full relative" style={{ backgroundColor: 'rgb(24, 33, 45)' }}>
+                    <div className="bg-cover bg-center min-h-screen w-full relative">
                         <div className="flex flex-col items-center py-6 px-4 sm:px-6 lg:px-8">
-                            <h2 className="mt-0 text-center text-3xl font-extrabold  mb-4 bg-[rgba(255,255,255,0.9)] p-4 rounded-md w-full max-w-md">
+                            <h2 className="mt-0 text-center text-3xl font-extrabold  mb-4  p-4 rounded-md w-full max-w-md">
                                 Registrar Negocio
                             </h2>
                             <div className="flex flex-col lg:flex-row w-full max-w-6xl space-y-6 lg:space-y-0 lg:space-x-8">
-                                <div className="w-full lg:w-3/5">
+                                <div className="form w-full lg:w-3/5 ">
                                     <form
                                         onSubmit={handleSubmit(onSubmit)}
                                         method="POST"
-                                        className="space-y-6 bg-[rgba(255,255,255,0.9)] p-8 shadow-md rounded-lg"
+                                        className="space-y-6  p-8 shadow-md rounded-lg"
                                     >
                                         {/* Nombre */}
                                         <div>
-                                            <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
+                                            <label htmlFor="nombre" className="block text-sm font-medium ">
                                                 Nombre
                                             </label>
                                             <input
                                                 id="nombre"
                                                 name="nombre"
                                                 type="text"
+                                                placeholder="Nombre del negocio"
                                                 required
                                                 autoComplete="given-name"
-                                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                className="mt-1 block w-full px-3 py-2 border  rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 {...register("nombre", { required: true })}
                                             />
                                         </div>
 
                                         {/* Información */}
                                         <div>
-                                            <label htmlFor="informacion" className="block text-sm font-medium text-gray-700">
+                                            <label htmlFor="informacion" className="block text-sm font-medium ">
                                                 Información
                                             </label>
                                             <textarea
                                                 id="informacion"
                                                 name="informacion"
+                                                placeholder="Información del negocio"
                                                 required
-                                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                className="mt-1 block w-full px-3 py-2 border  rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 {...register("informacion", { required: true })}
                                             />
                                         </div>
 
                                         {/* Categorías */}
                                         <div>
-                                            <label className="block text-gray-700">Categorías del negocio:</label>
+                                            <label className="block ">Categorías del negocio:</label>
                                             <CategorySelect
                                                 id="categorias"
                                                 name="categorias"
@@ -306,25 +298,26 @@ export default function RegistroNegocio() {
 
                                         {/* NIT */}
                                         <div>
-                                            <label htmlFor="nit" className="block text-sm font-medium text-gray-700">
+                                            <label htmlFor="nit" className="block text-sm font-medium ">
                                                 NIT
                                             </label>
                                             <input
                                                 id="nit"
                                                 name="nit"
-                                                type="text"
+                                                type="number"
+                                                placeholder="NIT del negocio"
                                                 required
-                                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                className="mt-1 block w-full px-3 py-2 border  rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 {...register("nit", { required: true })}
                                             />
                                         </div>
 
                                         {/* Ubicación GPS */}
                                         <div>
-                                            <h3 className="block text-sm font-medium text-gray-700">Ubicación GPS</h3>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <label htmlFor="latitud" className="block text-sm font-medium text-gray-700">
+                                            <h3 className="block text-sm font-medium ">Ubicación GPS</h3>
+                                            <div className="grid grid-cols-2 gap-4  no-border">
+                                                <div className="no-border">
+                                                    <label htmlFor="latitud" className="block text-sm font-medium ">
                                                         Latitud
                                                     </label>
                                                     <input
@@ -332,12 +325,12 @@ export default function RegistroNegocio() {
                                                         name="latitud"
                                                         type="text"
                                                         readOnly
-                                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                                        className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
                                                         {...register("latitud")}
                                                     />
                                                 </div>
-                                                <div>
-                                                    <label htmlFor="longitud" className="block text-sm font-medium text-gray-700">
+                                                <div className="no-border">
+                                                    <label htmlFor="longitud" className="block text-sm ">
                                                         Longitud
                                                     </label>
                                                     <input
@@ -345,7 +338,7 @@ export default function RegistroNegocio() {
                                                         name="longitud"
                                                         type="text"
                                                         readOnly
-                                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                                        className="mt-1 block w-full px-3 py-2 border  rounded-md shadow-sm"
                                                         {...register("longitud")}
                                                     />
                                                 </div>
@@ -361,54 +354,28 @@ export default function RegistroNegocio() {
                                                 id="direccion_automatica"
                                                 name="direccion_automatica"
                                                 readOnly
-                                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                                className="mt-1 block w-full px-3 py-2 border  rounded-md shadow-sm"
                                                 {...register("direccion_automatica")}
                                             />
                                         </div>
                                         <div>
-                                            <label htmlFor="direccion_manual" className="block text-sm font-medium text-gray-700">
+                                            <label htmlFor="direccion_manual" className="block text-sm font-medium">
                                                 Dirección Manual (opcional)
                                             </label>
                                             <textarea
                                                 id="direccion_manual"
                                                 name="direccion_manual"
+                                                placeholder="Dirección manual del negocio"
                                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                                                 {...register("direccion_manual")}
                                             />
                                         </div>
 
                                         {/* Imágenes */}
-                                        <div className="mb-4">
-                                            <label htmlFor="imageUpload" className="block text-sm font-medium text-gray-700">
-                                                Subir imágenes del negocio (opcional)
-                                            </label>
-                                            <input
-                                                type="file"
-                                                id="images"
-                                                accept="image/*"
-                                                multiple
-                                                onChange={handleImageUpload}
-                                                className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                            />
-                                            {selectedImages.length > 0 && (
-                                                <ul className="mt-2 space-y-1">
-                                                    {selectedImages.map((image, index) => (
-                                                        <li key={index} className="flex justify-between items-center">
-                                                            {image.name}
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => handleRemoveImage(index)}
-                                                                className="text-red-500 ml-2"
-                                                            >
-                                                                Quitar
-                                                            </button>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            )}
-                                        </div>
+                                        <ImageUpload selectedImages={selectedImages} setSelectedImages={setSelectedImages} />
+
                                         {/* id_afiliado */}
-                                        <div className="mb-4">
+                                        <div className="hidden">
                                             <input
                                                 id="id_afiliado"
                                                 name="id_afiliado"
@@ -420,7 +387,7 @@ export default function RegistroNegocio() {
                                             />
                                         </div>
                                          {/* id_afiliado */}
-                                        <div className="mb-4">
+                                        <div className="hidden">
                                             <input
                                                 id="calificacion"
                                                 name="calificacion"
@@ -435,7 +402,7 @@ export default function RegistroNegocio() {
                                         <div>
                                             <button
                                                 type="submit"
-                                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2"
                                             >
                                                 Registrar
                                             </button>
@@ -450,7 +417,7 @@ export default function RegistroNegocio() {
                                         initialPosition={{ lat: 0, lng: 0 }}
                                         zoom={15}
                                     />
-                                    <div className="bg-[rgba(255,255,255,0.8)] p-4 rounded-md shadow-md mt-4">
+                                    <div className=" p-4 rounded-md shadow-md mt-4">
                                         <h3 className="text-lg font-semibold mb-2">Vista previa en Google Maps</h3>
                                         <a
                                             href={googleMapsUrl}

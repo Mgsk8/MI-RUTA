@@ -1,10 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
 /* Estilo General */
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #18212D; /* Fondo principal */
-  color: #f1ff70; /* Texto */
-  line-height: 1.6; /* Mejora de la legibilidad */
+  margin-top: 3rem !important;
+  font-family: 'Roboto', sans-serif;
+  background-color: #d6f7ea; /* Fondo azul claro */
+  color: #121212; /* Texto oscuro */
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+/* Estilo para el modo oscuro */
+body.dark-theme {
+  background-color: #121212; /* Fondo oscuro */
+  color: #d6f7ea; /* Texto azul claro */
 }
 
 /* Contenedor Principal */
@@ -18,13 +29,14 @@ body {
 
 /* Tarjeta Principal */
 .form-container {
-  background-color: rgba(255, 255, 255, 0.1); /* Transparencia en el fondo */
+  background-color: rgba(18, 18, 18, 0.8); /* Fondo oscuro */
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 15px rgba(18, 18, 18, 0.5);
   width: 100%;
   max-width: 800px;
-  overflow: hidden; /* Asegura que nada sobresalga */
+  overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Títulos */
@@ -32,10 +44,10 @@ body {
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
-  color: rgba(241, 255, 112, 0.9); /* Título con color amarillo más suave */
   margin-bottom: 1.5rem;
   text-transform: uppercase;
-  letter-spacing: 1.5px; /* Espaciado adicional */
+  letter-spacing: 1.5px;
+  transition: color 0.3s ease;
 }
 
 /* Formulario */
@@ -49,13 +61,27 @@ form {
 form div {
   margin-bottom: 1.5rem;
   padding: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.08); /* Fondo sutil con transparencia */
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 6px;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+  border: 2px solid transparent; /* Por defecto, borde transparente */
 }
 
+
 form div:hover {
-  transform: translateY(-2px); /* Efecto visual al pasar el mouse */
+  transform: translateY(-2px);
+  background-color: rgba(18, 18, 18, 0.2);
+  color: #d6f7ea;
+}
+
+/* Bordes en hover para el modo oscuro */
+body.dark-theme form div:hover {
+  border-color: #d6f7ea; /* Mantener el borde claro cuando se pasa el ratón */
+}
+
+/* Bordes en hover para el modo claro */
+body.light-theme form div:hover {
+  border-color: #121212; /* Mantener el borde oscuro cuando se pasa el ratón */
 }
 
 /* Etiquetas */
@@ -64,8 +90,8 @@ label {
   font-weight: 600;
   margin-bottom: 0.5rem;
   display: block;
-  color: rgba(241, 255, 112, 0.8); /* Etiquetas de color amarillo suave */
   letter-spacing: 0.5px;
+  transition: color 0.3s ease;
 }
 
 /* Inputs, Textareas y Selects */
@@ -74,27 +100,63 @@ textarea,
 select {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid rgba(241, 255, 112, 0.5); /* Borde más suave */
+  border: 2px solid #d6f7ea; /* Borde azul claro */
   border-radius: 6px;
-  background-color: rgba(27, 37, 50, 0.8); /* Fondo oscuro con transparencia */
-  color: #f1ff70;
+  background-color: #3a3a3f; /* Fondo oscuro, un poco más claro que el fondo principal */
+  color: #d6f7ea; /* Texto azul claro */
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease; /* Transición suave para todos los efectos */
 }
 
+/* Para el modo claro (light-theme) */
+body.light-theme input,
+body.light-theme textarea,
+body.light-theme select {
+  background-color: #f5f5f5; /* Fondo gris claro */
+  color: #121212; /* Texto oscuro */
+  border: 2px solid #121212; /* Borde oscuro */
+}
+
+/* Foco en Inputs, Textareas y Selects */
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: #e2ef60;
-  box-shadow: 0 0 5px #e2ef60;
+  border-color: #d6f7ea; /* Borde azul claro cuando se enfoca */
+  box-shadow: 0 0 8px #d6f7ea, 0 0 15px rgba(255, 255, 255, 0.4); /* Sombra más intensa y brillante */
+  background-color: #4a4a52; /* Fondo más claro en modo oscuro cuando se enfoca */
+  border-width: 3px; /* Aumentar el grosor del borde cuando se enfoca */
+}
+
+/* Para el modo oscuro */
+body.dark-theme input,
+body.dark-theme textarea,
+body.dark-theme select {
+  background-color: #121212; /* Fondo oscuro */
+  color: #d6f7ea; /* Texto azul claro */
+  border: 2px solid #d6f7ea; /* Borde azul claro */
+}
+
+/* Sombra sutil para dar énfasis sin afectar el fondo */
+input:hover,
+textarea:hover,
+select:hover {
+  box-shadow: 0 0 10px #d6f7ea; /* Sombra sutil al pasar el ratón */
+}
+
+/* Opcional: Agregar un borde doble para profundidad (solo en modo oscuro) */
+body.dark-theme input,
+body.dark-theme textarea,
+body.dark-theme select {
+  border: 2px solid #d6f7ea; /* Borde normal en modo oscuro */
+  box-shadow: inset 0 0 5px #d6f7ea, 0 0 5px rgba(0, 0, 0, 0.6); /* Agregar borde doble */
 }
 
 /* Botones */
 button, .submit-button {
-  all: unset; /* Resetea estilos del navegador */
-  background-color: rgba(241, 255, 112, 0.8); /* Fondo con transparencia */
-  color: #18212D;
+  all: unset;
+  background-color: #121212; /* Fondo oscuro */
+  color: #d6f7ea; /* Texto azul claro */
   font-size: 1rem;
   font-weight: bold;
   padding: 0.75rem 1.5rem;
@@ -106,69 +168,79 @@ button, .submit-button {
 }
 
 button:hover, .submit-button:hover {
-  background-color: rgba(226, 239, 96, 0.8); /* Fondo con transparencia */
+  background-color: #d6f7ea;
+  color: #121212;
   transform: translateY(-2px);
 }
 
 button:active, .submit-button:active {
-  background-color: rgba(212, 225, 87, 0.8); /* Fondo con transparencia */
+  background-color: #121212;
+  color: #d6f7ea;
   transform: translateY(0);
 }
 
 /* Vista Previa del Mapa */
 .map-preview {
-  background-color: rgba(0, 0, 0, 0.3); /* Fondo oscuro con transparencia */
+  background-color: rgba(18, 18, 18, 0.3);
   padding: 1rem;
   border-radius: 6px;
   text-align: center;
-  color: #f1ff70;
   margin-top: 1rem;
-  border: 1px dashed rgba(241, 255, 112, 0.5); /* Marco adicional */
+  border: 1px dashed #d6f7ea; /* Borde azul claro */
+  color: #d6f7ea;
 }
 
 /* Links */
 a {
-  color: #f1ff70;
+  color: #d6f7ea;
   text-decoration: underline;
 }
 
 a:hover {
-  color: #e2ef60;
+  color: #121212;
   text-decoration: none;
 }
 
-/* Tablas de Imágenes */
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-ul li {
+/* Modales */
+.modal {
+  margin-top: 3rem !important;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(241, 255, 112, 0.2);
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(18, 18, 18, 0.7); /* Fondo oscuro con transparencia */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  z-index: 1000;
+}
+
+/* Contenido de la Modal */
+.modal-content {
+  background-color: #121212; /* Fondo oscuro */
+  color: #d6f7ea; /* Texto claro */
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(18, 18, 18, 0.5);
+  border: 2px solid #d6f7ea !important; /* Borde claro */
+}
+
+/* Botón de la Modal */
+.modal-btn {
+  background-color: #d6f7ea; /* Fondo claro */
+  color: #121212; /* Texto oscuro */
+  padding: 1rem;
   border-radius: 6px;
-  margin-bottom: 0.5rem;
-  transition: transform 0.2s ease;
-}
-
-ul li:hover {
-  transform: translateY(-2px);
-}
-
-ul li button {
-  background: none;
-  border: none;
-  color: #ff6b6b;
-  font-weight: bold;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-ul li button:hover {
-  color: #ff4c4c;
+.modal-btn:hover {
+  background-color: #121212;
+  color: #d6f7ea;
+  transform: translateY(-2px);
 }
