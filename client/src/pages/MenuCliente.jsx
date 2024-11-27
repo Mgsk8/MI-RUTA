@@ -5,6 +5,7 @@ import { Category } from "../components/Category";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa"; // Icono para el filtro
+// import "../../style/style.css";
 
 export default function MenuCliente() {
   const [categories, setCategories] = useState(["All"]);
@@ -77,8 +78,8 @@ export default function MenuCliente() {
   return (
     <>
       <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-300 via-gray-600 to-gray-500">
-        <div className="max-w-5xl w-full text-white py-10 px-6 rounded-lg shadow-2xl bg-gray-800 bg-opacity-80">
+      <div className="min-h-screen flex items-center justify-center bg-[#18212D] from-gray-300 via-gray-600 to-gray-500">
+        <div className="w-full text-white py-10 px-6 bg-[#18212D] bg-opacity-80">
           <div className="text-center mt-10 mb-6">
             <h1 className="text-4xl font-extrabold tracking-widest text-cyan-300 uppercase">
               Filtrar <span className="text-orange-500">Lugares</span>
@@ -97,7 +98,7 @@ export default function MenuCliente() {
               placeholder="Buscar por nombre..."
               value={searchTerm}
               onChange={handleSearch}
-              className="w-full p-2 pr-10 rounded text-gray-800"
+              className="w-full p-2 pr-10 rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-cyan-300"
             />
             <FaStar
               onClick={() => setShowRatingFilter(!showRatingFilter)}
