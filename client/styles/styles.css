@@ -50,6 +50,19 @@ form {
 
 form div {
   @apply mb-6 p-2 bg-white bg-opacity-5 rounded-md transition-all duration-200 hover:bg-opacity-10 hover:translate-y-[-2px];
+
+  /* Añadir sombra en modo claro */
+  @apply shadow-md; /* Agrega sombra en el modo claro */
+}
+
+/* Añadir sombra en el modo claro */
+body.light-theme form div {
+  @apply shadow-md; /* Asegura que se aplique la sombra */
+}
+
+/* Sombra en modo oscuro, manténlo como está */
+body.dark-theme form div {
+  @apply shadow-none; /* Si prefieres quitar la sombra en el modo oscuro, puedes dejarlo así */
 }
 
 label {
@@ -81,11 +94,93 @@ body.light-theme select {
   }
 }
 
+/* Estilos generales de botones */
 button, .submit-button {
-  @apply bg-gray-900 text-blue-100 text-base font-bold py-3 px-6 rounded-md 
+  @apply text-base font-bold py-3 px-6 rounded-md 
          uppercase text-center cursor-pointer transition-all duration-300 
-         hover:bg-blue-100 hover:text-gray-900 active:translate-y-0;
+         shadow-lg;
+  /* Otros estilos generales de botones... */
 }
+
+/* Estilo específico para el botón de cerrar sesión (siempre rojo) */
+button.logout-button {
+  @apply bg-red-600 text-white border-none rounded-md px-4 py-2;
+
+  /* Hover */
+  &:hover {
+    @apply bg-red-700;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-red-800;
+  }
+}
+
+/* Estilos para botones en tema claro */
+body.light-theme button.logout-button {
+  @apply bg-red-600 text-white;
+
+  /* Hover */
+  &:hover {
+    @apply bg-red-700;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-red-800;
+  }
+}
+
+/* Estilos para botones en tema oscuro */
+body.dark-theme button.logout-button {
+  @apply bg-red-700 text-white;
+
+  /* Hover */
+  &:hover {
+    @apply bg-red-800;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-red-900;
+  }
+}
+
+/* Estilos para botones en tema claro */
+body.light-theme button, 
+body.light-theme .submit-button {
+  @apply bg-blue-400 text-white border-blue-500;
+
+  /* Hover */
+  &:hover {
+    @apply bg-blue-500 border-blue-600;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-blue-600 border-blue-700;
+  }
+}
+
+/* Estilos para botones en tema oscuro */
+body.dark-theme button, 
+body.dark-theme .submit-button {
+  @apply bg-gray-700 text-blue-100 border-blue-200;
+
+  /* Hover */
+  &:hover {
+    @apply bg-gray-600 border-blue-300 text-blue-200 scale-105;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-gray-800 border-blue-400 text-blue-300;
+  }
+}
+
+
+
 
 .map-preview {
   @apply bg-gray-900 bg-opacity-30 p-4 rounded-md text-center mt-4 
@@ -96,14 +191,26 @@ a {
   @apply text-blue-100 underline hover:no-underline hover:text-gray-900;
 }
 
+/* Estilos para la modal */
 .modal {
   @apply fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-70 
-         flex justify-center items-center z-50 mt-12;
+         flex justify-center items-center z-50;
+         margin-top: 4rem;
 }
 
+/* Estilos para el contenido de la modal */
 .modal-content {
-  @apply bg-gray-900 text-blue-100 p-8 rounded-lg text-center 
-         w-4/5 max-w-md shadow-xl border-2 border-blue-100;
+  @apply p-8 rounded-lg text-center w-4/5 max-w-md shadow-xl border-2;
+
+  /* Establecemos color de texto negro en todo momento */
+  @apply text-black;
+
+  /* Estilos para el fondo dependiendo del tema */
+  /* Tema claro */
+  @apply bg-white border-gray-300;
+
+  /* Tema oscuro */
+  @apply dark:bg-gray-800 dark:border-blue-300 dark:text-blue-100;
 }
 
 .modal-btn {
