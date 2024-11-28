@@ -32,6 +32,11 @@ export const Category = ({ lugares }) => {
             <p className="text-gray-400 mt-2">
               Calificación: {lugar.calificacion}
             </p>
+            {lugar.descuento === 1 && (
+              <p className="text-red-500 mt-2 animate-pulse">
+                ¡Descuento disponible! ¡Aprovecha ahora!
+              </p>
+            )}
           </a>
         </div>
       ))}
