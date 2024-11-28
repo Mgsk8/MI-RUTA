@@ -3,15 +3,16 @@ import Navbar from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { validateEmail, validatePassword } from "../../validation/validations";  // Importar validaciones
+import { AUTH_TYPES } from "../Constants";
 
 export default function LoginUsers() {
+  localStorage.setItem("auth", AUTH_TYPES.FALSE);
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigation = [
     { name: "Inicio", href: "/", current: false },
     { name: "Iniciar sesión", href: "/login", current: true },
     { name: "Registrarse", href: "/register", current: false },
     { name: "Acerca", href: "#", current: false },
-    { name: "administrador", href: "admin", current: false },
   ];
   const navigate = useNavigate();
 
@@ -34,6 +35,7 @@ export default function LoginUsers() {
                     console.log(res);
                     const id_usuario= res.data.id;
                     localStorage.setItem("id_usuario_actual", id_usuario);
+                    localStorage.setItem("auth", AUTH_TYPES.TRUE);
                     console.log(id_usuario);
                     if (res.status === 200) {
                       // Login exitoso, redirigir al dashboard o página principal

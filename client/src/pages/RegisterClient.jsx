@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { registerUserRequest, registerClientRequest } from "../api/auth.js";
 import { useNavigate } from "react-router-dom"; 
 import { validateEmail, validatePassword, validateCheckbox } from "../../validation/validations.js"; 
+import { AUTH_TYPES } from "../Constants.jsx";
 
 export default function RegisterClient() {
+  localStorage.setItem("auth", AUTH_TYPES.FALSE);
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const navigate = useNavigate();
 

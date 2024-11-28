@@ -1,7 +1,9 @@
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import { AUTH_TYPES } from "../Constants";
 
 export default function RoleSelection() {
+  localStorage.setItem("auth", AUTH_TYPES.FALSE);
   const navigation = [
     { name: "Inicio", href: "/", current: false },
     { name: "Iniciar sesión", href: "/login", current: false },

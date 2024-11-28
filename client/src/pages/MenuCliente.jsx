@@ -69,7 +69,7 @@ export default function MenuCliente() {
     }
 
     if (ratingFilter > 0) {
-      filtered = filtered.filter((lugar) => lugar.calificacion >= ratingFilter);
+      filtered = filtered.filter((lugar) => lugar.calificacion == ratingFilter);
     }
 
     setFilteredLugares(filtered);
