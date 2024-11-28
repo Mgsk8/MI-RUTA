@@ -1,19 +1,21 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  infoLugar,
-  getPlaceUserReview,
-  postReview,
-  updateReview,
-  deleteReview,
-  getPlaceReviews,
-  getUsuariosRequest,
+import { 
+    infoLugar, 
+    getPlaceUserReview, 
+    postReview, 
+    updateReview, 
+    deleteReview, 
+    getPlaceReviews, 
+    getUsuariosRequest 
 } from "../api/auth";
 import Navbar from "../components/Navbar";
 import MapViewNegocio from "../components/MapViewNegocio";
 import { LOCAL_STORAGE_TERMS } from "../Constants";
 import Ruleta from "../components/Ruleta";
 import AlertaEstetica from "../components/AlertaRuleta";
+
+// Componente para la calificación con estrellas
 const StarRating = ({ calificacion, setCalificacion }) => {
   const handleClick = (index) => {
     setCalificacion(index + 1);

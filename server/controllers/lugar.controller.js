@@ -47,15 +47,15 @@ export const crearLugar = async(req, res) => {
     let informacion = req.params.informacion;
     let ubicacion = req.params.ubicacion;
     let categoria = req.params.categoria;*/
-    const {nombre, informacion, latitud, longitud, direccion_automatica, direccion_manual, categorias, calificacion, images} = req.body;
-    console.log("nombre: ", nombre, "\ninformacion: ", informacion, "\nlatitud: ", latitud, "\nlongitud: ", longitud, "\ncategoria: ", categorias, "\ncalificacion: ", calificacion);
+    const {nombre, informacion, latitud, longitud, direccion_automatica, direccion_manual, categorias, calificacion, images, descuento} = req.body;
+    console.log("nombre: ", nombre, "\ninformacion: ", informacion, "\nlatitud: ", latitud, "\nlongitud: ", longitud, "\ncategoria: ", categorias, "\ncalificacion: ", calificacion,"\ndescuento: ", descuento);
     
     try {
         const connection = await connectDB();
         if (connection){
 
-            const [result] = await connection.query('INSERT INTO lugar(nombre, informacion, latitud, longitud, direccion_automatica, direccion_manual, categorias, calificacion, images) VALUES (?,?,?,?,?,?,?,?,?)',
-                [nombre, informacion, latitud.toString(), longitud.toString(), direccion_automatica, direccion_manual, categorias, calificacion, images]);
+            const [result] = await connection.query('INSERT INTO lugar(nombre, informacion, latitud, longitud, direccion_automatica, direccion_manual, categorias, calificacion, images, descuento) VALUES (?,?,?,?,?,?,?,?,?,?)',   
+                [nombre, informacion, latitud.toString(), longitud.toString(), direccion_automatica, direccion_manual, categorias, calificacion, images, descuento]);
             
             console.log(result);
 
@@ -68,7 +68,8 @@ export const crearLugar = async(req, res) => {
                 direccion_automatica,
                 direccion_manual,
                 categorias,
-                calificacion
+                calificacion,
+                descuento
             });
 
             connection.release();
