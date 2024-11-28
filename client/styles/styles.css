@@ -1,237 +1,113 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
-/* Estilo General */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: theme('colors.blue.100');
+  --primary-color-hover: theme('colors.blue.200');
+  --secondary-color: theme('colors.gray.900');
+  --secondary-color-light: theme('colors.gray.800');
+  --secondary-color-rgb: 33, 33, 33;
+  --app-margin-top: 3rem; /* Margen superior global */
+}
+
 body {
-  margin: 0;
-  margin-top: 3rem !important;
-  font-family: 'Roboto', sans-serif;
-  background-color: #79b9a4; /* Fondo azul claro */
-  color: #212121; /* Texto oscuro */
-  line-height: 1.6;
-  transition: all 0.3s ease;
+  @apply m-0 font-['Trebuchet_MS'] bg-blue-100 text-gray-900 leading-relaxed transition-all duration-300;
+  margin-top: var(--app-margin-top); /* Garantiza que el margen superior siempre esté presente */
 }
 
-/* Estilo para el modo oscuro */
+body.light-theme,
 body.dark-theme {
-  background-color: #212121; /* Fondo oscuro */
-  color: #79b9a4; /* Texto azul claro */
+  margin-top: var(--app-margin-top); /* Reaplica el margen en ambos temas */
 }
 
-/* Contenedor Principal */
+body.light-theme {
+  @apply bg-blue-100 text-gray-900;
+}
+
+body.dark-theme {
+  @apply bg-gray-900 text-blue-100;
+}
+
 .main-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 2rem;
+  @apply flex justify-center items-center min-h-screen p-8;
 }
 
-/* Tarjeta Principal */
 .form-container {
-  background-color: rgba(33, 33, 33, 0.8); /* Fondo oscuro */
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(33, 33, 33, 0.5);
-  width: 100%;
-  max-width: 800px;
-  overflow: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  @apply bg-gray-900 bg-opacity-80 p-8 rounded-xl shadow-xl w-full max-w-4xl overflow-hidden transition-colors duration-300;
 }
 
-/* Títulos */
 .title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  transition: color 0.3s ease;
+  @apply text-6xl font-bold text-center mb-6 uppercase tracking-widest;
 }
 
-/* Formulario */
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  @apply flex flex-col gap-6;
 }
 
-/* Divs dentro del formulario */
 form div {
-  margin-bottom: 1.5rem;
-  padding: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease;
-  border: 2px solid transparent; /* Por defecto, borde transparente */
+  @apply mb-6 p-2 bg-white bg-opacity-5 rounded-md transition-all duration-200 hover:bg-opacity-10 hover:translate-y-[-2px];
 }
 
-form div:hover {
-  transform: translateY(-2px);
-  background-color: rgba(33, 33, 33, 0.2);
-  color: #79b9a4;
-}
-
-/* Bordes en hover para el modo oscuro */
-body.dark-theme form div:hover {
-  border-color: #79b9a4; /* Mantener el borde claro cuando se pasa el ratón */
-}
-
-/* Bordes en hover para el modo claro */
-body.light-theme form div:hover {
-  border-color: #212121; /* Mantener el borde oscuro cuando se pasa el ratón */
-}
-
-/* Etiquetas */
 label {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  display: block;
-  letter-spacing: 0.5px;
-  transition: color 0.3s ease;
+  @apply text-base font-semibold mb-2 block tracking-wider;
 }
 
-/* Inputs, Textareas y Selects */
-input,
-textarea,
+input, 
+textarea, 
 select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #79b9a4; /* Borde azul claro */
-  border-radius: 6px;
-  background-color: #3a3a3f; /* Fondo oscuro, un poco más claro que el fondo principal */
-  color: #79b9a4; /* Texto azul claro */
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease; /* Transición suave para todos los efectos */
+  @apply w-full p-3 bg-gray-700 text-blue-100 text-base 
+         border-2 border-gray-600 rounded-md outline-none 
+         transition-all duration-300 
+         hover:ring-1 hover:ring-blue-100;
+
+  /* Focus refinado */
+  &:focus {
+    @apply ring-2 ring-blue-200 shadow-lg border-blue-200 bg-gray-800;
+  }
 }
 
-/* Para el modo claro (light-theme) */
 body.light-theme input,
 body.light-theme textarea,
 body.light-theme select {
-  background-color: #f5f5f5; /* Fondo gris claro */
-  color: #212121; /* Texto oscuro */
-  border: 2px solid #212121; /* Borde oscuro */
+  @apply bg-gray-100 text-gray-900 border-gray-900;
+
+  /* Estilo focus en tema claro */
+  &:focus {
+    @apply ring-2 ring-blue-300 shadow-md border-blue-300 bg-gray-200;
+  }
 }
 
-/* Foco en Inputs, Textareas y Selects */
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #79b9a4; /* Borde azul claro cuando se enfoca */
-  box-shadow: 0 0 8px #79b9a4, 0 0 15px rgba(255, 255, 255, 0.4); /* Sombra más intensa y brillante */
-  background-color: #4a4a52; /* Fondo más claro en modo oscuro cuando se enfoca */
-  border-width: 3px; /* Aumentar el grosor del borde cuando se enfoca */
-}
-
-/* Para el modo oscuro */
-body.dark-theme input,
-body.dark-theme textarea,
-body.dark-theme select {
-  background-color: #212121; /* Fondo oscuro */
-  color: #79b9a4; /* Texto azul claro */
-  border: 2px solid #79b9a4; /* Borde azul claro */
-}
-
-/* Sombra sutil para dar énfasis sin afectar el fondo */
-input:hover,
-textarea:hover,
-select:hover {
-  box-shadow: 0 0 10px #79b9a4; /* Sombra sutil al pasar el ratón */
-}
-
-/* Botones */
 button, .submit-button {
-  all: unset;
-  background-color: #212121; /* Fondo oscuro */
-  color: #79b9a4; /* Texto azul claro */
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  text-transform: uppercase;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  @apply bg-gray-900 text-blue-100 text-base font-bold py-3 px-6 rounded-md 
+         uppercase text-center cursor-pointer transition-all duration-300 
+         hover:bg-blue-100 hover:text-gray-900 active:translate-y-0;
 }
 
-button:hover, .submit-button:hover {
-  background-color: #79b9a4;
-  color: #212121;
-  transform: translateY(-2px);
-}
-
-button:active, .submit-button:active {
-  background-color: #212121;
-  color: #79b9a4;
-  transform: translateY(0);
-}
-
-/* Vista Previa del Mapa */
 .map-preview {
-  background-color: rgba(33, 33, 33, 0.3);
-  padding: 1rem;
-  border-radius: 6px;
-  text-align: center;
-  margin-top: 1rem;
-  border: 1px dashed #79b9a4; /* Borde azul claro */
-  color: #79b9a4;
+  @apply bg-gray-900 bg-opacity-30 p-4 rounded-md text-center mt-4 
+         border-2 border-dashed border-blue-100 text-blue-100;
 }
 
-/* Links */
 a {
-  color: #79b9a4;
-  text-decoration: underline;
+  @apply text-blue-100 underline hover:no-underline hover:text-gray-900;
 }
 
-a:hover {
-  color: #212121;
-  text-decoration: none;
-}
-
-/* Modales */
 .modal {
-  margin-top: 3rem !important;
-  display: flex;
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(33, 33, 33, 0.7); /* Fondo oscuro con transparencia */
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  z-index: 1000;
+  @apply fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-70 
+         flex justify-center items-center z-50 mt-12;
 }
 
-/* Contenido de la Modal */
 .modal-content {
-  background-color: #212121; /* Fondo oscuro */
-  color: #79b9a4; /* Texto claro */
-  padding: 2rem;
-  border-radius: 8px;
-  text-align: center;
-  width: 80%;
-  max-width: 400px;
-  box-shadow: 0 4px 10px rgba(33, 33, 33, 0.5);
-  border: 2px solid #79b9a4 !important; /* Borde claro */
+  @apply bg-gray-900 text-blue-100 p-8 rounded-lg text-center 
+         w-4/5 max-w-md shadow-xl border-2 border-blue-100;
 }
 
-/* Botón de la Modal */
 .modal-btn {
-  background-color: #79b9a4; /* Fondo claro */
-  color: #212121; /* Texto oscuro */
-  padding: 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.modal-btn:hover {
-  background-color: #212121;
-  color: #79b9a4;
-  transform: translateY(-2px);
+  @apply bg-blue-100 text-gray-900 p-4 rounded-md cursor-pointer 
+         transition-all duration-300 hover:bg-gray-900 hover:text-blue-100 
+         hover:translate-y-[-2px];
 }
