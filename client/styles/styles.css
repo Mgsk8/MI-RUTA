@@ -6,16 +6,16 @@ body {
   margin: 0;
   margin-top: 3rem !important;
   font-family: 'Roboto', sans-serif;
-  background-color: #d6f7ea; /* Fondo azul claro */
-  color: #121212; /* Texto oscuro */
+  background-color: #79b9a4; /* Fondo azul claro */
+  color: #212121; /* Texto oscuro */
   line-height: 1.6;
   transition: all 0.3s ease;
 }
 
 /* Estilo para el modo oscuro */
 body.dark-theme {
-  background-color: #121212; /* Fondo oscuro */
-  color: #d6f7ea; /* Texto azul claro */
+  background-color: #212121; /* Fondo oscuro */
+  color: #79b9a4; /* Texto azul claro */
 }
 
 /* Contenedor Principal */
@@ -29,10 +29,10 @@ body.dark-theme {
 
 /* Tarjeta Principal */
 .form-container {
-  background-color: rgba(18, 18, 18, 0.8); /* Fondo oscuro */
+  background-color: rgba(33, 33, 33, 0.8); /* Fondo oscuro */
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(18, 18, 18, 0.5);
+  box-shadow: 0 8px 15px rgba(33, 33, 33, 0.5);
   width: 100%;
   max-width: 800px;
   overflow: hidden;
@@ -67,21 +67,20 @@ form div {
   border: 2px solid transparent; /* Por defecto, borde transparente */
 }
 
-
 form div:hover {
   transform: translateY(-2px);
-  background-color: rgba(18, 18, 18, 0.2);
-  color: #d6f7ea;
+  background-color: rgba(33, 33, 33, 0.2);
+  color: #79b9a4;
 }
 
 /* Bordes en hover para el modo oscuro */
 body.dark-theme form div:hover {
-  border-color: #d6f7ea; /* Mantener el borde claro cuando se pasa el ratón */
+  border-color: #79b9a4; /* Mantener el borde claro cuando se pasa el ratón */
 }
 
 /* Bordes en hover para el modo claro */
 body.light-theme form div:hover {
-  border-color: #121212; /* Mantener el borde oscuro cuando se pasa el ratón */
+  border-color: #212121; /* Mantener el borde oscuro cuando se pasa el ratón */
 }
 
 /* Etiquetas */
@@ -100,10 +99,10 @@ textarea,
 select {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid #d6f7ea; /* Borde azul claro */
+  border: 2px solid #79b9a4; /* Borde azul claro */
   border-radius: 6px;
   background-color: #3a3a3f; /* Fondo oscuro, un poco más claro que el fondo principal */
-  color: #d6f7ea; /* Texto azul claro */
+  color: #79b9a4; /* Texto azul claro */
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease; /* Transición suave para todos los efectos */
@@ -114,16 +113,16 @@ body.light-theme input,
 body.light-theme textarea,
 body.light-theme select {
   background-color: #f5f5f5; /* Fondo gris claro */
-  color: #121212; /* Texto oscuro */
-  border: 2px solid #121212; /* Borde oscuro */
+  color: #212121; /* Texto oscuro */
+  border: 2px solid #212121; /* Borde oscuro */
 }
 
 /* Foco en Inputs, Textareas y Selects */
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: #d6f7ea; /* Borde azul claro cuando se enfoca */
-  box-shadow: 0 0 8px #d6f7ea, 0 0 15px rgba(255, 255, 255, 0.4); /* Sombra más intensa y brillante */
+  border-color: #79b9a4; /* Borde azul claro cuando se enfoca */
+  box-shadow: 0 0 8px #79b9a4, 0 0 15px rgba(255, 255, 255, 0.4); /* Sombra más intensa y brillante */
   background-color: #4a4a52; /* Fondo más claro en modo oscuro cuando se enfoca */
   border-width: 3px; /* Aumentar el grosor del borde cuando se enfoca */
 }
@@ -132,31 +131,23 @@ select:focus {
 body.dark-theme input,
 body.dark-theme textarea,
 body.dark-theme select {
-  background-color: #121212; /* Fondo oscuro */
-  color: #d6f7ea; /* Texto azul claro */
-  border: 2px solid #d6f7ea; /* Borde azul claro */
+  background-color: #212121; /* Fondo oscuro */
+  color: #79b9a4; /* Texto azul claro */
+  border: 2px solid #79b9a4; /* Borde azul claro */
 }
 
 /* Sombra sutil para dar énfasis sin afectar el fondo */
 input:hover,
 textarea:hover,
 select:hover {
-  box-shadow: 0 0 10px #d6f7ea; /* Sombra sutil al pasar el ratón */
-}
-
-/* Opcional: Agregar un borde doble para profundidad (solo en modo oscuro) */
-body.dark-theme input,
-body.dark-theme textarea,
-body.dark-theme select {
-  border: 2px solid #d6f7ea; /* Borde normal en modo oscuro */
-  box-shadow: inset 0 0 5px #d6f7ea, 0 0 5px rgba(0, 0, 0, 0.6); /* Agregar borde doble */
+  box-shadow: 0 0 10px #79b9a4; /* Sombra sutil al pasar el ratón */
 }
 
 /* Botones */
 button, .submit-button {
   all: unset;
-  background-color: #121212; /* Fondo oscuro */
-  color: #d6f7ea; /* Texto azul claro */
+  background-color: #212121; /* Fondo oscuro */
+  color: #79b9a4; /* Texto azul claro */
   font-size: 1rem;
   font-weight: bold;
   padding: 0.75rem 1.5rem;
@@ -168,36 +159,36 @@ button, .submit-button {
 }
 
 button:hover, .submit-button:hover {
-  background-color: #d6f7ea;
-  color: #121212;
+  background-color: #79b9a4;
+  color: #212121;
   transform: translateY(-2px);
 }
 
 button:active, .submit-button:active {
-  background-color: #121212;
-  color: #d6f7ea;
+  background-color: #212121;
+  color: #79b9a4;
   transform: translateY(0);
 }
 
 /* Vista Previa del Mapa */
 .map-preview {
-  background-color: rgba(18, 18, 18, 0.3);
+  background-color: rgba(33, 33, 33, 0.3);
   padding: 1rem;
   border-radius: 6px;
   text-align: center;
   margin-top: 1rem;
-  border: 1px dashed #d6f7ea; /* Borde azul claro */
-  color: #d6f7ea;
+  border: 1px dashed #79b9a4; /* Borde azul claro */
+  color: #79b9a4;
 }
 
 /* Links */
 a {
-  color: #d6f7ea;
+  color: #79b9a4;
   text-decoration: underline;
 }
 
 a:hover {
-  color: #121212;
+  color: #212121;
   text-decoration: none;
 }
 
@@ -210,7 +201,7 @@ a:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(18, 18, 18, 0.7); /* Fondo oscuro con transparencia */
+  background-color: rgba(33, 33, 33, 0.7); /* Fondo oscuro con transparencia */
   justify-content: center; /* Centrar horizontalmente */
   align-items: center; /* Centrar verticalmente */
   z-index: 1000;
@@ -218,21 +209,21 @@ a:hover {
 
 /* Contenido de la Modal */
 .modal-content {
-  background-color: #121212; /* Fondo oscuro */
-  color: #d6f7ea; /* Texto claro */
+  background-color: #212121; /* Fondo oscuro */
+  color: #79b9a4; /* Texto claro */
   padding: 2rem;
   border-radius: 8px;
   text-align: center;
   width: 80%;
   max-width: 400px;
-  box-shadow: 0 4px 10px rgba(18, 18, 18, 0.5);
-  border: 2px solid #d6f7ea !important; /* Borde claro */
+  box-shadow: 0 4px 10px rgba(33, 33, 33, 0.5);
+  border: 2px solid #79b9a4 !important; /* Borde claro */
 }
 
 /* Botón de la Modal */
 .modal-btn {
-  background-color: #d6f7ea; /* Fondo claro */
-  color: #121212; /* Texto oscuro */
+  background-color: #79b9a4; /* Fondo claro */
+  color: #212121; /* Texto oscuro */
   padding: 1rem;
   border-radius: 6px;
   cursor: pointer;
@@ -240,7 +231,7 @@ a:hover {
 }
 
 .modal-btn:hover {
-  background-color: #121212;
-  color: #d6f7ea;
+  background-color: #212121;
+  color: #79b9a4;
   transform: translateY(-2px);
 }
