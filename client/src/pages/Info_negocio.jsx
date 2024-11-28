@@ -65,6 +65,13 @@ export default function InfoNegocio() {
     try {
       const res = await infoLugar(id_lugar);
       setBusinessData(res.data[0]);
+      
+
+      if (res.data[0]?.descuento === 1) {
+        setButtonVisible(true); // Habilitar botón
+      } else {
+        setButtonVisible(false); // Ocultar botón
+      }
 
       const id_usuario = localStorage.getItem(
         LOCAL_STORAGE_TERMS.ID_LOGGED_USER
