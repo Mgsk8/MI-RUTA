@@ -1,0 +1,182 @@
+/* Estilo General */
+body {
+    margin: 0;
+    font-family: "Arial", sans-serif;
+  background-color: #18212d; /* Fondo principal */
+  color: #f1ff70; /* Texto */
+  line-height: 1.6; /* Mejora de la legibilidad */
+}
+
+/* Contenedor Principal */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+/* Tarjeta Principal */
+.form-container {
+  background-color: rgba(255, 255, 255, 0.1); /* Transparencia en el fondo */
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 800px;
+  overflow: hidden; /* Asegura que nada sobresalga */
+}
+
+/* Títulos */
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: rgba(241, 255, 112, 0.9); /* Título con color amarillo más suave */
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  letter-spacing: 1.5px; /* Espaciado adicional */
+}
+
+/* Formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Divs dentro del formulario */
+form div {
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background-color: rgba(
+    255,
+    255,
+    255,
+    0.08
+  ); /* Fondo sutil con transparencia */
+    border-radius: 6px;
+    transition: transform 0.2s ease;
+}
+
+form div:hover {
+  transform: translateY(-2px); /* Efecto visual al pasar el mouse */
+}
+
+/* Etiquetas */
+label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+  color: rgba(241, 255, 112, 0.8); /* Etiquetas de color amarillo suave */
+    letter-spacing: 0.5px;
+}
+
+/* Inputs, Textareas y Selects */
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem;
+  border: 2px solid rgba(241, 255, 112, 0.5); /* Borde más suave */
+    border-radius: 6px;
+  background-color: rgba(27, 37, 50, 0.8); /* Fondo oscuro con transparencia */
+    color: #f1ff70;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #e2ef60;
+    box-shadow: 0 0 5px #e2ef60;
+}
+
+/* Botones */
+button,
+.submit-button {
+  all: unset; /* Resetea estilos del navegador */
+  background-color: rgba(241, 255, 112, 0.8); /* Fondo con transparencia */
+    color: #18212d;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover,
+.submit-button:hover {
+  background-color: rgba(226, 239, 96, 0.8); /* Fondo con transparencia */
+    transform: translateY(-2px);
+}
+
+button:active,
+.submit-button:active {
+  background-color: rgba(212, 225, 87, 0.8); /* Fondo con transparencia */
+    transform: translateY(0);
+}
+
+/* Vista Previa del Mapa */
+.map-preview {
+    background-color: rgba(0, 0, 0, 0.3); /* Fondo oscuro con transparencia */
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+    color: #f1ff70;
+    margin-top: 1rem;
+  border: 1px dashed rgba(241, 255, 112, 0.5); /* Marco adicional */
+}
+
+/* Links */
+a {
+    color: #f1ff70;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #e2ef60;
+    text-decoration: none;
+}
+
+/* Tablas de Imágenes */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(241, 255, 112, 0.2);
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+ul li:hover {
+    transform: translateY(-2px);
+}
+
+ul li button {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+ul li button:hover {
+    color: #ff4c4c;
+}
