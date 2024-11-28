@@ -64,8 +64,9 @@ const MapView = ({ onLocationChange }) => {
     return (
         <MapContainer center={currentLocation} zoom={20} style={{ height: "100vh", width: "100%" }}>
             <TileLayer
-                url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                style={{ filter: 'brightness(1.2) contrast(1.1) saturate(1.2)' }}
             />
             <Marker position={currentLocation} />
             <ClickHandler /> {/* Este componente detecta los clics en el mapa */}
