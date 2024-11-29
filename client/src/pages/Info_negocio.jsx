@@ -163,7 +163,7 @@ export default function InfoNegocio() {
   };
   if (
     !businessData ||
-    businessData.latitud === undefined ||
+    businessData.latitud === undefined || 
     businessData.longitud === undefined
   ) {
     return <p>Cargando...</p>;
@@ -171,27 +171,27 @@ export default function InfoNegocio() {
 
   return (
     <>
-      <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
-      <div className="relative min-h-screen flex flex-col items-center bg-gray-300 p-4 md:p-8">
-        <div className="relative max-w-6xl w-full bg-white shadow-xl rounded-xl overflow-hidden flex flex-col md:flex-row">
+      <Navbar navigation={navigation} logo="/image/logoblanco.png" />
+      <div className="relative min-h-screen flex flex-col items-center p-4 md:p-8">
+        <div className="relative max-w-6xl w-full shadow-xl rounded-xl overflow-hidden flex flex-col md:flex-row">
           {/* Columna Izquierda - Información del lugar */}
           <div className="w-full md:w-1/2 p-4 md:p-8 space-y-4 md:space-y-8">
-            <div className="h-48 md:h-64 bg-gray-200 relative mb-4 md:mb-6">
+            <div className="h-48 md:h-64  relative mb-4 md:mb-6">
               <img
                 src={businessData.images}
                 alt={businessData.nombre}
                 className="w-full h-full object-cover opacity-90"
               />
-              <div className="absolute bottom-4 left-4 text-white font-semibold text-lg md:text-2xl">
+              <div className="absolute bottom-4 left-4 font-semibold text-lg md:text-2xl">
                 {businessData.nombre}
               </div>
             </div>
 
             <div>
-              <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 md:mb-4">
+              <h1 className="text-2xl md:text-3xl font-extrabold mb-2 md:mb-4">
                 {businessData.nombre}
               </h1>
-              <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+              <p className="text-base md:text-lg leading-relaxed">
                 {businessData.informacion}
               </p>
             </div>
@@ -215,7 +215,7 @@ export default function InfoNegocio() {
 
               <button
                 onClick={handleSubmitReview}
-                className="mt-4 bg-blue-600 text-white py-2 px-4 rounded w-full md:w-auto"
+                className="mt-4 py-2 px-4 rounded w-full md:w-auto"
               >
                 {userReview ? "Actualizar Reseña" : "Enviar Reseña"}
               </button>
@@ -223,13 +223,13 @@ export default function InfoNegocio() {
               {userReview && (
                 <button
                   onClick={handleDeleteReview}
-                  className="mt-2 bg-red-600 text-white py-2 px-4 rounded w-full md:w-auto"
+                  className="mt-2 py-2 px-4 rounded w-full md:w-auto"
                 >
                   Eliminar Reseña
                 </button>
               )}
 
-              {message && <p className="text-green-600 mt-2">{message}</p>}
+              {message && <p className="mt-2">{message}</p>}
             </div>
             <div className="mt-8">
               <h3 className="text-lg md:text-xl font-semibold">
@@ -238,14 +238,14 @@ export default function InfoNegocio() {
               <div className="space-y-4 mt-4">
                 {reviews.length > 0 ? (
                   reviews.map((review, index) => (
-                    <div key={index} className="p-4 bg-gray-100 rounded-xl">
-                      <p className="text-sm text-gray-600">{review.review}</p>
+                    <div key={index} className="p-4 rounded-xl">
+                      <p className="text-sm">{review.review}</p>
                       <div className="flex items-center mt-2">
                         <StarRating
                           calificacion={review.calificacion}
                           setCalificacion={() => {}}
                         />
-                        <span className="ml-2 text-gray-500">
+                        <span className="ml-2 ">
                           Por {review.nombre_usuario}
                         </span>
                       </div>
