@@ -30,7 +30,6 @@ export default function EditarNegocio() {
           setValue("latitud", negocio[0].latitud || "");
           setValue("longitud", negocio[0].longitud || "");
           setValue("direccion_manual", negocio[0].direccion_manual || "");
-
         } else {
           setResultMessage("No se encontraron datos del negocio.");
         }
@@ -48,10 +47,10 @@ export default function EditarNegocio() {
   }, [id_lugar, setValue]);
   const onSubmit = async (values) => {
     try {
-      if (selectedCategories.length != 0){
+      if (selectedCategories.length != 0) {
         values.categorias = selectedCategories.join(", ");
       }
-      
+
       console.log(values);
       const response = await actualizarNegocio(id_lugar, values);
       if (response.status === 200) {
@@ -87,17 +86,18 @@ export default function EditarNegocio() {
         logo="/image/logoblanco.png"
       />
       <div className="flex flex-col items-center py-6 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
+        <h2 className="text-3xl font-extrabold  mb-4">
+        <br />
           Editar Negocio
         </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="mt-4 space-y-4 bg-white p-6 shadow-md rounded-lg w-full max-w-lg"
+          className="mt-2 space-y-2  p-6 shadow-md rounded-lg w-full max-w-lg"
         >
           <div>
             <label
               htmlFor="nombre"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium "
             >
               Nombre
             </label>
@@ -106,14 +106,14 @@ export default function EditarNegocio() {
               name="nombre"
               type="text"
               {...register("nombre", { required: true })}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-2 block w-full border rounded-md p-2"
             />
           </div>
 
           <div>
             <label
               htmlFor="informacion"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Información
             </label>
@@ -121,14 +121,14 @@ export default function EditarNegocio() {
               id="informacion"
               name="informacion"
               {...register("informacion", { required: true })}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-2 block w-full border  rounded-md p-2"
             />
           </div>
 
           <div>
             <label
               htmlFor="latitud"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Latitud
             </label>
@@ -138,14 +138,14 @@ export default function EditarNegocio() {
               type="text"
               readOnly
               {...register("latitud")}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-1 block w-full border  rounded-md p-2"
             />
           </div>
 
           <div>
             <label
               htmlFor="longitud"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium "
             >
               Longitud
             </label>
@@ -155,13 +155,13 @@ export default function EditarNegocio() {
               type="text"
               readOnly
               {...register("longitud")}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-1 block w-full border rounded-md p-2"
             />
           </div>
           <div>
             <label
               htmlFor="direccion_manual"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium "
             >
               Direccion manual
             </label>
@@ -170,11 +170,11 @@ export default function EditarNegocio() {
               name="direccion_manual"
               type="text"
               {...register("direccion_manual", { required: true })}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-1 block w-full border  rounded-md p-2"
             />
           </div>
           <div>
-            <label className="block text-gray-700">
+            <label className="block ">
               Categorías del negocio:
             </label>
             <CategorySelect

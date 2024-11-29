@@ -291,7 +291,7 @@ export default function InfoNegocio() {
           )}
           {showAlerta && (
             <AlertaEstetica
-              mensaje={`¡Has ganado: ${ruletaResult}`}
+              mensaje={`¡Has ganado: ${ruletaResult}!`}
               onClose={closeAlerta}
             />
           )}

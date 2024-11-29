@@ -56,15 +56,15 @@ export default function MenuAfiliado() {
         ]}
         logo="/image/logoblanco.png"
       />
-      <div className="bg-gray-300 bg-cover bg-center min-h-screen w-full">
+      <div className="bg-cover bg-center min-h-screen w-full">
         <div className="max-w-6xl mx-auto p-8">
           <h1 className="text-2xl md:text-4xl text-black-50 font-bold mb-4 text-center">
             Gestiona tu negocio
           </h1>
           <br />
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+          <div className="">
+            <table className="table">
+              <thead className=" ">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Id
@@ -96,7 +96,7 @@ export default function MenuAfiliado() {
                 {negocios.length > 0 ? (
                   negocios.map((negocio) => (
                     <tr
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      className=" "
                       key={negocio.id_lugar}
                     >
                       <td className="px-6 py-4">{negocio.id_lugar}</td>
@@ -128,7 +128,7 @@ export default function MenuAfiliado() {
                   <tr>
                     <td
                       colSpan="8"
-                      className="text-center border border-black py-4"
+                      className="text-center border py-4"
                     >
                       No hay negocios disponibles.
                     </td>

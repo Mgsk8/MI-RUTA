@@ -82,11 +82,11 @@ label {
 
 input, 
 textarea, 
-select {
+select {  
   @apply w-full p-3 bg-gray-700 text-blue-100 text-base 
-         border-2 border-gray-600 rounded-md outline-none 
-         transition-all duration-300 
-         hover:ring-1 hover:ring-blue-100;
+        border-2 border-gray-600 rounded-md outline-none 
+        transition-all duration-300 
+        hover:ring-1 hover:ring-blue-100;
 
   /* Focus refinado */
   &:focus {
@@ -108,8 +108,8 @@ body.light-theme select {
 /* Estilos generales de botones */
 button, .submit-button {
   @apply text-base font-bold py-3 px-6 rounded-md 
-         uppercase text-center cursor-pointer transition-all duration-300 
-         shadow-lg;
+        uppercase text-center cursor-pointer transition-all duration-300 
+        shadow-lg;
   /* Otros estilos generales de botones... */
 }
 
@@ -195,7 +195,7 @@ body.dark-theme .submit-button {
 
 .map-preview {
   @apply bg-gray-900 bg-opacity-30 p-4 rounded-md text-center mt-4 
-         border-2 border-dashed border-blue-100 text-blue-100;
+        border-2 border-dashed border-blue-100 text-blue-100;
 }
 
 a {
@@ -205,8 +205,8 @@ a {
 /* Estilos para la modal */
 .modal {
   @apply fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-70 
-         flex justify-center items-center z-50;
-         margin-top: 4rem;
+        flex justify-center items-center z-50;
+        margin-top: 4rem;
 }
 
 /* Estilos para el contenido de la modal */
@@ -226,8 +226,139 @@ a {
 
 .modal-btn {
   @apply bg-blue-100 text-gray-900 p-4 rounded-md cursor-pointer 
-         transition-all duration-300 hover:bg-gray-900 hover:text-blue-100 
-         hover:translate-y-[-2px];
+        transition-all duration-300 hover:bg-gray-900 hover:text-blue-100 
+        hover:translate-y-[-2px];
+}
+
+/* Estilo general para las tablas */
+.table {
+  @apply w-full border-collapse text-sm shadow-lg rounded-lg;
+}
+
+/* Encabezados de tabla */
+.table th {
+  @apply bg-gray-700 text-white text-left px-6 py-3 text-base font-semibold tracking-wider uppercase;
+}
+
+/* Filas de la tabla */
+.table tr {
+  @apply even:bg-gray-100 odd:bg-gray-50 transition-colors duration-300;
+}
+
+/* Celdas */
+.table td {
+  @apply px-6 py-3 text-gray-800;
+}
+
+/* Hover en filas */
+.table tr:hover {
+  @apply bg-gray-300; /* Fondo en hover */
+  transform: scale(1.01);
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+/* Estilo general para las tablas */
+.table {
+  @apply w-full border-collapse text-sm shadow-lg rounded-lg overflow-hidden;
+}
+
+/* Encabezados de tabla */
+.table th {
+  @apply bg-gray-200 text-gray-900 text-left px-6 py-3 text-base font-semibold tracking-wider uppercase;
+}
+
+/* Filas de la tabla */
+.table tr {
+  @apply even:bg-gray-100 odd:bg-white transition-colors duration-300;
+}
+
+/* Celdas */
+.table td {
+  @apply px-6 py-3 text-gray-700;
+}
+
+/* Hover en filas */
+.table tr:hover {
+  @apply bg-gray-300; /* Fondo gris más oscuro al hacer hover */
+  transform: scale(1.01);
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+/* Texto en filas al hacer hover */
+.table tr:hover td {
+  @apply text-gray-900 font-semibold;
+}
+
+/* Estilo para tablas en tema claro */
+body.light-theme .table {
+  @apply border border-gray-800 bg-white; /* Bordes grises */
+}
+
+body.light-theme .table th {
+  @apply bg-gray-200 text-gray-900 border border-gray-800; /* Encabezados más suaves */
+}
+
+body.light-theme .table td {
+  @apply text-gray-700 border border-gray-800; /* Texto gris oscuro */
+}
+
+body.light-theme .table tr:hover {
+  @apply bg-gray-300; /* Hover gris más oscuro */
+}
+
+/* Estilo para tablas en tema oscuro */
+body.dark-theme .table {
+  @apply border border-gray-700 bg-gray-800; /* Fondo gris oscuro */
+}
+
+body.dark-theme .table th {
+  @apply bg-gray-900 text-blue-300 border border-gray-700; /* Encabezados en gris muy oscuro */
+}
+
+body.dark-theme .table td {
+  @apply text-gray-300 border border-gray-700; /* Texto claro */
+}
+
+body.dark-theme .table tr {
+  @apply even:bg-gray-800 odd:bg-gray-700; /* Alternar colores más oscuros */
+}
+
+body.dark-theme .table tr:hover {
+  @apply bg-gray-600; /* Fondo más claro al hacer hover */
+}
+
+body.dark-theme .table tr:hover td {
+  @apply text-white; /* Texto blanco al hacer hover */
+}
+
+/* Pie de tabla */
+.table tfoot td {
+  @apply font-bold text-center text-gray-700 bg-gray-200 border-t border-gray-300;
+}
+
+body.dark-theme .table tfoot td {
+  @apply text-gray-300 bg-gray-900 border-t border-gray-700; /* Fondo gris oscuro en tema oscuro */
+}
+
+/* Estilos para el contenido de la modal */
+.modal-content {
+  @apply p-8 rounded-lg text-center w-4/5 max-w-md shadow-xl border-2;
+
+  /* Establecemos color de texto negro en todo momento */
+  @apply text-black;
+
+  /* Estilos para el fondo dependiendo del tema */
+  /* Tema claro */
+  @apply bg-white border-gray-800;
+
+  /* Tema oscuro */
+  @apply dark:bg-gray-800 dark:border-blue-300 dark:text-blue-100;
+}
+
+.modal-btn {
+  @apply bg-blue-100 text-gray-900 p-4 rounded-md cursor-pointer 
+        transition-all duration-300 hover:bg-gray-900 hover:text-blue-100 
+        hover:translate-y-[-2px];
 }
 
 /* Estilo general para las tablas */
