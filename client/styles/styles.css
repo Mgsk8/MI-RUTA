@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: theme('colors.blue.100');
+  --primary-color-hover: theme('colors.blue.200');
+  --secondary-color: theme('colors.gray.900');
+  --secondary-color-light: theme('colors.gray.800');
+  --secondary-color-rgb: 33, 33, 33;
+  --app-margin-top: 3rem; /* Margen superior global */
+}
+
+body {
+  @apply m-0 font-['Trebuchet_MS'] bg-blue-100 text-gray-900 leading-relaxed transition-all duration-300;
+  margin-top: var(--app-margin-top); /* Garantiza que el margen superior siempre esté presente */
+}
+
+body.light-theme,
+body.dark-theme {
+  margin-top: var(--app-margin-top); /* Reaplica el margen en ambos temas */
+}
+
+body.light-theme {
+  @apply bg-blue-100 text-gray-900;
+}
+
+body.dark-theme {
+  @apply bg-gray-900 text-blue-100;
+}
+
+.main-container {
+  @apply flex justify-center items-center min-h-screen p-8;
+}
+
+.form-container {
+  @apply bg-gray-900 bg-opacity-80 p-8 rounded-xl shadow-xl w-full max-w-4xl overflow-hidden transition-colors duration-300;
+}
+
+.title {
+  @apply text-6xl font-bold text-center mb-6 uppercase tracking-widest;
+}
+
+form {
+  @apply flex flex-col gap-6;
+}
+
+form div {
+  @apply mb-6 p-2 bg-white bg-opacity-5 rounded-md transition-all duration-200 hover:bg-opacity-10 hover:translate-y-[-2px];
+
+  /* Añadir sombra en modo claro */
+  @apply shadow-md; /* Agrega sombra en el modo claro */
+}
+
+/* Añadir sombra en el modo claro */
+body.light-theme form div {
+  @apply shadow-md; /* Asegura que se aplique la sombra */
+}
+
+/* Sombra en modo oscuro, manténlo como está */
+body.dark-theme form div {
+  @apply shadow-none; /* Si prefieres quitar la sombra en el modo oscuro, puedes dejarlo así */
+}
+
+label {
+  @apply text-base font-semibold mb-2 block tracking-wider;
+}
+
+input, 
+textarea, 
+select {
+  @apply w-full p-3 bg-gray-700 text-blue-100 text-base 
+         border-2 border-gray-600 rounded-md outline-none 
+         transition-all duration-300 
+         hover:ring-1 hover:ring-blue-100;
+
+  /* Focus refinado */
+  &:focus {
+    @apply ring-2 ring-blue-200 shadow-lg border-blue-200 bg-gray-800;
+  }
+}
+
+body.light-theme input,
+body.light-theme textarea,
+body.light-theme select {
+  @apply bg-gray-100 text-gray-900 border-gray-900;
+
+  /* Estilo focus en tema claro */
+  &:focus {
+    @apply ring-2 ring-blue-300 shadow-md border-blue-300 bg-gray-200;
+  }
+}
+
+/* Estilos generales de botones */
+button, .submit-button {
+  @apply text-base font-bold py-3 px-6 rounded-md 
+         uppercase text-center cursor-pointer transition-all duration-300 
+         shadow-lg;
+  /* Otros estilos generales de botones... */
+}
+
+/* Estilo específico para el botón de cerrar sesión (siempre rojo) */
+button.logout-button {
+  @apply bg-red-600 text-white border-none rounded-md px-4 py-2;
+
+  /* Hover */
+  &:hover {
+    @apply bg-red-700;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-red-800;
+  }
+}
+
+/* Estilos para botones en tema claro */
+body.light-theme button.logout-button {
+  @apply bg-red-600 text-white;
+
+  /* Hover */
+  &:hover {
+    @apply bg-red-700;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-red-800;
+  }
+}
+
+/* Estilos para botones en tema oscuro */
+body.dark-theme button.logout-button {
+  @apply bg-red-700 text-white;
+
+  /* Hover */
+  &:hover {
+    @apply bg-red-800;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-red-900;
+  }
+}
+
+/* Estilos para botones en tema claro */
+body.light-theme button, 
+body.light-theme .submit-button {
+  @apply bg-blue-400 text-white border-blue-500;
+
+  /* Hover */
+  &:hover {
+    @apply bg-blue-500 border-blue-600;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-blue-600 border-blue-700;
+  }
+}
+
+/* Estilos para botones en tema oscuro */
+body.dark-theme button, 
+body.dark-theme .submit-button {
+  @apply bg-gray-700 text-blue-100 border-blue-200;
+
+  /* Hover */
+  &:hover {
+    @apply bg-gray-600 border-blue-300 text-blue-200 scale-105;
+  }
+
+  /* Activo */
+  &:active {
+    @apply bg-gray-800 border-blue-400 text-blue-300;
+  }
+}
+
+
+
+
+.map-preview {
+  @apply bg-gray-900 bg-opacity-30 p-4 rounded-md text-center mt-4 
+         border-2 border-dashed border-blue-100 text-blue-100;
+}
+
+a {
+  @apply text-blue-100 underline hover:no-underline hover:text-gray-900;
+}
+
+/* Estilos para la modal */
+.modal {
+  @apply fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-70 
+         flex justify-center items-center z-50;
+         margin-top: 4rem;
+}
+
+/* Estilos para el contenido de la modal */
+.modal-content {
+  @apply p-8 rounded-lg text-center w-4/5 max-w-md shadow-xl border-2;
+
+  /* Establecemos color de texto negro en todo momento */
+  @apply text-black;
+
+  /* Estilos para el fondo dependiendo del tema */
+  /* Tema claro */
+  @apply bg-white border-gray-300;
+
+  /* Tema oscuro */
+  @apply dark:bg-gray-800 dark:border-blue-300 dark:text-blue-100;
+}
+
+.modal-btn {
+  @apply bg-blue-100 text-gray-900 p-4 rounded-md cursor-pointer 
+         transition-all duration-300 hover:bg-gray-900 hover:text-blue-100 
+         hover:translate-y-[-2px];
+}
