@@ -13,6 +13,7 @@ import Madmin_negocios from "./pages/Madmin_negocios";
 import Terms from "./pages/Terms";
 import EditarNegocio from "./pages/Editar_negocio";
 import InfoNegocio from "./pages/Info_negocio";
+import "../styles/styles.css"
 
 function App(){
   return(

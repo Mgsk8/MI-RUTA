@@ -337,5 +337,5 @@ body.dark-theme .table tr:hover td {
 }
 
 body.dark-theme .table tfoot td {
-  @apply text-gray-300 bg-gray-900 border-t border-gray-700; /* Fondo gris oscuro en tema oscuro */
+  @apply text-gray-300 bg-gray-900 border-t border-gray-700; /* Fondo gris oscuro en tema oscuro */
 }
