@@ -164,7 +164,7 @@ export default function InfoNegocio() {
 
   return (
     <>
-      <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
+      <Navbar navigation={navigation} logo="/image/logoblanco.png" />
       <div className="relative min-h-screen flex flex-col items-center bg-gray-300 p-4 md:p-8">
         <div className="relative max-w-6xl w-full bg-white shadow-xl rounded-xl overflow-hidden flex flex-col md:flex-row">
           {/* Columna Izquierda - Información del lugar */}

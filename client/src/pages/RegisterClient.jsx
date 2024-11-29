@@ -19,7 +19,7 @@ export default function RegisterClient() {
 
   return (
     <div className="bg-[url('../image/fondo.jpg')] bg-cover bg-center min-h-screen w-full">
-      <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
+      <Navbar navigation={navigation} logo="/image/logoblanco.png" />
 
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">

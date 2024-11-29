@@ -238,7 +238,7 @@ export default function RegistroNegocio() {
 
   return (
     <>
-      <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
+      <Navbar navigation={navigation} logo="/image/logoblanco.png" />
       <Modal
         isOpen={isModalOpen}
         onClose={handleModalClose}
