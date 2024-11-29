@@ -7,7 +7,7 @@ const Markers = ({ currentLocation }) => {
         // Asegúrate de que currentLocation esté disponible antes de renderizar el Marker
         currentLocation.lat && currentLocation.lng ? (
             <Marker
-                position={currentLocation} // Usa la posición actual
+                position={currentLocation} // 
                 icon={IconLocation}        // Usa tu icono personalizado
             >
             </Marker>
