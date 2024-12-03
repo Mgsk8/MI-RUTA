@@ -15,6 +15,22 @@ import { LOCAL_STORAGE_TERMS } from "../Constants";
 import Ruleta from "../components/Ruleta";
 import AlertaEstetica from "../components/AlertaRuleta";
 
+const handleShare = () => {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({
+      title: businessData?.nombre || "Consulta esta página",
+      text: "¡Mira este lugar interesante que encontré!",
+      url,
+    }).catch((error) => console.error("Error al compartir:", error));
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      alert("El enlace ha sido copiado al portapapeles.");
+    });
+  }
+};
+
+
 // Componente para la calificación con estrellas
 const StarRating = ({ calificacion, setCalificacion }) => {
   const handleClick = (index) => {
@@ -223,6 +239,16 @@ export default function InfoNegocio() {
               )}
 
               {message && <p className="text-green-600 mt-2">{message}</p>}
+
+              <div className="mt-4">
+                <button
+                  onClick={handleShare}
+                  className="bg-blue-600 text-white py-2 px-4 rounded"
+                >
+                  Compartir este lugar
+                </button>
+              </div>
+
             </div>
             <div className="mt-8">
               <h3 className="text-lg md:text-xl font-semibold">
