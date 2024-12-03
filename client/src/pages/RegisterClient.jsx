@@ -21,13 +21,13 @@ export default function RegisterClient() {
     <div className="bg-[url('../image/fondo.jpg')] bg-cover bg-center min-h-screen w-full">
       <Navbar navigation={navigation} logo="/image/logoblanco.png" />
 
-      <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+      <div className="flex min-h-full items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
+        <div className="custom-div p-4 rounded-lg shadow-md">
           <div>
-            <h2 className="mt-10 text-center text-3xl font-extrabold text-gray-900">
+            <h2 className="mt-10 text-center text-3xl font-extrabold">
               Crea tu cuenta en Mi-Ruta
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
+            <p className="mt-2 text-center text-sm">
               ¿Ya tienes una cuenta?{" "}
               <a
                 href="/login"
@@ -51,7 +51,7 @@ export default function RegisterClient() {
                 console.error("Error al registrar:", error);
               }
             })}
-            className="mt-8 space-y-6 bg-[rgba(255,255,255,0.5)] p-8 shadow-md rounded-lg"
+            className="mt-8 space-y-6 p-8 shadow-md rounded-lg"
           >
             <input
               type="hidden"
@@ -60,7 +60,7 @@ export default function RegisterClient() {
             />
 
             <div>
-              <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="nombre" className="block text-sm font-medium">
                 Nombre
               </label>
               <div className="mt-1">
@@ -78,7 +78,7 @@ export default function RegisterClient() {
             </div>
 
             <div>
-              <label htmlFor="apellido" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="apellido" className="block text-sm font-medium">
                 Apellido
               </label>
               <div className="mt-1">
@@ -96,7 +96,7 @@ export default function RegisterClient() {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium">
                 Correo electrónico
               </label>
               <div className="mt-1">
@@ -114,7 +114,7 @@ export default function RegisterClient() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium">
                 Contraseña
               </label>
               <div className="mt-1">
@@ -139,7 +139,7 @@ export default function RegisterClient() {
                 className="mr-2"
                 {...register("terms", { validate: validateCheckbox })}
               />
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium ">
                 <a href="/terms" target="_blank">
                 He leído y acepto los términos y condiciones{''}</a>
               </label>
@@ -149,7 +149,7 @@ export default function RegisterClient() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2"
               >
                 Crear cuenta
               </button>
