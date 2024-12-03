@@ -1,14 +1,13 @@
 import Navbar from "../components/Navbar";
 import { AUTH_TYPES } from "../Constants";
 import { useState, useEffect } from "react";
-
 export default function Inicio() {
   localStorage.setItem("auth", AUTH_TYPES.FALSE);
   const navigation = [
     { name: "Inicio", href: "/", current: true },
     { name: "Iniciar sesión", href: "/login", current: false },
     { name: "Registrarse", href: "/register", current: false },
-    { name: "Acerca", href: "#", current: false },
+    { name: "Contacto", href: "/contact", current: false },
   ];
 
   const slides = [
@@ -156,7 +155,7 @@ export default function Inicio() {
       <footer class="bg-gray-900 w-full">
         <div class="w-full max-w-screen-x1 mx-auto p-4 md:py-8">
           <div class="sm:flex sm:items-center sm:justify-between">
-            <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+            <a href="/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
               <img src="image/logoblanco.png" class="h-20" alt="Mi Ruta" />
               <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Mi Ruta</span>
             </a>
@@ -168,7 +167,7 @@ export default function Inicio() {
             </ul>
           </div>
           <hr class="my-6  sm:mx-auto lg:my-8" />
-          <span class="block text-sm text-gray-400 sm:text-center">© 2024 <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.</span>
+          <span class="block text-sm text-gray-400 sm:text-center">© 2024 <a href="/" class="hover:underline">Mi Ruta™</a>. All Rights Reserved.</span>
         </div>
       </footer>
     </div>
