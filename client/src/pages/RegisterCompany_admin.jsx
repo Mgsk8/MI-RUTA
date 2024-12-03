@@ -480,13 +480,17 @@ export default function RegistroNegocio() {
                 </div>
 
                 {/* Vista previa del mapa */}
-                <div className="w-full lg:w-2/5">
-                  <MapView
-                    onLocationChange={handleLocationChange}
-                    initialPosition={{ lat: 0, lng: 0 }}
-                    zoom={15}
-                  />
-                  <div className=" p-4 rounded-md shadow-md mt-4">
+                <div className="w-full border-gray-600 lg:w-2/5">
+                  <div className="border-2 rounded-lg p-2">
+                    {" "}
+                    {/* Contenedor con borde alrededor del mapa */}
+                    <MapView
+                      onLocationChange={handleLocationChange}
+                      initialPosition={{ lat: 0, lng: 0 }}
+                      zoom={15}
+                    />
+                  </div>
+                  <div className="p-4 rounded-md shadow-md mt-4">
                     <h3 className="text-lg font-semibold mb-2">
                       Vista previa en Google Maps
                     </h3>
@@ -494,7 +498,7 @@ export default function RegistroNegocio() {
                       href={googleMapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className=" hover:underline"
+                      className="text-indigo-600 hover:underline"
                     >
                       Ver en Google Maps
                     </a>

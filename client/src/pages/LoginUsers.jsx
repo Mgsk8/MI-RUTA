@@ -12,7 +12,8 @@ export default function LoginUsers() {
     { name: "Inicio", href: "/", current: false },
     { name: "Iniciar sesión", href: "/login", current: true },
     { name: "Registrarse", href: "/register", current: false },
-    { name: "Acerca", href: "#", current: false },
+    { name: "Contacto", href: "/contact", current: false },
+    { name: "Acerca", href: "/acercade", current: false },
   ];
   const navigate = useNavigate();
 
@@ -21,9 +22,8 @@ export default function LoginUsers() {
       <div className="bg-[url('../image/fondo.jpg')] bg-cover  w-full">
         <Navbar navigation={navigation} logo="/image/logoblanco.png" />
         <div className="min-h-screen flex flex-col items-center justify-center">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm"></div>
-          <div className="max-w-md w-full mx-auto rounded-lg p-8 space-y-8 bg-[rgba(255,255,255,0.5)]">
-            <h2 className="mt-5 text-center text-[30px] font-bold leading-9 tracking-tight text-gray-900">
+          <div className="max-w-md w-full mx-auto rounded-lg p-8 space-y-8 custom-div">
+            <h2 className="mt-5 text-center text-[30px] font-bold leading-9 tracking-tight">
               Inicia Sesión
             </h2>
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -59,7 +59,7 @@ export default function LoginUsers() {
                 className="space-y-6"
               >
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                  <label htmlFor="email" className="block text-sm font-medium leading-6">
                     Correo Electrónico
                   </label>
                   <div className="mt-2">
@@ -76,11 +76,11 @@ export default function LoginUsers() {
 
                 <div>
                   <div className="flex items-center justify-between">
-                    <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label htmlFor="password" className="block text-sm font-medium leading-6">
                       Contraseña
                     </label>
                     <div className="text-sm">
-                      <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                      <a href="#" className="font-semibold">
                         ¿Olvidaste tu contraseña?
                       </a>
                     </div>
@@ -100,14 +100,14 @@ export default function LoginUsers() {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Iniciar Sesión
                   </button>
                 </div>
               </form>
 
-              <p className="mt-10 text-center text-sm text-gray-500">
+              <p className="mt-10 text-center text-sm">
                 ¿Aún no te registras?{' '}
                 <a href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                   Registrarse

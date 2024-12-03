@@ -7,7 +7,8 @@ export default function Inicio() {
         { name: "Iniciar sesión", href: "/login", current: false },
         { name: "Registrarse", href: "/register", current: false },
         { name: "Contacto", href: "/contact", current: true },
-    ];
+        { name: "Acerca", href: "/acercade", current: false },
+      ];
 
     return (
         <div>

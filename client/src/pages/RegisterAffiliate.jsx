@@ -16,7 +16,8 @@ export default function RegisterAffiliate() {
     { name: "Inicio", href: "/", current: false },
     { name: "Iniciar sesión", href: "/login", current: false },
     { name: "Registrarse", href: "/register", current: true },
-    { name: "Acerca", href: "#", current: false },
+    { name: "Contacto", href: "/contact", current: false },
+    { name: "Acerca", href: "/acercade", current: false },
   ];
 
   return (
@@ -27,12 +28,12 @@ export default function RegisterAffiliate() {
       <br />
 
       <div className="flex min-h-full items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+        <div className="custom-div p-4 rounded-lg shadow-md">
           <div>
-            <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900">
+            <h2 className="mt-0 text-center text-3xl font-extrabold">
               Crea tu cuenta en Mi-Ruta
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
+            <p className="mt-2 text-center text-sm">
               ¿Ya tienes una cuenta?{" "}
               <a
                 href="/login"
@@ -58,7 +59,7 @@ export default function RegisterAffiliate() {
               console.log(res2);
             })}
             method="POST"
-            className="mt-8 space-y-6 bg-[rgba(255,255,255,0.5)] p-8 shadow-md rounded-lg"
+            className="mt-8 space-y-6  p-8 shadow-md rounded-lg"
           >
             {/* Campo oculto tipo_usuario */}
             <input
@@ -71,7 +72,7 @@ export default function RegisterAffiliate() {
             <div>
               <label
                 htmlFor="cedula"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium"
               >
                 Cédula
               </label>
@@ -81,7 +82,7 @@ export default function RegisterAffiliate() {
                   name="cedula"
                   type="number"
                   autoComplete="off"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm  focus:outline-none  sm:text-sm"
                   placeholder="Document"
                   {...register("cedula", {
                     required: "Este campo es obligatorio",
@@ -99,7 +100,7 @@ export default function RegisterAffiliate() {
             <div>
               <label
                 htmlFor="nombre"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium"
               >
                 Nombre
               </label>
@@ -109,7 +110,7 @@ export default function RegisterAffiliate() {
                   name="nombre"
                   type="text"
                   autoComplete="given-name"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm  focus:outline-none sm:text-sm"
                   placeholder="Name"
                   {...register("nombre", {
                     required: "Este campo es obligatorio",
@@ -127,7 +128,7 @@ export default function RegisterAffiliate() {
             <div>
               <label
                 htmlFor="apellido"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium "
               >
                 Apellido
               </label>
@@ -137,7 +138,7 @@ export default function RegisterAffiliate() {
                   name="apellido"
                   type="text"
                   autoComplete="family-name"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm sm:text-sm"
                   placeholder="Last Name"
                   {...register("apellido", {
                     required: "Este campo es obligatorio",
@@ -155,7 +156,7 @@ export default function RegisterAffiliate() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium"
               >
                 Correo electrónico
               </label>
@@ -167,7 +168,7 @@ export default function RegisterAffiliate() {
                   autoComplete="email"
                   className={`appearance-none block w-full px-3 py-2 border ${
                     errors.email ? "border-red-500" : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                  } rounded-md shadow-sm focus:outline-none`}
                   placeholder="Email"
                   {...register("email", {
                     required: "Este campo es obligatorio",
@@ -186,7 +187,7 @@ export default function RegisterAffiliate() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium"
               >
                 Contraseña
               </label>
@@ -198,7 +199,7 @@ export default function RegisterAffiliate() {
                   autoComplete="current-password"
                   className={`appearance-none block w-full px-3 py-2 border ${
                     errors.password ? "border-red-500" : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                  } rounded-md shadow-sm focus:outline-none `}
                   placeholder="Password"
                   {...register("password", {
                     required: "Este campo es obligatorio",
@@ -221,7 +222,7 @@ export default function RegisterAffiliate() {
                 className="mr-2"
                 {...register("terms", { validate: validateCheckbox })}
               />
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm ">
                 <a href="/terms" target="_blank">
                 He leído y acepto los términos y condiciones{''}</a>
               </label>
@@ -236,7 +237,7 @@ export default function RegisterAffiliate() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2"
               >
                 Crear cuenta
               </button>

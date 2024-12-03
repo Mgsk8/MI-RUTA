@@ -298,8 +298,8 @@ function Madmin() {
 
           {/* Modal para editar usuario */}
           {editingUser && (
-            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-              <div className=" rounded-lg shadow-lg p-6 w-96">
+            <div className=" fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+              <div className=" custom-div rounded-lg shadow-lg p-6 w-96">
                 <h2 className="text-xl font-semibold mb-4">Editar Usuario</h2>
                 <form onSubmit={handleSubmitEdit}>
                   <div className="mb-4">

@@ -1,10 +1,21 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
+  important: true, // Agrega !important a todas las clases generadas por Tailwind
   content: [
-    "./index.html", "./src/**/*.{js,ts,jsx,tsx}",
+    './src/**/*.{js,jsx,ts,tsx}', // Asegúrate de incluir tus vistas JSX aquí
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        blue: {
+          100: '#e0f2fe',
+          200: '#bae6fd',
+        },
+        gray: {
+          800: '#1f2937',
+          900: '#111827',
+        },
+      },
+    },
   },
   plugins: [],
 };

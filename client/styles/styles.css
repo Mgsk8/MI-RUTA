@@ -49,21 +49,32 @@ form {
 }
 
 form div {
-  @apply mb-6 p-2 bg-white bg-opacity-5 rounded-md transition-all duration-200 hover:bg-opacity-10 hover:translate-y-[-2px];
+  @apply mb-2 p-2 bg-white bg-opacity-5 rounded-md transition-all duration-200 hover:bg-opacity-10 hover:translate-y-[-2px];
 
   /* Añadir sombra en modo claro */
-  @apply shadow-md; /* Agrega sombra en el modo claro */
+  @apply shadow-none; /* Agrega sombra en el modo claro */
 }
 
 /* Añadir sombra en el modo claro */
 body.light-theme form div {
-  @apply shadow-md; /* Asegura que se aplique la sombra */
+  @apply shadow-none; /* Asegura que se aplique la sombra */
 }
 
 /* Sombra en modo oscuro, manténlo como está */
 body.dark-theme form div {
   @apply shadow-none; /* Si prefieres quitar la sombra en el modo oscuro, puedes dejarlo así */
 }
+
+/* Estilo para div en tema claro */
+body.light-theme .custom-div {
+  @apply bg-[rgba(255,255,255,0.5)]; /* Fondo blanco semi-transparente en modo claro */
+}
+
+/* Estilo para div en tema oscuro (puedes modificarlo a tu gusto) */
+body.dark-theme .custom-div {
+  @apply bg-[rgba(0,0,0,0.7)]; /* Fondo oscuro semi-transparente en modo oscuro */
+}
+
 
 label {
   @apply text-base font-semibold mb-2 block tracking-wider;
@@ -207,28 +218,7 @@ a {
 
   /* Estilos para el fondo dependiendo del tema */
   /* Tema claro */
-  @apply bg-white border-gray-300;
-
-  /* Tema oscuro */
-  @apply dark:bg-gray-800 dark:border-blue-300 dark:text-blue-100;
-}
-
-.modal-btn {
-  @apply bg-blue-100 text-gray-900 p-4 rounded-md cursor-pointer 
-        transition-all duration-300 hover:bg-gray-900 hover:text-blue-100 
-        hover:translate-y-[-2px];
-}
-
-/* Estilos para el contenido de la modal */
-.modal-content {
-  @apply p-8 rounded-lg text-center w-4/5 max-w-md shadow-xl border-2;
-
-  /* Establecemos color de texto negro en todo momento */
-  @apply text-black;
-
-  /* Estilos para el fondo dependiendo del tema */
-  /* Tema claro */
-  @apply bg-white border-gray-300;
+  @apply bg-white border-gray-800;
 
   /* Tema oscuro */
   @apply dark:bg-gray-800 dark:border-blue-300 dark:text-blue-100;
@@ -267,27 +257,49 @@ a {
   transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
+/* Estilo general para las tablas */
+.table {
+  @apply w-full border-collapse text-sm shadow-lg rounded-lg overflow-hidden;
+}
+
+/* Encabezados de tabla */
+.table th {
+  @apply bg-gray-200 text-gray-900 text-left px-6 py-3 text-base font-semibold tracking-wider uppercase;
+}
+
+/* Filas de la tabla */
+.table tr {
+  @apply even:bg-gray-100 odd:bg-white transition-colors duration-300;
+}
+
+/* Celdas */
+.table td {
+  @apply px-6 py-3 text-gray-700;
+}
+
+/* Hover en filas */
+.table tr:hover {
+  @apply bg-gray-300; /* Fondo gris más oscuro al hacer hover */
+  transform: scale(1.01);
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
 /* Texto en filas al hacer hover */
 .table tr:hover td {
   @apply text-gray-900 font-semibold;
 }
 
-/* Borde y sombra de las tablas */
-.table {
-  @apply rounded-lg shadow-md overflow-hidden;
-}
-
 /* Estilo para tablas en tema claro */
 body.light-theme .table {
-  @apply border border-gray-300 bg-white; /* Bordes grises */
+  @apply border border-gray-800 bg-white; /* Bordes grises */
 }
 
 body.light-theme .table th {
-  @apply bg-gray-200 text-gray-900 border border-gray-300; /* Encabezados más suaves */
+  @apply bg-gray-200 text-gray-900 border border-gray-800; /* Encabezados más suaves */
 }
 
 body.light-theme .table td {
-  @apply text-gray-700 border border-gray-300; /* Texto gris oscuro */
+  @apply text-gray-700 border border-gray-800; /* Texto gris oscuro */
 }
 
 body.light-theme .table tr:hover {
@@ -325,5 +337,136 @@ body.dark-theme .table tr:hover td {
 }
 
 body.dark-theme .table tfoot td {
-  @apply text-gray-300 bg-gray-900 border-t border-gray-700; /* Fondo gris oscuro en tema oscuro */
+  @apply text-gray-300 bg-gray-900 border-t border-gray-700; /* Fondo gris oscuro en tema oscuro */
+}
+
+/* Estilos para el contenido de la modal */
+.modal-content {
+  @apply p-8 rounded-lg text-center w-4/5 max-w-md shadow-xl border-2;
+
+  /* Establecemos color de texto negro en todo momento */
+  @apply text-black;
+
+  /* Estilos para el fondo dependiendo del tema */
+  /* Tema claro */
+  @apply bg-white border-gray-800;
+
+  /* Tema oscuro */
+  @apply dark:bg-gray-800 dark:border-blue-300 dark:text-blue-100;
+}
+
+.modal-btn {
+  @apply bg-blue-100 text-gray-900 p-4 rounded-md cursor-pointer 
+        transition-all duration-300 hover:bg-gray-900 hover:text-blue-100 
+        hover:translate-y-[-2px];
+}
+
+/* Estilo general para las tablas */
+.table {
+  @apply w-full border-collapse text-sm shadow-lg rounded-lg;
+}
+
+/* Encabezados de tabla */
+.table th {
+  @apply bg-gray-700 text-white text-left px-6 py-3 text-base font-semibold tracking-wider uppercase;
+}
+
+/* Filas de la tabla */
+.table tr {
+  @apply even:bg-gray-100 odd:bg-gray-50 transition-colors duration-300;
+}
+
+/* Celdas */
+.table td {
+  @apply px-6 py-3 text-gray-800;
+}
+
+/* Hover en filas */
+.table tr:hover {
+  @apply bg-gray-300; /* Fondo en hover */
+  transform: scale(1.01);
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+/* Estilo general para las tablas */
+.table {
+  @apply w-full border-collapse text-sm shadow-lg rounded-lg overflow-hidden;
+}
+
+/* Encabezados de tabla */
+.table th {
+  @apply bg-gray-200 text-gray-900 text-left px-6 py-3 text-base font-semibold tracking-wider uppercase;
+}
+
+/* Filas de la tabla */
+.table tr {
+  @apply even:bg-gray-100 odd:bg-white transition-colors duration-300;
+}
+
+/* Celdas */
+.table td {
+  @apply px-6 py-3 text-gray-700;
+}
+
+/* Hover en filas */
+.table tr:hover {
+  @apply bg-gray-300; /* Fondo gris más oscuro al hacer hover */
+  transform: scale(1.01);
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+/* Texto en filas al hacer hover */
+.table tr:hover td {
+  @apply text-gray-900 font-semibold;
+}
+
+/* Estilo para tablas en tema claro */
+body.light-theme .table {
+  @apply border border-gray-800 bg-white; /* Bordes grises */
+}
+
+body.light-theme .table th {
+  @apply bg-gray-200 text-gray-900 border border-gray-800; /* Encabezados más suaves */
+}
+
+body.light-theme .table td {
+  @apply text-gray-700 border border-gray-800; /* Texto gris oscuro */
+}
+
+body.light-theme .table tr:hover {
+  @apply bg-gray-300; /* Hover gris más oscuro */
+}
+
+/* Estilo para tablas en tema oscuro */
+body.dark-theme .table {
+  @apply border border-gray-700 bg-gray-800; /* Fondo gris oscuro */
+}
+
+body.dark-theme .table th {
+  @apply bg-gray-900 text-blue-300 border border-gray-700; /* Encabezados en gris muy oscuro */
+}
+
+body.dark-theme .table td {
+  @apply text-gray-300 border border-gray-700; /* Texto claro */
+}
+
+body.dark-theme .table tr {
+  @apply even:bg-gray-800 odd:bg-gray-700; /* Alternar colores más oscuros */
+}
+
+body.dark-theme .table tr:hover {
+  @apply bg-gray-600; /* Fondo más claro al hacer hover */
+}
+
+body.dark-theme .table tr:hover td {
+  @apply text-white; /* Texto blanco al hacer hover */
+}
+
+/* Pie de tabla */
+.table tfoot td {
+  @apply font-bold text-center text-gray-700 bg-gray-200 border-t border-gray-300;
+}
+
+body.dark-theme .table tfoot td {
+  @apply text-gray-300 bg-gray-900 border-t border-gray-700; /* Fondo gris oscuro en tema oscuro */
 }

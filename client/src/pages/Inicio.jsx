@@ -8,6 +8,7 @@ export default function Inicio() {
     { name: "Iniciar sesión", href: "/login", current: false },
     { name: "Registrarse", href: "/register", current: false },
     { name: "Contacto", href: "/contact", current: false },
+    { name: "Acerca", href: "/acercade", current: false },
   ];
 
   const slides = [
@@ -167,7 +168,7 @@ export default function Inicio() {
             </ul>
           </div>
           <hr class="my-6  sm:mx-auto lg:my-8" />
-          <span class="block text-sm text-gray-400 sm:text-center">© 2024 <a href="/" class="hover:underline">Mi Ruta™</a>. All Rights Reserved.</span>
+          <span class="block text-sm text-gray-400 sm:text-center">© 2024 <a href="/terms" target="_black" class="hover:underline">Mi Ruta™</a>. All Rights Reserved.</span>
         </div>
       </footer>
     </div>

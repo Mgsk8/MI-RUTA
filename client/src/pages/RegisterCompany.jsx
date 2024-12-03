@@ -238,7 +238,7 @@ export default function RegistroNegocio() {
 
   return (
     <>
-      <Navbar navigation={navigation} logo="/Image/logoblanco.png" />
+      <Navbar navigation={navigation} logo="/image/logoblanco.png" />
       <Modal
         isOpen={isModalOpen}
         onClose={handleModalClose}
@@ -463,8 +463,8 @@ export default function RegistroNegocio() {
                 </div>
 
                 {/* Vista previa del mapa */}
-                <div className="w-full lg:w-2/5">
-                  <div className="border-2 border-gray-600 rounded-lg p-2">
+                <div className="w-full border-gray-600 lg:w-2/5">
+                  <div className="border-2 rounded-lg p-2">
                     {" "}
                     {/* Contenedor con borde alrededor del mapa */}
                     <MapView

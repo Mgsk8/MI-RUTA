@@ -3,8 +3,12 @@ import { AUTH_TYPES } from "../Constants";
 export default function Inicio() {
     localStorage.setItem("auth", AUTH_TYPES.FALSE);
     const navigation = [
-        
-    ];
+        { name: "Inicio", href: "/", current: false },
+        { name: "Iniciar sesión", href: "/login", current: false },
+        { name: "Registrarse", href: "/register", current: false },
+        { name: "Contacto", href: "/contact", current: false },
+        { name: "Acerca", href: "/acercade", current: false },
+      ];
 
     return (
         <div>
