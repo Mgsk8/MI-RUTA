@@ -14,6 +14,7 @@ import MapViewNegocio from "../components/MapViewNegocio";
 import { LOCAL_STORAGE_TERMS } from "../Constants";
 import Ruleta from "../components/Ruleta";
 import AlertaEstetica from "../components/AlertaRuleta";
+import { generarPDFTarjeta } from "../components/GeneratorGiftTarjet";
 
 // Componente para la calificación con estrellas
 const StarRating = ({ calificacion, setCalificacion }) => {
@@ -151,11 +152,15 @@ export default function InfoNegocio() {
       setShowRuleta(true);
     }
   };
-  const handleRuletaFinish = (resultado) => {
+  const handleRuletaFinish = async (resultado) => {
     setShowRuleta(false); // Ocultar la ruleta después de girar
     setHasSpun(true);
     setRuletaResult(resultado);
     setShowAlerta(true);
+    if (resultado !== "Sigue intentando"){
+      await generarPDFTarjeta(resultado);
+    }
+       // Genera el PDF en el backend o localmente
     console.log(resultado); // Marcar que ya fue girada
   };
   const closeAlerta = () => {
@@ -293,7 +298,11 @@ export default function InfoNegocio() {
             <AlertaEstetica
               mensaje={`¡Has ganado: ${ruletaResult}`}
               onClose={closeAlerta}
-            />
+            >
+            <button onClick={() => generarPDFTarjeta(resultado)}>
+                Descargar PDF
+            </button>
+            </AlertaEstetica>
           )}
         </div>
       </div>

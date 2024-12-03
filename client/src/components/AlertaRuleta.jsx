@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-const AlertaEstetica = ({ mensaje, onClose }) => {
+const AlertaEstetica = ({ mensaje, onClose, onDownload }) => {
   return (
-    <div className="fixed top-18 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-20">
-      <div className="custom-div p-6 rounded-lg shadow-xl w-80 max-w-sm">
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-20">
+      <div className="custom-div p-6 rounded-lg shadow-xl w-80 max-w-sm bg-white">
         <h2 className="text-xl font-bold text-center text-blue-600">¡Felicidades!</h2>
         <p className="text-lg text-center mt-4">{mensaje}</p>
         <div className="flex justify-center mt-6">
