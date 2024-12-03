@@ -14,6 +14,7 @@ import Terms from "./pages/Terms";
 import EditarNegocio from "./pages/Editar_negocio";
 import InfoNegocio from "./pages/Info_negocio";
 import "../styles/styles.css"
+import AcercaDe from "./pages/Acercade";
 
 function App(){
   return(
@@ -34,6 +35,7 @@ function App(){
         <Route path="/terms" element={<Terms />}/>
         <Route path="/editarNegocio/:id_lugar" element={<EditarNegocio />}/>
         <Route path="/infoNegocio/:id" element={<InfoNegocio />}/>
+        <Route path="/acercade" element={<AcercaDe />}/>
       </Routes>
     </BrowserRouter>  
   )

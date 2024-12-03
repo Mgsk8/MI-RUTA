@@ -8,7 +8,7 @@ export default function Inicio() {
     { name: "Inicio", href: "/", current: true },
     { name: "Iniciar sesión", href: "/login", current: false },
     { name: "Registrarse", href: "/register", current: false },
-    { name: "Acerca", href: "#", current: false },
+    { name: "Acerca", href: "/acercade", current: false },
   ];
 
   const slides = [
