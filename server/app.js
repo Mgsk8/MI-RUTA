@@ -16,7 +16,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "database-1.c5okuiuqmtnz.us-east-2.rds.amazonaws.com",
+    origin: "https://main.d3p4ln9e6zhrwe.amplifyapp.com",
   })
 );
 
