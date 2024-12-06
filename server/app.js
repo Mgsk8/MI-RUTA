@@ -18,7 +18,7 @@ const app = express();
 const corsOptions = {
   origin: [
     "http://localhost:5173", // Front local
-    "https://main.d3p4ln9e6zhrwe.amplifyapp.com/", // Front desplegado en Render
+    "https://main.d3p4ln9e6zhrwe.amplifyapp.com", // Front desplegado en Render
   ],
   credentials: true,  // Permite el envío de credenciales (cookies, cabeceras de autenticación)
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Métodos permitidos
