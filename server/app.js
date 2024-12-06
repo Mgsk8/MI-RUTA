@@ -16,7 +16,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "database-1.c5okuiuqmtnz.us-east-2.rds.amazonaws.com",
   })
 );
 
@@ -31,6 +31,6 @@ app.use(afiliadosRoutes);
 app.use(lugaresRoutes);
 app.use(negociosRoutes);
 app.use(loginRoutes);
-app.use(reviewsRoutes)
+app.use(reviewsRoutes);
 
 export default app;
