@@ -14,11 +14,22 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "https://main.d3p4ln9e6zhrwe.amplifyapp.com",
-  })
-);
+// Configuración de CORS
+const corsOptions = {
+  origin: [
+    "http://localhost:5173", // Front local
+    "https://main.d3p4ln9e6zhrwe.amplifyapp.com/", // Front desplegado en Render
+  ],
+  credentials: true,  // Permite el envío de credenciales (cookies, cabeceras de autenticación)
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras permitidas
+};
+
+// Aplica CORS globalmente a todas las rutas
+app.use(cors(corsOptions));
+
+// Manejador para todas las solicitudes OPTIONS
+app.options('*', cors(corsOptions));  // Responde a todas las solicitudes OPTIONS
 
 app.use(express.json());
 app.use(cookieParser());
