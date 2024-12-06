@@ -12,7 +12,8 @@ export default function LoginUsers() {
     { name: "Inicio", href: "/", current: false },
     { name: "Iniciar sesión", href: "/login", current: true },
     { name: "Registrarse", href: "/register", current: false },
-    { name: "Acerca", href: "#", current: false },
+    { name: "Contacto", href: "/contact", current: false },
+    { name: "Acerca", href: "/acercade", current: false },
   ];
   const navigate = useNavigate();
 

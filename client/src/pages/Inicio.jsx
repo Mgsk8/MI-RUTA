@@ -1,14 +1,14 @@
 import Navbar from "../components/Navbar";
 import { AUTH_TYPES } from "../Constants";
 import { useState, useEffect } from "react";
-
 export default function Inicio() {
   localStorage.setItem("auth", AUTH_TYPES.FALSE);
   const navigation = [
     { name: "Inicio", href: "/", current: true },
     { name: "Iniciar sesión", href: "/login", current: false },
     { name: "Registrarse", href: "/register", current: false },
-    { name: "Acerca", href: "#", current: false },
+    { name: "Contacto", href: "/contact", current: false },
+    { name: "Acerca", href: "/acercade", current: false },
   ];
 
   const slides = [
@@ -156,7 +156,7 @@ export default function Inicio() {
       <footer class="bg-gray-900 w-full">
         <div class="w-full max-w-screen-x1 mx-auto p-4 md:py-8">
           <div class="sm:flex sm:items-center sm:justify-between">
-            <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+            <a href="/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
               <img src="image/logoblanco.png" class="h-20" alt="Mi Ruta" />
               <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Mi Ruta</span>
             </a>

@@ -47,7 +47,7 @@ export default function MenuAfiliado() {
     <div>
       <Navbar
         navigation={[
-          { name: "Inicio ", href: "/", current: true },
+          { name: "Inicio ", href: "/menuAfiliado", current: true },
           {
             name: "Registrar Negocio",
             href: "/registerCompany",

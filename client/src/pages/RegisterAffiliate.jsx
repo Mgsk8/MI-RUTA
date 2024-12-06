@@ -16,7 +16,8 @@ export default function RegisterAffiliate() {
     { name: "Inicio", href: "/", current: false },
     { name: "Iniciar sesión", href: "/login", current: false },
     { name: "Registrarse", href: "/register", current: true },
-    { name: "Acerca", href: "#", current: false },
+    { name: "Contacto", href: "/contact", current: false },
+    { name: "Acerca", href: "/acercade", current: false },
   ];
 
   return (
